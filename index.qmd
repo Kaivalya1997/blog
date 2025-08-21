@@ -1,0 +1,48 @@
+---
+title: "Exploring Mathematics & AI"
+subtitle: "A Journey Through Abstract Concepts and Practical Applications"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: grid
+  categories: true
+  sort-ui: true
+  filter-ui: true
+  feed: false  # Disable RSS feed generation
+  fields: [image, date, title, subtitle, categories, author, reading-time]
+  page-size: 6
+page-layout: full
+title-block-banner: true
+title-block-banner-color: "primary"
+toc: false
+---
+
+:::{.callout-note appearance="simple" icon=false}
+## Welcome to My Blog! 🎯
+
+I'm Kaivalya Dabhadkar, and this is where I share my explorations across various fascinating topics. My primary focus is on **Mathematics** and **Artificial Intelligence**, but I also delve into other areas that capture my curiosity.
+
+### Current Topics:
+
+<!-- === TOPIC LIST: Add new topics here === -->
+- **📐 Mathematics**: Deep dives into pure and applied mathematics, from linear algebra to topology
+- **🤖 AI & Machine Learning**: Explorations of neural networks, deep learning architectures, and AI theory
+- **📊 Signal Processing**: Understanding signals, systems, and their transformations
+<!-- Uncomment and add new topics as needed:
+- **📚 History**: Historical perspectives on science and technology
+- **🤔 Philosophy**: Philosophical implications of AI and mathematics
+- **🔬 Physics**: Connections between physics and computational methods
+- **🎨 Creative Coding**: Artistic applications of algorithms
+-->
+
+### Upcoming Topics:
+<!-- List topics you plan to explore in the future -->
+- Statistical Learning Theory
+- Category Theory in Computer Science
+- Quantum Computing Fundamentals
+
+:::
+
+## Recent Posts
+
+Browse through my latest articles below, or use the category filters to find topics that interest you most.

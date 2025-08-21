@@ -1,0 +1,120 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Kaivalya Dabhadkar's Blog"
+  site-url: "https://kdabhadkar.github.io"
+  # UPDATE THIS: Change description when adding new topics
+  description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
+  favicon: favicon.ico
+  
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        href: index.qmd
+      # === ADD NEW TOPIC SECTIONS HERE ===
+      # Example for adding History section:
+      # - text: "History"
+      #   href: posts.qmd#category=History
+      - text: "Mathematics"
+        href: posts.qmd#category=Mathematics
+      - text: "AI & ML"
+        href: posts.qmd#category=AI
+      # - text: "Philosophy"  # Uncomment to add Philosophy section
+      #   href: posts.qmd#category=Philosophy
+      - text: "About"
+        href: about.qmd
+    right:
+      # === SOCIAL LINKS: Update with your profiles ===
+      - icon: github
+        href: https://github.com/kdabhadkar
+        aria-label: GitHub
+      - icon: twitter
+        href: https://twitter.com/kdabhadkar
+        aria-label: Twitter
+      - icon: linkedin
+        href: https://linkedin.com/in/kdabhadkar
+        aria-label: LinkedIn
+        
+  # === SIDEBAR CONFIGURATION ===
+  # Note: For dynamic categories, we use the listing page's filter UI
+  # Remove sidebar if you want a cleaner look, or keep for navigation
+  # sidebar:
+  #   - title: "Browse by Topic"
+  #     style: "floating"
+  #     contents:
+  #       - text: "All Posts"
+  #         href: index.qmd
+  #       # Add specific category links here if needed
+  #       # These will be shown regardless of whether posts exist
+          
+  page-footer:
+    center: |
+      Copyright © 2024 Kaivalya Dabhadkar
+    background: light
+    
+format:
+  html:
+    theme: [litera, theme-light.scss]  # Single theme - no dark mode toggle
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-copy: true
+    code-overflow: wrap
+    link-external-icon: true
+    link-external-newwindow: true
+    smooth-scroll: true
+    anchor-sections: true
+    footnotes-hover: true
+    citations-hover: true
+    page-layout: article
+    grid:
+      sidebar-width: 250px
+      body-width: 900px
+      margin-width: 250px
+      gutter-width: 1.5rem
+    fontsize: 1rem
+    linestretch: 1.7
+    mainfont: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    monofont: "Fira Code, 'SF Mono', Monaco, 'Courier New', monospace"
+    html-math-method: mathjax
+    mathjax:
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+    include-in-header:
+      text: |
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="format-detection" content="telephone=no">
+        <script>
+          window.MathJax = {
+            tex: {
+              inlineMath: [['$', '$'], ['\\(', '\\)']],
+              displayMath: [['$$', '$$'], ['\\[', '\\]']],
+              processEscapes: true,
+              processEnvironments: true,
+              tags: 'ams'
+            },
+            options: {
+              processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
+            },
+            svg: {
+              fontCache: 'global'
+            }
+          };
+        </script>
+    
+execute:
+  freeze: auto
+  
+comments:
+  utterances:
+    repo: kdabhadkar/blog-comments
+
+
+

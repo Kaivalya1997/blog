@@ -1,0 +1,48 @@
+# Quarto
+/.quarto/
+/_site/
+/_book/
+/_freeze/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Dependencies
+node_modules/
+
+# Build outputs
+*.html
+!index.html
+!about.html
+!posts.html
+
+# Template and test posts
+posts/test-*
+posts/draft-*
+posts/*_TEMPLATE*
+posts/*_EXAMPLE*

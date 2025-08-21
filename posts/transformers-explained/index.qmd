@@ -1,0 +1,358 @@
+---
+title: "Attention Is All You Need: Understanding Transformer Architecture"
+subtitle: "A deep dive into the architecture that revolutionized AI"
+author: "Kaivalya Dabhadkar"
+date: "2024-01-20"
+categories: [AI, Deep Learning, Machine Learning, NLP]
+image: "transformer-arch.svg"
+draft: false
+toc: true
+number-sections: true
+highlight-style: github
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+    html-math-method: mathjax
+    mathjax:
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+execute:
+  echo: true
+  warning: false
+  eval: false
+---
+
+## Introduction
+
+In 2017, a paper titled "Attention Is All You Need" introduced the Transformer architecture, fundamentally changing the landscape of artificial intelligence. Today, Transformers power everything from ChatGPT to DALL-E, from protein folding prediction to code generation. Let's unravel the mathematics and intuition behind this revolutionary architecture.
+
+:::{.callout-note}
+## Historical Context
+Before Transformers, sequence modeling was dominated by RNNs and LSTMs, which processed sequences sequentially. Transformers parallelize this process, making training dramatically faster and more effective.
+:::
+
+## The Problem with Sequential Processing
+
+Traditional RNNs process sequences element by element:
+
+$$h_t = f(h_{t-1}, x_t)$$
+
+This creates several problems:
+
+1. **Long-range dependencies**: Information from early tokens gets diluted
+2. **Sequential bottleneck**: Can't parallelize training
+3. **Gradient issues**: Vanishing/exploding gradients over long sequences
+
+## The Attention Mechanism
+
+### Self-Attention: The Core Innovation
+
+The key insight of Transformers is that we can model relationships between all elements in a sequence simultaneously using attention.
+
+Given an input sequence $X = [x_1, x_2, ..., x_n]$, self-attention computes:
+
+$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+where:
+- $Q$ (Query): What information am I looking for?
+- $K$ (Key): What information do I have?
+- $V$ (Value): What is the actual information content?
+
+### Mathematical Deep Dive
+
+Let's break down the attention computation step by step:
+
+1. **Linear Projections**: Transform input $X \in \mathbb{R}^{n \times d_{model}}$
+   $$Q = XW^Q, \quad K = XW^K, \quad V = XW^V$$
+   where $W^Q, W^K, W^V \in \mathbb{R}^{d_{model} \times d_k}$
+
+2. **Attention Scores**: Compute compatibility between queries and keys
+   $$\text{scores} = QK^T \in \mathbb{R}^{n \times n}$$
+
+3. **Scaling**: Divide by $\sqrt{d_k}$ to prevent gradient vanishing
+   $$\text{scaled\_scores} = \frac{QK^T}{\sqrt{d_k}}$$
+
+4. **Normalization**: Apply softmax to get attention weights
+   $$\text{weights} = \text{softmax}(\text{scaled\_scores})$$
+
+5. **Weighted Sum**: Combine values using attention weights
+   $$\text{output} = \text{weights} \cdot V$$
+
+:::{.callout-tip}
+## Intuition
+Think of attention as a learned, differentiable dictionary lookup where every position can attend to every other position to gather relevant information.
+:::
+
+## Multi-Head Attention
+
+Instead of performing a single attention function, Transformers use multiple "attention heads":
+
+$$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O$$
+
+where each head is:
+$$\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)$$
+
+This allows the model to attend to different types of relationships simultaneously.
+
+### Why Multiple Heads?
+
+Different heads can capture different types of relationships:
+- **Syntactic heads**: Grammar and structure
+- **Semantic heads**: Meaning and context
+- **Positional heads**: Order and distance
+
+## The Complete Transformer Architecture
+
+### Encoder Block
+
+Each encoder layer consists of:
+
+1. **Multi-Head Self-Attention**
+2. **Add & Norm** (Residual connection + Layer Normalization)
+3. **Feed-Forward Network**
+4. **Add & Norm**
+
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import math
+
+class TransformerEncoderLayer(nn.Module):
+    def __init__(self, d_model, n_heads, d_ff, dropout=0.1):
+        super().__init__()
+        self.self_attention = MultiHeadAttention(d_model, n_heads)
+        self.feed_forward = FeedForward(d_model, d_ff)
+        self.norm1 = nn.LayerNorm(d_model)
+        self.norm2 = nn.LayerNorm(d_model)
+        self.dropout = nn.Dropout(dropout)
+    
+    def forward(self, x, mask=None):
+        # Self-attention with residual connection
+        attn_output = self.self_attention(x, x, x, mask)
+        x = self.norm1(x + self.dropout(attn_output))
+        
+        # Feed-forward with residual connection
+        ff_output = self.feed_forward(x)
+        x = self.norm2(x + self.dropout(ff_output))
+        
+        return x
+
+class MultiHeadAttention(nn.Module):
+    def __init__(self, d_model, n_heads):
+        super().__init__()
+        assert d_model % n_heads == 0
+        
+        self.d_model = d_model
+        self.n_heads = n_heads
+        self.d_k = d_model // n_heads
+        
+        self.W_q = nn.Linear(d_model, d_model)
+        self.W_k = nn.Linear(d_model, d_model)
+        self.W_v = nn.Linear(d_model, d_model)
+        self.W_o = nn.Linear(d_model, d_model)
+    
+    def forward(self, query, key, value, mask=None):
+        batch_size = query.size(0)
+        
+        # Linear transformations and split into heads
+        Q = self.W_q(query).view(batch_size, -1, self.n_heads, self.d_k).transpose(1, 2)
+        K = self.W_k(key).view(batch_size, -1, self.n_heads, self.d_k).transpose(1, 2)
+        V = self.W_v(value).view(batch_size, -1, self.n_heads, self.d_k).transpose(1, 2)
+        
+        # Attention
+        scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(self.d_k)
+        
+        if mask is not None:
+            scores = scores.masked_fill(mask == 0, -1e9)
+        
+        attention_weights = F.softmax(scores, dim=-1)
+        context = torch.matmul(attention_weights, V)
+        
+        # Concatenate heads
+        context = context.transpose(1, 2).contiguous().view(
+            batch_size, -1, self.d_model
+        )
+        
+        return self.W_o(context)
+```
+
+### Positional Encoding
+
+Since attention has no inherent notion of position, we add positional information:
+
+$$PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
+$$PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)$$
+
+This creates unique encodings for each position that the model can learn to use.
+
+## The Mathematics of Learning
+
+### Gradient Flow
+
+The residual connections in Transformers create "gradient highways":
+
+$$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_{l+1}} + \frac{\partial L}{\partial F_{l+1}(x_l)} \cdot \frac{\partial F_{l+1}(x_l)}{\partial x_l}$$
+
+This allows gradients to flow directly through the network, mitigating vanishing gradient problems.
+
+### Computational Complexity
+
+| Operation | Sequential Ops | Complexity per Layer | Maximum Path Length |
+|-----------|---------------|---------------------|-------------------|
+| Self-Attention | $O(1)$ | $O(n^2 \cdot d)$ | $O(1)$ |
+| RNN | $O(n)$ | $O(n \cdot d^2)$ | $O(n)$ |
+| CNN | $O(\log_k n)$ | $O(k \cdot n \cdot d^2)$ | $O(\log_k n)$ |
+
+Where:
+- $n$ = sequence length
+- $d$ = model dimension
+- $k$ = kernel size
+
+## Modern Variants and Improvements
+
+### 1. BERT: Bidirectional Representations
+
+BERT uses masked language modeling to train bidirectional Transformers:
+
+$$L_{MLM} = -\mathbb{E}_{x \sim D} \left[ \sum_{i \in M} \log P(x_i | x_{\backslash M}) \right]$$
+
+### 2. GPT: Autoregressive Generation
+
+GPT models use causal masking for autoregressive generation:
+
+$$P(x_1, ..., x_n) = \prod_{i=1}^n P(x_i | x_1, ..., x_{i-1})$$
+
+### 3. Vision Transformers (ViT)
+
+Transformers applied to images by treating patches as tokens:
+
+```python
+# Patch embedding for Vision Transformers
+class PatchEmbedding(nn.Module):
+    def __init__(self, img_size, patch_size, in_channels, embed_dim):
+        super().__init__()
+        self.n_patches = (img_size // patch_size) ** 2
+        self.projection = nn.Conv2d(
+            in_channels, embed_dim, 
+            kernel_size=patch_size, stride=patch_size
+        )
+    
+    def forward(self, x):
+        x = self.projection(x)  # (B, E, H', W')
+        x = x.flatten(2)  # (B, E, N)
+        x = x.transpose(1, 2)  # (B, N, E)
+        return x
+```
+
+## Scaling Laws and Emergent Abilities
+
+Recent research has shown that Transformer performance follows predictable scaling laws:
+
+$$L(N) = \left(\frac{N_c}{N}\right)^{\alpha_N}$$
+
+where:
+- $L$ = test loss
+- $N$ = number of parameters
+- $N_c$, $\alpha_N$ = fitted constants
+
+### Emergent Abilities
+
+As models scale, they exhibit emergent abilities:
+- **In-context learning**: Learning from examples in the prompt
+- **Chain-of-thought reasoning**: Step-by-step problem solving
+- **Few-shot task adaptation**: Generalizing from minimal examples
+
+## Theoretical Perspectives
+
+### Universal Approximation
+
+Transformers are universal approximators for sequence-to-sequence functions:
+
+$$\forall \epsilon > 0, \exists \text{ Transformer } T : ||T(X) - f(X)|| < \epsilon$$
+
+### Information Theory View
+
+Attention can be viewed through information theory:
+
+$$I(Y; X) = H(Y) - H(Y|X)$$
+
+where attention maximizes mutual information between relevant positions.
+
+## Practical Considerations
+
+### Training Tips
+
+1. **Learning Rate Scheduling**: Use warmup
+   $$lr = d_{model}^{-0.5} \cdot \min(step^{-0.5}, step \cdot warmup^{-1.5})$$
+
+2. **Gradient Clipping**: Prevent explosion
+   ```python
+   torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+   ```
+
+3. **Mixed Precision Training**: Speed up computation
+   ```python
+   with torch.cuda.amp.autocast():
+       output = model(input)
+   ```
+
+### Memory Optimization
+
+For long sequences, consider:
+- **Flash Attention**: IO-aware attention implementation
+- **Sparse Attention**: Attend to subset of positions
+- **Linear Attention**: Approximate attention with linear complexity
+
+## Applications Beyond NLP
+
+Transformers have revolutionized multiple domains:
+
+1. **Computer Vision**: ViT, DETR, Swin Transformer
+2. **Protein Folding**: AlphaFold 2
+3. **Music Generation**: MuseNet, Jukebox
+4. **Code Generation**: Codex, GitHub Copilot
+5. **Multimodal AI**: CLIP, DALL-E, Flamingo
+
+## Future Directions
+
+### Research Frontiers
+
+- **Efficient Transformers**: Reducing quadratic complexity
+- **Mechanistic Interpretability**: Understanding internal representations
+- **Continual Learning**: Avoiding catastrophic forgetting
+- **Reasoning**: Improving logical and mathematical capabilities
+
+:::{.callout-important}
+## Key Insight
+The success of Transformers demonstrates that simple, scalable architectures with the right inductive biases can achieve remarkable performance across diverse domains.
+:::
+
+## Conclusion
+
+The Transformer architecture represents a paradigm shift in how we approach sequence modeling. By replacing recurrence with attention, it enables:
+
+- **Parallelization**: Faster training on modern hardware
+- **Long-range dependencies**: Direct connections between distant tokens
+- **Transfer learning**: Pre-training on large corpora
+- **Scalability**: Performance improves predictably with scale
+
+As we continue to scale and refine these models, we're discovering that attention truly might be all we need—at least for now.
+
+## Code Repository
+
+Full implementation available at: [github.com/kdabhadkar/transformer-from-scratch](https://github.com/kdabhadkar/transformer-from-scratch)
+
+## References
+
+1. Vaswani, A., et al. (2017). Attention is all you need. *NeurIPS*.
+2. Devlin, J., et al. (2018). BERT: Pre-training of deep bidirectional transformers. *arXiv*.
+3. Brown, T., et al. (2020). Language models are few-shot learners. *NeurIPS*.
+4. Dosovitskiy, A., et al. (2020). An image is worth 16x16 words. *ICLR*.
+5. Kaplan, J., et al. (2020). Scaling laws for neural language models. *arXiv*.
+
+## Further Reading
+
+- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) by Jay Alammar
+- [The Annotated Transformer](https://nlp.seas.harvard.edu/2018/04/03/attention.html) by Harvard NLP
+- **"Deep Learning"** by Goodfellow, Bengio, and Courville (Chapter 10)

@@ -1,0 +1,60 @@
+---
+# EXAMPLE POST: Demonstrating how to add a Philosophy topic
+# This is a template - copy to posts/philosophy-ai/index.qmd to use
+
+title: "Can Machines Think? Revisiting the Turing Test"
+subtitle: "Philosophical implications of AI consciousness and intelligence"
+author: "Kaivalya Dabhadkar"
+date: "2024-01-30"
+
+# Note: Using new "Philosophy" category alongside AI
+categories: [Philosophy, AI, Consciousness, AI Ethics]
+
+image: "thinking-machine.jpg"
+draft: true  # Set to false when ready to publish
+toc: true
+number-sections: true
+highlight-style: github
+
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+---
+
+## Introduction
+
+Alan Turing's famous question "Can machines think?" has evolved from a theoretical curiosity to an urgent practical concern as AI systems become increasingly sophisticated. This post explores the philosophical implications of machine consciousness.
+
+:::{.callout-note}
+## Central Question
+If a machine can perfectly simulate human responses, does the distinction between simulation and genuine understanding matter?
+:::
+
+## The Classical Turing Test
+
+In 1950, Turing proposed the "Imitation Game" as a practical test for machine intelligence...
+
+## Modern Perspectives
+
+### The Chinese Room Argument
+
+John Searle's thought experiment challenges the notion that syntax can give rise to semantics...
+
+### Consciousness vs. Intelligence
+
+The distinction between functional intelligence and phenomenal consciousness...
+
+## Implications for AI Development
+
+As we develop more sophisticated AI systems, these philosophical questions become practical concerns...
+
+## Conclusion
+
+The question of machine consciousness remains open, but its exploration reveals deep insights about the nature of mind itself.
+
+## Further Reading
+
+- Turing, A. (1950). "Computing Machinery and Intelligence"
+- Searle, J. (1980). "Minds, Brains, and Programs"
+- Chalmers, D. (1995). "Facing Up to the Problem of Consciousness"

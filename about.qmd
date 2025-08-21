@@ -1,0 +1,98 @@
+---
+title: "About Me"
+image: profile.jpg
+toc: false  # Disable "On this page" section
+about:
+  template: trestles
+  image-shape: round
+  image-width: 250px
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/kdabhadkar
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/kdabhadkar
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com/in/kdabhadkar
+---
+
+## Hi, I'm Kaivalya Dabhadkar! 👋
+
+I'm passionate about the elegant interplay between **Mathematics** and **Artificial Intelligence**. My journey spans from pure mathematical theory to practical AI applications, always seeking to understand the deep connections between abstract concepts and real-world problems.
+
+### My Interests
+
+<!-- === INTERESTS SECTION: Add new topics here === -->
+
+#### 🎓 Mathematics
+- **Linear Algebra & Matrix Theory**: The foundation of modern machine learning
+- **Calculus & Analysis**: Understanding optimization and continuous systems
+- **Probability & Statistics**: The language of uncertainty and inference
+- **Graph Theory & Combinatorics**: Discrete structures in algorithms
+- **Topology & Geometry**: Manifold learning and geometric deep learning
+
+#### 🤖 Artificial Intelligence
+- **Deep Learning**: Neural architectures and representation learning
+- **Natural Language Processing**: Understanding and generating human language
+- **Computer Vision**: Teaching machines to see and understand
+- **Reinforcement Learning**: Decision-making and optimal control
+- **AI Safety & Ethics**: Building responsible and interpretable AI systems
+
+<!-- === ADD NEW INTEREST SECTIONS HERE === -->
+<!-- Example sections to uncomment when adding new topics:
+
+#### 🤔 Philosophy
+- **Philosophy of Mind**: Consciousness and AI sentience
+- **Ethics in Technology**: Moral implications of AI systems
+- **Epistemology**: Knowledge representation and truth
+
+#### 📚 History
+- **History of Mathematics**: From Euclid to modern topology
+- **History of Computing**: From Babbage to quantum computers
+- **Biographies**: Lives of great mathematicians and scientists
+
+#### 🔬 Physics
+- **Quantum Mechanics**: Foundations and interpretations
+- **Statistical Mechanics**: Bridge between micro and macro
+- **Computational Physics**: Simulating physical systems
+
+-->
+
+### My Background
+
+I have a deep fascination with how mathematical abstractions can be transformed into powerful computational tools. Whether it's understanding the geometry of high-dimensional spaces in machine learning or applying group theory to neural network architectures, I believe that mathematics provides the key insights needed to advance AI.
+
+### Why This Blog?
+
+This blog serves as my digital notebook where I:
+- **Document** my learning journey through complex topics
+- **Share** insights and intuitions about mathematical and AI concepts
+- **Connect** abstract theory with practical implementations
+- **Explore** cutting-edge research and its implications
+- **Build** a community of like-minded learners and researchers
+
+### Let's Connect!
+
+I love discussing ideas and collaborating on interesting problems. Feel free to reach out through any of the social links above if you'd like to chat about mathematics, AI, or anything in between!
+
+---
+
+:::{.callout-tip}
+## Currently Exploring
+- Geometric Deep Learning and Graph Neural Networks
+- Category Theory applications in Machine Learning
+- Transformer architectures and attention mechanisms
+- Information-theoretic perspectives on learning
+:::
+
+### Recent Reading
+
+Some books and papers that have influenced my thinking:
+
+- **"The Elements of Statistical Learning"** by Hastie, Tibshirani, and Friedman
+- **"Pattern Recognition and Machine Learning"** by Christopher Bishop
+- **"Deep Learning"** by Goodfellow, Bengio, and Courville
+- **"Mathematics for Machine Learning"** by Deisenroth, Faisal, and Ong
+- Recent papers from NeurIPS, ICML, and ICLR conferences

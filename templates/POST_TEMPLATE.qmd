@@ -1,0 +1,189 @@
+---
+# === POST METADATA ===
+# Update all fields below for your post
+
+title: "Your Post Title Here"
+subtitle: "A compelling subtitle that expands on the main title"
+author: "Kaivalya Dabhadkar"  # Change to your name
+date: "2024-01-25"  # Format: YYYY-MM-DD
+
+# === CATEGORIES ===
+# Choose relevant categories from existing ones or create new
+# Common categories: Mathematics, AI, Machine Learning, Deep Learning, 
+#                   Signal Processing, Applied Math, Statistics, Algorithms
+# New topic examples: Philosophy, History, Physics, Creative Coding
+categories: [Primary Category, Secondary Category, Optional Third]
+
+# === OPTIONAL SETTINGS ===
+image: "thumbnail.jpg"  # Optional: Add image to post directory
+draft: false  # Set to true to hide from listings while writing
+toc: true  # Table of contents
+number-sections: true  # Number the sections (1.1, 1.2, etc.)
+highlight-style: github  # Code syntax highlighting theme
+
+# === FORMAT OPTIONS ===
+format:
+  html:
+    code-fold: true  # Allow code folding
+    code-summary: "Show code"
+    html-math-method: mathjax  # For math rendering
+    mathjax:
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+
+# === CODE EXECUTION ===
+execute:
+  echo: true  # Show code
+  warning: false  # Hide warnings
+  eval: false  # Set to true if you want code to actually run
+---
+
+## Introduction
+
+<!-- Start with a compelling hook that draws readers in -->
+Begin your post with an engaging introduction that explains what the reader will learn and why it matters.
+
+:::{.callout-note}
+## Key Insight
+Highlight the main takeaway or insight of your post here.
+:::
+
+## Background
+
+<!-- Provide necessary context and background -->
+Give readers the foundation they need to understand your main content.
+
+## Main Content
+
+### Subsection 1
+
+Your main content goes here. Remember to:
+- Use clear, concise language
+- Break up long paragraphs
+- Include examples
+
+### Including Mathematics
+
+For inline math, use: $e^{i\pi} + 1 = 0$
+
+For display equations:
+$$
+f(x) = \int_{-\infty}^{\infty} g(t) e^{-ixt} dt
+$$
+
+### Including Code
+
+```python
+# Python code example
+def example_function(x):
+    """
+    Document your functions clearly
+    """
+    return x ** 2
+
+# Use the function
+result = example_function(5)
+print(f"Result: {result}")
+```
+
+### Adding Images
+
+<!-- Place images in your post directory -->
+![Image caption here](image.jpg)
+
+### Using Callouts
+
+:::{.callout-tip}
+## Pro Tip
+Use callouts to highlight important information.
+:::
+
+:::{.callout-warning}
+## Warning
+Alert readers to potential pitfalls.
+:::
+
+:::{.callout-important}
+## Important
+Emphasize crucial concepts.
+:::
+
+## Practical Applications
+
+<!-- Show real-world uses of the concept -->
+Demonstrate how the concepts apply in practice.
+
+## Interactive Examples
+
+```python
+# If execute.eval is true, this code will run
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Create visualization
+x = np.linspace(0, 2*np.pi, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(10, 5))
+plt.plot(x, y)
+plt.title('Sine Wave')
+plt.xlabel('x')
+plt.ylabel('sin(x)')
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+## Advanced Topics
+
+### Going Deeper
+
+For readers who want to explore further, provide advanced content or extensions.
+
+## Conclusion
+
+Summarize the key points and provide a satisfying conclusion to your post.
+
+:::{.callout-important}
+## Key Takeaway
+Reinforce the main message of your post.
+:::
+
+## Further Reading
+
+- **Book/Paper 1**: Brief description
+- **Book/Paper 2**: Brief description
+- **Online Resource**: [Link text](https://example.com)
+
+## References
+
+1. Author, A. (2024). *Title of Work*. Publisher.
+2. Author, B. (2023). Title of article. *Journal Name*, 10(2), 123-145.
+
+<!-- 
+## WRITING TIPS:
+
+1. **Title**: Make it compelling and SEO-friendly
+2. **Introduction**: Hook readers in the first paragraph
+3. **Structure**: Use headers to break up content
+4. **Examples**: Include concrete examples
+5. **Visuals**: Add diagrams, plots, or images
+6. **Code**: Make code examples runnable and well-commented
+7. **Math**: Explain equations, don't just show them
+8. **Conclusion**: Summarize key points
+9. **References**: Cite your sources
+
+## CATEGORIES GUIDE:
+
+### For Math Posts:
+categories: [Mathematics, Linear Algebra, Analysis]
+categories: [Mathematics, Topology, Geometry]
+
+### For AI/ML Posts:
+categories: [AI, Deep Learning, Neural Networks]
+categories: [Machine Learning, Statistics, Algorithms]
+
+### For New Topics:
+categories: [Philosophy, AI Ethics, Consciousness]
+categories: [History, History of Mathematics, Biographies]
+categories: [Physics, Quantum Computing, Mechanics]
+categories: [Creative Coding, Generative Art, Visualization]
+-->
