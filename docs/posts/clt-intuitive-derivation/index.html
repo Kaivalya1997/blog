@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Kaivalya Dabhadkar">
+<meta name="dcterms.date" content="2025-08-23">
+
+<title>The Bell Curve rising: An Intuitive CLT Derivation – KD’s Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-75b0a601fc0641b374d67df79b4f175a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4dac09544dd2dff9b4013f9f189d5bb5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      tags: 'ams'
+    },
+    options: {
+      processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script>
+  // Attach original TeX to MathJax containers and ensure copy-to-clipboard includes TeX
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+      MathJax.startup.promise.then(function () {
+        try {
+          var items = MathJax.startup.document.getMathItemsWithin(document.body);
+          items.forEach(function (item) {
+            var tex = item.math;
+            var container = item.typesetRoot; // <mjx-container>
+            if (container && tex) {
+              container.setAttribute('data-tex', tex);
+              var isDisplay = container.getAttribute('display') === 'true';
+              container.setAttribute('data-tex-wrapper', isDisplay ? '$$' : '$');
+            }
+          });
+        } catch (e) { /* no-op */ }
+      });
+    }
+
+    document.addEventListener('copy', function (e) {
+      var sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) { return; }
+      var range = sel.getRangeAt(0);
+      var fragment = range.cloneContents();
+      var tmp = document.createElement('div');
+      tmp.appendChild(fragment);
+      var mjx = tmp.querySelectorAll('mjx-container');
+      if (!mjx.length) { return; } // fall back to default behavior
+      mjx.forEach(function (node) {
+        var tex = node.getAttribute('data-tex');
+        var wrap = node.getAttribute('data-tex-wrapper') || '$';
+        var replacement = document.createTextNode(tex ? (wrap + tex + wrap) : (node.innerText || ''));
+        node.parentNode.replaceChild(replacement, node);
+      });
+      var text = tmp.innerText;
+      e.clipboardData.setData('text/plain', text);
+      e.preventDefault();
+    });
+  });
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">KD’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Kaivalya1997"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/kaivalya-dabhadkar-384a47151"> <i class="bi bi-linkedin" role="img" aria-label="LinkedIn">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Bell Curve rising: An Intuitive CLT Derivation</h1>
+            <p class="subtitle lead">From generating functions to the Gaussian integral, step by step</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Mathematics</div>
+                <div class="quarto-category">Probability</div>
+                <div class="quarto-category">Statistics</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kaivalya Dabhadkar </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 23, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-clt" id="toc-the-clt" class="nav-link active" data-scroll-target="#the-clt"><strong>The CLT</strong></a></li>
+  <li><a href="#encoding-probabilities-the-pgf" id="toc-encoding-probabilities-the-pgf" class="nav-link" data-scroll-target="#encoding-probabilities-the-pgf"><strong>Encoding Probabilities (The PGF)</strong></a>
+  <ul class="collapse">
+  <li><a href="#a-gentler-start-probabilities-as-polynomials" id="toc-a-gentler-start-probabilities-as-polynomials" class="nav-link" data-scroll-target="#a-gentler-start-probabilities-as-polynomials">A gentler start: probabilities as polynomials</a></li>
+  <li><a href="#the-magic-of-multiplication" id="toc-the-magic-of-multiplication" class="nav-link" data-scroll-target="#the-magic-of-multiplication"><strong>The Magic of Multiplication</strong></a></li>
+  </ul></li>
+  <li><a href="#the-coefficient-extractor-machine" id="toc-the-coefficient-extractor-machine" class="nav-link" data-scroll-target="#the-coefficient-extractor-machine"><strong>The “Coefficient Extractor” Machine</strong></a>
+  <ul class="collapse">
+  <li><a href="#why-do-we-need-an-extractor" id="toc-why-do-we-need-an-extractor" class="nav-link" data-scroll-target="#why-do-we-need-an-extractor">Why do we need an extractor?</a></li>
+  <li><a href="#how-to-isolate-a-coefficient-the-residue-trick" id="toc-how-to-isolate-a-coefficient-the-residue-trick" class="nav-link" data-scroll-target="#how-to-isolate-a-coefficient-the-residue-trick">How to Isolate a Coefficient (The Residue Trick)</a></li>
+  <li><a href="#the-machine-in-action-and-a-surprising-transformation" id="toc-the-machine-in-action-and-a-surprising-transformation" class="nav-link" data-scroll-target="#the-machine-in-action-and-a-surprising-transformation">The Machine in Action (and a Surprising Transformation!)</a></li>
+  <li><a href="#the-deep-connection-power-series-and-fourier-series" id="toc-the-deep-connection-power-series-and-fourier-series" class="nav-link" data-scroll-target="#the-deep-connection-power-series-and-fourier-series">The Deep Connection: Power Series and Fourier Series</a></li>
+  </ul></li>
+  <li><a href="#analyzing-the-integral-with-a-taylor-series" id="toc-analyzing-the-integral-with-a-taylor-series" class="nav-link" data-scroll-target="#analyzing-the-integral-with-a-taylor-series"><strong>Analyzing the Integral with a Taylor Series</strong></a>
+  <ul class="collapse">
+  <li><a href="#the-characteristic-function-appears-out-of-nowhere" id="toc-the-characteristic-function-appears-out-of-nowhere" class="nav-link" data-scroll-target="#the-characteristic-function-appears-out-of-nowhere">The “Characteristic Function” Appears Out of Nowhere!</a></li>
+  <li><a href="#the-taylor-series-and-cumulants" id="toc-the-taylor-series-and-cumulants" class="nav-link" data-scroll-target="#the-taylor-series-and-cumulants"><strong>The Taylor Series and Cumulants</strong></a></li>
+  </ul></li>
+  <li><a href="#the-bell-curve-emerges" id="toc-the-bell-curve-emerges" class="nav-link" data-scroll-target="#the-bell-curve-emerges"><strong>The Bell Curve Emerges</strong></a>
+  <ul class="collapse">
+  <li><a href="#setting-the-stage" id="toc-setting-the-stage" class="nav-link" data-scroll-target="#setting-the-stage">Setting the Stage</a></li>
+  <li><a href="#the-mathematical-microscope" id="toc-the-mathematical-microscope" class="nav-link" data-scroll-target="#the-mathematical-microscope">The Mathematical Microscope</a></li>
+  <li><a href="#evaluating-the-gaussian-integral-and-finding-the-pdf" id="toc-evaluating-the-gaussian-integral-and-finding-the-pdf" class="nav-link" data-scroll-target="#evaluating-the-gaussian-integral-and-finding-the-pdf">Evaluating the Gaussian Integral and Finding the PDF</a></li>
+  <li><a href="#a-sharper-approximation-the-edgeworth-correction" id="toc-a-sharper-approximation-the-edgeworth-correction" class="nav-link" data-scroll-target="#a-sharper-approximation-the-edgeworth-correction">A Sharper Approximation: The Edgeworth Correction</a></li>
+  </ul></li>
+  <li><a href="#beyond-integer-valued-variables-real-valued-x" id="toc-beyond-integer-valued-variables-real-valued-x" class="nav-link" data-scroll-target="#beyond-integer-valued-variables-real-valued-x">Beyond integer-valued variables (real-valued <span class="math inline">\(X\)</span>)</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="the-clt" class="level2">
+<h2 class="anchored" data-anchor-id="the-clt"><strong>The CLT</strong></h2>
+<p>The <strong>Central Limit Theorem (CLT)</strong> answers an important question: Why does the <strong>bell curve</strong> (or Normal Distribution) show up everywhere in the real world?</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/normal_distribution.webp" class="img-fluid figure-img" alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."></p>
+<figcaption>The Normal Distribution, showing the 68-95-99.7 rule.</figcaption>
+</figure>
+</div>
+<p>Specifically, if we take any random variable <span class="math inline">\(X\)</span> (like the outcome of a weird, lopsided die), and we repeat the experiment <span class="math inline">\(m\)</span> times to get independent results <span class="math inline">\(X_1, X_2, \dots, X_m\)</span>, what does the probability distribution of their sum, <span class="math inline">\(S_m = X_1 + \dots + X_m\)</span>, look like when <span class="math inline">\(m\)</span> is very large?</p>
+<p>The CLT states that the probability distribution of this <span class="math inline">\(S_m\)</span> will always look like a perfect bell curve, no matter how strange the original die was (as long as it has a well-defined average and spread). This derivation is a mathematical journey to see exactly why this universal shape magically appears.</p>
+<hr>
+</section>
+<section id="encoding-probabilities-the-pgf" class="level2">
+<h2 class="anchored" data-anchor-id="encoding-probabilities-the-pgf"><strong>Encoding Probabilities (The PGF)</strong></h2>
+<p>First, we need a way to mathematically describe our single die. We’ll package its probabilities into a special polynomial called a <strong>Probability Generating Function (PGF)</strong>. This isn’t just a convenient trick; it’s a cornerstone of <strong><a href="https://en.wikipedia.org/wiki/Combinatorics">combinatorics</a></strong> for solving counting problems.</p>
+<section id="a-gentler-start-probabilities-as-polynomials" class="level3">
+<h3 class="anchored" data-anchor-id="a-gentler-start-probabilities-as-polynomials">A gentler start: probabilities as polynomials</h3>
+<p>Imagine you want to count the number of ways to form 10 Rupees using a collection of 1, 2, and 5 Rupee coins. This is a classic combinatorial problem. A powerful way to solve it is to represent the available coins as polynomials:</p>
+<ul>
+<li><strong>1 Rupee Coins:</strong> <span class="math inline">\((1 + x^1 + x^2 + \dots)\)</span></li>
+<li><strong>2 Rupee Coins:</strong> <span class="math inline">\((1 + x^2 + x^4 + \dots)\)</span></li>
+<li><strong>5 Rupee Coins:</strong> <span class="math inline">\((1 + x^5 + x^{10} + \dots)\)</span></li>
+</ul>
+<p>When you multiply these polynomials, voila! The coefficient of <span class="math inline">\(x^{10}\)</span> in the final product gives you the exact number of ways to make change for 10 Rupees.</p>
+<p>Why does this work? The exponents <em>add</em>, just like the coin values do. The polynomial multiplication automatically explores every single combination of choices for you.</p>
+<p>A PGF does the exact same thing, but for probabilities. For a discrete random variable <span class="math inline">\(X\)</span> that takes integer values with probabilities <span class="math inline">\(p_k=\Pr(X=k)\)</span>, we define: <span class="math display">\[H(z)=\sum_k p_k\,z^k.\]</span></p>
+<p>Why is this natural?</p>
+<ul>
+<li><strong>Labels, not powers:</strong> The exponent <span class="math inline">\(k\)</span> is just a label for the outcome <span class="math inline">\(X=k\)</span>. The polynomial is a fancy storage system where the coefficient of <span class="math inline">\(z^k\)</span> holds the probability of the outcome <span class="math inline">\(k\)</span>.</li>
+<li><strong>Convolution by multiplication:</strong> This is the killer feature. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, the probability that <span class="math inline">\(X+Y=n\)</span> is found by summing over all pairs of outcomes that add to <span class="math inline">\(n\)</span>: <span class="math inline">\(\sum_k \Pr(X=k)\Pr(Y=n-k)\)</span>. This operation is called a <strong><a href="https://en.wikipedia.org/wiki/Convolution">convolution</a></strong>. When you multiply the PGFs <span class="math inline">\(H_X(z)\)</span> and <span class="math inline">\(H_Y(z)\)</span>, the rule for multiplying polynomials does <em>exactly the same calculation</em>. The coefficient of <span class="math inline">\(z^n\)</span> in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs: <span class="math display">\[H_{X+Y}(z)=H_X(z)\,H_Y(z).\]</span></li>
+<li><strong>From coins to dice:</strong> For a biased coin where heads=1 and tails=0, with <span class="math inline">\(\Pr(1)=p\)</span>, the PGF is <span class="math inline">\(H(z) = (1-p)z^0 + pz^1\)</span>. For two flips, the PGF is <span class="math inline">\(H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2\)</span>. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.</li>
+</ul>
+<p>For distributions that can take negative integer values, the PGF becomes a <strong><a href="https://en.wikipedia.org/wiki/Laurent_series">Laurent series</a></strong> with negative powers, like <span class="math inline">\(H(z) = \sum_{k=-\infty}^{\infty} p_k z^k\)</span>. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!</p>
+<p>For a standard fair die, the outcomes are <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>, each with probability <span class="math inline">\(\tfrac{1}{6}\)</span>. The blueprint function is: <span class="math display">\[
+h(z) = \frac{1}{6}z^1 + \frac{1}{6}z^2 + \frac{1}{6}z^3 + \frac{1}{6}z^4 + \frac{1}{6}z^5 + \frac{1}{6}z^6
+\]</span></p>
+</section>
+<section id="the-magic-of-multiplication" class="level3">
+<h3 class="anchored" data-anchor-id="the-magic-of-multiplication"><strong>The Magic of Multiplication</strong></h3>
+<p>Here’s where the magic happens. What if we want the probabilities for the sum of <strong>two</strong> dice? We simply multiply the blueprint by itself: <span class="math inline">\(h(z)^2\)</span>.</p>
+<p>Why does this work? Consider getting a total of 3. This can happen as (1+2) or (2+1). When we multiply out <span class="math inline">\(h(z) \times h(z)\)</span>, the math automatically finds every combination that produces a <span class="math inline">\(z^3\)</span> term: <span class="math display">\[
+\underbrace{\left(\tfrac{1}{6}z^1\right) \times \left(\tfrac{1}{6}z^2\right)}_{\text{Roll 1, then 2}} +
+\underbrace{\left(\tfrac{1}{6}z^2\right) \times \left(\tfrac{1}{6}z^1\right)}_{\text{Roll 2, then 1}}
+= \frac{2}{36}z^3
+\]</span></p>
+<p>The math does all the tedious bookkeeping for us! The coefficient <span class="math inline">\(\tfrac{2}{36}\)</span> is exactly the correct probability for the sum being 3.</p>
+<p>This powerful idea is our starting point: <strong>To find the probability that the sum of <span class="math inline">\(m\)</span> rolls is <span class="math inline">\(n\)</span>, we just need to find the coefficient of the <span class="math inline">\(z^n\)</span> term in the expansion of <span class="math inline">\(h(z)^m\)</span>.</strong> We write this as <span class="math inline">\([z^n]h(z)^m\)</span>.</p>
+<section id="a-worked-example-three-dice" class="level4">
+<h4 class="anchored" data-anchor-id="a-worked-example-three-dice">A worked example (three dice)</h4>
+<p>Let <span class="math inline">\(h(z)=\tfrac{1}{6}(z+z^2+z^3+z^4+z^5+z^6)\)</span>. For three dice, <span class="math display">\[
+[z^9]h(z)^3 = \sum_{a+b+c=9} \tfrac{1}{6^3}\,1 = \frac{10}{216},
+\]</span> where the <span class="math inline">\(10\)</span> solutions <span class="math inline">\((a,b,c)\in\{1,\dots,6\}^3\)</span> with <span class="math inline">\(a+b+c=9\)</span> are counted by simple stars-and-bars with bounds (or by direct enumeration). This matches the usual table of sums for three dice.</p>
+</section>
+<section id="notation-the-coefficient-operator" class="level4">
+<h4 class="anchored" data-anchor-id="notation-the-coefficient-operator">Notation: the coefficient operator</h4>
+<p>For a formal power series <span class="math inline">\(F(z)=\sum_n c_n z^n\)</span>, the extractor is <span class="math display">\[[z^n]F(z)=c_n.\]</span> When <span class="math inline">\(F\)</span> is analytic on and inside a circle <span class="math inline">\(\gamma\)</span>, Cauchy’s formula gives an integral representation of this operator (next section).</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-coefficient-extractor-machine" class="level2">
+<h2 class="anchored" data-anchor-id="the-coefficient-extractor-machine"><strong>The “Coefficient Extractor” Machine</strong></h2>
+<section id="why-do-we-need-an-extractor" class="level3">
+<h3 class="anchored" data-anchor-id="why-do-we-need-an-extractor">Why do we need an extractor?</h3>
+<p>For a small number of dice, say <span class="math inline">\(m=3\)</span>, we could grit our teeth and manually expand the polynomial <span class="math inline">\(h(z)^3\)</span> to find the probability of any given sum. But for <span class="math inline">\(m=100\)</span>, this is impossible. The polynomial would have hundreds of terms, and we only care about <em>one</em> of them! We need a surgical tool, a mathematical machine that can reach into the enormous expansion of <span class="math inline">\(h(z)^m\)</span> and pull out just the single coefficient we need, <span class="math inline">\([z^n]h(z)^m\)</span>, without doing the whole expansion.</p>
+</section>
+<section id="how-to-isolate-a-coefficient-the-residue-trick" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-isolate-a-coefficient-the-residue-trick">How to Isolate a Coefficient (The Residue Trick)</h3>
+<p>Let’s think about a general polynomial <span class="math inline">\(P(z) = c_0 + c_1 z + c_2 z^2 + \dots\)</span>. How could we isolate, say, <span class="math inline">\(c_n\)</span>?</p>
+<p>A brilliant trick from complex analysis involves division. If we divide <span class="math inline">\(P(z)\)</span> by <span class="math inline">\(z^{n+1}\)</span>, we get: <span class="math display">\[
+\frac{P(z)}{z^{n+1}} = \frac{c_0}{z^{n+1}} + \frac{c_1}{z^n} + \dots + \frac{c_n}{z} + c_{n+1} + c_{n+2}z + \dots
+\]</span> Look at that! The coefficient we want, <span class="math inline">\(c_n\)</span>, is now attached to the <span class="math inline">\(\frac{1}{z}\)</span> term. This special term has a name: it’s the <strong><a href="https://en.wikipedia.org/wiki/Residue_(complex_analysis)">residue</a></strong> of the function at <span class="math inline">\(z=0\)</span>.</p>
+<p>This is where the magic happens. The <strong><a href="https://en.wikipedia.org/wiki/Residue_theorem">Cauchy’s Residue Theorem</a></strong> provides our extractor machine. It states that if you integrate a complex function around a closed loop, the result is exactly <span class="math inline">\(2\pi i\)</span> times the sum of the residues of the poles inside that loop. In our case, with the pole at <span class="math inline">\(z=0\)</span>, we get: <span class="math display">\[
+\oint_\gamma \frac{P(z)}{z^{n+1}} dz = 2\pi i \cdot (\text{residue at } z=0) = 2\pi i \cdot c_n
+\]</span> Rearranging this gives us our formula! This is a specialized version known as <strong><a href="https://en.wikipedia.org/wiki/Cauchy's_integral_formula">Cauchy’s integral formula</a></strong> for coefficients: <span class="math display">\[
+c_n = [z^n]P(z) = \frac{1}{2\pi i} \oint_\gamma \frac{P(z)}{z^{n+1}} dz
+\]</span> This is our perfect machine. It works even if <span class="math inline">\(P(z)\)</span> is a Laurent series with negative powers, allowing us to handle random variables with both positive and negative outcomes. We can now find any coefficient just by performing an integral, completely bypassing the nightmarish polynomial expansion.</p>
+</section>
+<section id="the-machine-in-action-and-a-surprising-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="the-machine-in-action-and-a-surprising-transformation">The Machine in Action (and a Surprising Transformation!)</h3>
+<p>Let’s use the simplest and most convenient loop: the unit circle, parametrized by <span class="math inline">\(z = e^{i\theta}\)</span> for <span class="math inline">\(\theta \in [-\pi, \pi]\)</span>. Let’s see what happens to our formula.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/unit-circle-contour.png" class="img-fluid figure-img" alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis."></p>
+<figcaption>A diagram of the unit circle in the complex plane, showing <span class="math inline">\(z = e^{i\theta}\)</span>.</figcaption>
+</figure>
+</div>
+<ul>
+<li>The function is <span class="math inline">\(f(z) = h(z)^m\)</span>.</li>
+<li>The differential is <span class="math inline">\(dz = i e^{i\theta} d\theta\)</span>.</li>
+<li>The denominator is <span class="math inline">\(z^{n+1} = (e^{i\theta})^{n+1} = e^{i(n+1)\theta}\)</span>.</li>
+</ul>
+<p>Plugging these in, we get: <span class="math display">\[
+\Pr(S_m=n) = \frac{1}{2\pi i} \int_{-\pi}^{\pi} \frac{h(e^{i\theta})^m}{e^{i(n+1)\theta}} (i e^{i\theta} d\theta)
+\]</span> The <span class="math inline">\(i\)</span> in the numerator cancels the <span class="math inline">\(i\)</span> in the denominator. The <span class="math inline">\(e^{i\theta}\)</span> from <span class="math inline">\(dz\)</span> cancels one power in the denominator, changing <span class="math inline">\(e^{i(n+1)\theta}\)</span> to <span class="math inline">\(e^{in\theta}\)</span>. The expression simplifies to: <span class="math display">\[
+\Pr(S_m=n) = \frac{1}{2\pi} \int_{-\pi}^{\pi} h(e^{i\theta})^m e^{-in\theta} d\theta
+\]</span> Wait a minute… that’s amazing! This is <em>exactly</em> the formula for the <span class="math inline">\(n\)</span>-th coefficient of a <strong><a href="https://en.wikipedia.org/wiki/Fourier_series">Fourier series</a></strong>!</p>
+</section>
+<section id="the-deep-connection-power-series-and-fourier-series" class="level3">
+<h3 class="anchored" data-anchor-id="the-deep-connection-power-series-and-fourier-series">The Deep Connection: Power Series and Fourier Series</h3>
+<p>Why did this happen? This is not a coincidence, it’s one of the most beautiful and profound connections in mathematics. It’s about changing your point of view.</p>
+<ul>
+<li>A <strong>Power Series</strong> (like our PGF) is built on a basis of monomials: <span class="math inline">\(\{1, z, z^2, z^3, \dots\}\)</span>. These are simple algebraic objects.</li>
+<li>A <strong>Fourier Series</strong> is built on a basis of complex exponentials: <span class="math inline">\(\{\dots, e^{-2i\theta}, e^{-i\theta}, 1, e^{i\theta}, e^{2i\theta}, \dots\}\)</span>. These are functions of pure oscillation.</li>
+</ul>
+<p>When we evaluate our PGF on the unit circle by setting <span class="math inline">\(z=e^{i\theta}\)</span>, we are literally swapping out the algebraic basis for the oscillation basis. The power <span class="math inline">\(z^k\)</span> becomes the pure frequency <span class="math inline">\(e^{ik\theta}\)</span>.</p>
+<p>The integral in Cauchy’s formula is a machine for extracting coefficients by averaging over a circular path. The integral in Fourier analysis is a machine for extracting coefficients by correlating with a specific frequency (projecting onto a basis function). <strong>It turns out they are the same machine!</strong> The act of choosing the unit circle as our path in the complex plane forces the coefficient-extractor to behave just like a Fourier component-extractor.</p>
+<p>The PGF is the natural tool from the world of combinatorics and algebra. The Fourier series is the natural tool from the world of waves, signals, and harmonic analysis. The Central Limit Theorem lives at the intersection of these two worlds, and the unit circle is the portal between them. This is why the Fourier transform emerging here isn’t just natural, it’s inevitable.</p>
+<hr>
+</section>
+</section>
+<section id="analyzing-the-integral-with-a-taylor-series" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-the-integral-with-a-taylor-series"><strong>Analyzing the Integral with a Taylor Series</strong></h2>
+<p>This integral is exact, but to solve it, we must approximate it for large <span class="math inline">\(m\)</span>.</p>
+<section id="the-characteristic-function-appears-out-of-nowhere" class="level3">
+<h3 class="anchored" data-anchor-id="the-characteristic-function-appears-out-of-nowhere">The “Characteristic Function” Appears Out of Nowhere!</h3>
+<p>A natural question is: why not expand <span class="math inline">\(h(e^{i\theta})^m\)</span> directly? A function raised to a large power <span class="math inline">\(m\)</span> is mathematically very difficult to handle. The standard and most powerful technique is to first analyze its logarithm. This clever step turns the difficult power <span class="math inline">\(m\)</span> into a simple multiplier.</p>
+<p>So let’s look closely at the thing we’re taking the log of: <span class="math inline">\(h(e^{i\theta})\)</span>. What is it, really? Let’s write it out from its definition: <span class="math display">\[
+h(e^{i\theta}) = \sum_k \Pr(X=k) e^{ik\theta}
+\]</span> This is a sum where each possible outcome’s complex exponential <span class="math inline">\(e^{ik\theta}\)</span> is weighted by its probability. This is just the <strong><a href="https://en.wikipedia.org/wiki/Expected_value">expected value</a></strong> of the complex random variable <span class="math inline">\(e^{i\theta X}\)</span>! <span class="math display">\[
+h(e^{i\theta}) = \mathbb{E}[e^{i\theta X}]
+\]</span> This object is so important in probability theory that it has its own name: the <strong><a href="https://en.wikipedia.org/wiki/Characteristic_function_(probability_theory)">Characteristic Function</a></strong>, denoted <span class="math inline">\(\varphi_X(\theta)\)</span>.</p>
+<p>This is a key moment. In many academic books, the characteristic function is introduced on page one like a rabbit pulled from a hat, leaving you wondering where it came from. But here, it hasn’t been pulled from a hat at all! It has emerged completely naturally. We started with the intuitive idea of a PGF for counting. We then used a powerful complex analysis machine to extract a coefficient. By running that machine on the unit circle, the PGF <em>automatically transformed itself into the characteristic function</em>. It’s the Fourier transform of the probability distribution, and it appears because we chose a Fourier-like method to solve our problem. Amazing!</p>
+<p>So, we define <span class="math inline">\(g(\theta) = \log \varphi_X(\theta) = \log h(e^{i\theta})\)</span>. Our integrand’s exponent is now <span class="math inline">\(m\, g(\theta) - in\theta\)</span>.</p>
+</section>
+<section id="the-taylor-series-and-cumulants" class="level3">
+<h3 class="anchored" data-anchor-id="the-taylor-series-and-cumulants"><strong>The Taylor Series and Cumulants</strong></h3>
+<p>The Taylor series of <span class="math inline">\(g(\theta) = \log \mathbb{E}[e^{i\theta X}]\)</span> is special because its coefficients define the <strong><a href="https://en.wikipedia.org/wiki/Cumulant">cumulants</a></strong> (<span class="math inline">\(\kappa_j\)</span>) of our distribution. The <strong>general formula</strong> for the <span class="math inline">\(j\)</span>-th cumulant is given by the <span class="math inline">\(j\)</span>-th derivative of the log-generating function evaluated at the origin:</p>
+<p><span class="math display">\[
+\kappa_j = \frac{1}{i^j} \left. \frac{d^j}{d\theta^j} \, g(\theta) \right|_{\theta=0}.
+\]</span></p>
+<p>These cumulants are the distribution’s fundamental properties:</p>
+<ul>
+<li><strong><span class="math inline">\(\kappa_1 = \mu\)</span></strong> (the mean)</li>
+<li><strong><span class="math inline">\(\kappa_2 = \sigma^2\)</span></strong> (the variance)</li>
+<li><strong><span class="math inline">\(\kappa_3 = \mathbb{E}[(X-\mu)^3]\)</span></strong> (the third central moment, a measure of <strong>skewness</strong>)</li>
+<li><strong><span class="math inline">\(\kappa_4 = \mathbb{E}[(X-\mu)^4] - 3(\sigma^2)^2\)</span></strong> (related to <strong>kurtosis</strong>)</li>
+</ul>
+<p>The Taylor series of <span class="math inline">\(g(\theta)\)</span> around <span class="math inline">\(\theta=0\)</span> (assuming the corresponding moments exist) is therefore:</p>
+<p><span class="math display">\[
+g(\theta) = i\mu\,\theta - \frac{\sigma^2}{2}\,\theta^2 - i\,\frac{\kappa_3}{6}\,\theta^3 + \frac{\kappa_4}{24}\,\theta^4 + O(\theta^5).
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="the-bell-curve-emerges" class="level2">
+<h2 class="anchored" data-anchor-id="the-bell-curve-emerges"><strong>The Bell Curve Emerges</strong></h2>
+<section id="setting-the-stage" class="level3">
+<h3 class="anchored" data-anchor-id="setting-the-stage">Setting the Stage</h3>
+<p>Now we put our Taylor series approximation back into the integral for <span class="math inline">\(\Pr(S_m=n)\)</span>. The exponent in our integral, <span class="math inline">\(m\, g(\theta) - in\theta\)</span>, becomes: <span class="math display">\[
+m\left(i\mu\,\theta - \frac{\sigma^2}{2}\,\theta^2 - i\frac{\kappa_3}{6}\,\theta^3 + \frac{\kappa_4}{24}\,\theta^4 + \dots\right) - in\theta.
+\]</span> This still looks like a mess. The key insight is that for large <span class="math inline">\(m\)</span>, the sum <span class="math inline">\(S_m\)</span> will almost certainly be very close to its expected value, <span class="math inline">\(m\mu\)</span>. We are interested in the shape of the distribution <em>around this mean</em>. The question “what does the distribution of the sum look like?” is really “what does the distribution of deviations from the mean look like?”</p>
+<p>To formalize this, we need a new coordinate system that is centered at the mean and scaled appropriately. The mean of the sum <span class="math inline">\(S_m\)</span> is <span class="math inline">\(m\mu\)</span>, and its variance is <span class="math inline">\(m\sigma^2\)</span>, making its standard deviation <span class="math inline">\(\sigma\sqrt{m}\)</span>. It is natural to measure deviations in units of this standard deviation.</p>
+<p>So, we define a new variable <span class="math inline">\(x\)</span> that does exactly this: <span class="math display">\[
+n = m\mu + x\sigma\sqrt{m}
+\]</span> Here, <span class="math inline">\(x\)</span> is our new coordinate, representing the number of standard deviations from the mean. An <span class="math inline">\(x\)</span> value of 0 is the mean, <span class="math inline">\(x=1\)</span> is one standard deviation above the mean, and so on. This change of variables is not just a trick; it is the fundamental act of <strong>standardizing the random variable</strong> so we can compare the shapes of distributions that have different means and variances.</p>
+<p>Let’s substitute this into our exponent: <span class="math display">\[
+m\left(i\mu\,\theta - \frac{\sigma^2}{2}\,\theta^2 - \dots\right) - i(m\mu + x\sigma\sqrt{m})\theta
+\]</span> Distributing the last term gives: <span class="math display">\[
+(im\mu\theta - m\frac{\sigma^2}{2}\theta^2 - \dots) - im\mu\theta - ix\sigma\sqrt{m}\theta
+\]</span> Look! The main term involving the mean, <span class="math inline">\(im\mu\theta\)</span>, cancels out perfectly! This is no accident; this is <em>why</em> we centered our coordinate system at the mean. The purpose of this step was to eliminate the distracting shifting effect of the mean so we could focus purely on the shape of the distribution. The exponent becomes: <span class="math display">\[
+-m\frac{\sigma^2}{2}\theta^2 - ix\sigma\sqrt{m}\theta - m\left(i\frac{\kappa_3}{6}\theta^3 + \dots\right)
+\]</span></p>
+</section>
+<section id="the-mathematical-microscope" class="level3">
+<h3 class="anchored" data-anchor-id="the-mathematical-microscope">The Mathematical Microscope</h3>
+<p>The expression is still complicated. But we know that for large <span class="math inline">\(m\)</span>, the probability distribution for <span class="math inline">\(S_m\)</span> gets wider. The Taylor series for <span class="math inline">\(g(\theta)\)</span> is only accurate for small <span class="math inline">\(\theta\)</span>. The brilliant next step is to realize these two effects must balance. We need a change of variables that zooms in on the origin <span class="math inline">\(\theta=0\)</span> at just the right rate to keep the picture stable.</p>
+<p>This zoom level is <span class="math inline">\(\theta = u/\sqrt{m}\)</span>. Let’s see why it’s perfect by examining each term in the exponent:</p>
+<ul>
+<li><p><strong>The Variance Term:</strong> <span class="math display">\[
+-m\frac{\sigma^2}{2}\theta^2 \quad \longrightarrow \quad -m\frac{\sigma^2}{2}\left(\frac{u}{\sqrt{m}}\right)^2 = -m\frac{\sigma^2}{2}\frac{u^2}{m} = -\frac{\sigma^2}{2}u^2
+\]</span> The <span class="math inline">\(m\)</span> vanishes completely! This term becomes independent of <span class="math inline">\(m\)</span>, forming the stable, universal core of our bell curve. This is the main event.</p></li>
+<li><p><strong>The <span class="math inline">\(x\)</span> Term (from centering):</strong> <span class="math display">\[
+-ix\sigma\sqrt{m}\theta \quad \longrightarrow \quad -ix\sigma\sqrt{m}\left(\frac{u}{\sqrt{m}}\right) = -ix\sigma u
+\]</span> This term is also stable and independent of <span class="math inline">\(m\)</span>. It controls the position under the bell curve.</p></li>
+<li><p><strong>The Skewness Term (<span class="math inline">\(\kappa_3\)</span>):</strong> <span class="math display">\[
+-m\left(i\frac{\kappa_3}{6}\theta^3\right) \quad \longrightarrow \quad -mi\frac{\kappa_3}{6}\left(\frac{u}{\sqrt{m}}\right)^3 = -mi\frac{\kappa_3}{6}\frac{u^3}{m^{3/2}} = -i\frac{\kappa_3 u^3}{6\sqrt{m}}
+\]</span> This term has a <span class="math inline">\(\sqrt{m}\)</span> in the denominator, so it vanishes as <span class="math inline">\(m \to \infty\)</span>!</p></li>
+<li><p><strong>The Kurtosis Term (<span class="math inline">\(\kappa_4\)</span>):</strong> <span class="math display">\[
+m\left(\frac{\kappa_4}{24}\theta^4\right) \quad \longrightarrow \quad m\frac{\kappa_4}{24}\left(\frac{u}{\sqrt{m}}\right)^4 = \frac{\kappa_4 u^4}{24 m}
+\]</span> This is smaller, of order <span class="math inline">\(m^{-1}\)</span>, and contributes to higher-order accuracy (e.g., beyond the first Edgeworth correction).</p></li>
+<li><p><strong>Higher-Order Terms:</strong> All subsequent terms will have even higher powers of <span class="math inline">\(\sqrt{m}\)</span> in the denominator (<span class="math inline">\(m, m^{3/2}, \dots\)</span>), so they will disappear even faster.</p></li>
+</ul>
+<p>Our once-horrible exponent simplifies beautifully: <span class="math display">\[
+\text{Exponent} = \underbrace{-\frac{\sigma^2}{2}u^2 - ix\sigma u}_{\text{The stable Bell Curve shape}} \; - \; \frac{i\kappa_3 u^3}{6\sqrt{m}} \; + \; \frac{\kappa_4 u^4}{24 m} \; + \; O\!\left(m^{-3/2}\right)
+\]</span> As <span class="math inline">\(m \to \infty\)</span>, all the terms that depend on the specific, unique features of our original die (skewness, kurtosis, etc.) are washed away. Only the universal terms related to the mean and variance survive. This is the heart of the CLT’s universality!</p>
+<p>Our integral for the probability becomes: <span class="math display">\[
+\Pr(S_m=n) \approx \frac{1}{2\pi} \int \exp\left(-\frac{\sigma^2 u^2}{2} - ix\sigma u\right) (du/\sqrt{m})
+\]</span> The change of variables <span class="math inline">\(d\theta = du/\sqrt{m}\)</span> introduces the <span class="math inline">\(\frac{1}{\sqrt{m}}\)</span> factor. The integral is now over <span class="math inline">\(u\)</span>. Since the integrand shrinks to zero incredibly fast for large <span class="math inline">\(u\)</span>, we can extend the limits of integration from <span class="math inline">\([-\pi\sqrt{m}, \pi\sqrt{m}]\)</span> to <span class="math inline">\([-\infty, \infty]\)</span> with negligible error. <span class="math display">\[
+\Pr(S_m=n) \approx \frac{1}{2\pi\sqrt{m}} \int_{-\infty}^{\infty} \exp\!\left(-\frac{\sigma^2 u^2}{2} - ix\sigma u\right) \, du.
+\]</span></p>
+</section>
+<section id="evaluating-the-gaussian-integral-and-finding-the-pdf" class="level3">
+<h3 class="anchored" data-anchor-id="evaluating-the-gaussian-integral-and-finding-the-pdf">Evaluating the Gaussian Integral and Finding the PDF</h3>
+<p>This is a standard <a href="https://en.wikipedia.org/wiki/Gaussian_integral">Gaussian integral</a>. We can solve it by completing the square in the exponent: <span class="math display">\[
+-\frac{\sigma^2 u^2}{2} - ix\sigma u = -\frac{\sigma^2}{2}\left(u^2 + \frac{2ix}{\sigma}u\right) = -\frac{\sigma^2}{2}\left(\left(u + \frac{ix}{\sigma}\right)^2 - \left(\frac{ix}{\sigma}\right)^2\right) = -\frac{\sigma^2}{2}\left(u + \frac{ix}{\sigma}\right)^2 - \frac{x^2}{2}
+\]</span> The integral becomes: <span class="math display">\[
+\int_{-\infty}^{\infty} e^{-\frac{\sigma^2}{2}(u + ix/\sigma)^2 - x^2/2} du = e^{-x^2/2} \int_{-\infty}^{\infty} e^{-\frac{\sigma^2}{2}(u + ix/\sigma)^2} du
+\]</span> The integral <span class="math inline">\(\int e^{-a(t+b)^2}dt\)</span> over the real line is <span class="math inline">\(\sqrt{\pi/a}\)</span>, regardless of the shift <span class="math inline">\(b\)</span> (which can be proven by shifting the contour in the complex plane). Here, <span class="math inline">\(a=\sigma^2/2\)</span>, so the integral evaluates to <span class="math inline">\(\sqrt{2\pi/\sigma^2}\)</span>. Plugging this back in: <span class="math display">\[
+\Pr(S_m=n) \approx \frac{1}{2\pi\sqrt{m}} \cdot \sqrt{\frac{2\pi}{\sigma^2}} e^{-x^2/2} = \frac{1}{\sigma\sqrt{2\pi m}} e^{-x^2/2}.
+\]</span> This is the <strong>Local Limit Theorem</strong>. It gives the probability of a <em>single</em> outcome. But what does it represent? Let’s rearrange it. The quantity <span class="math inline">\(1/(\sigma\sqrt{m})\)</span> is the spacing between possible values of our standardized variable <span class="math inline">\(x\)</span>. Let’s call this spacing <span class="math inline">\(\Delta x\)</span>. Then <span class="math display">\[
+\Pr(S_m=n) \approx \frac{1}{\sqrt{2\pi}} e^{-x^2/2} \cdot \frac{1}{\sigma\sqrt{m}} = \frac{1}{\sqrt{2\pi}} e^{-x^2/2} \Delta x.
+\]</span> This is beautiful! It says that the probability of landing in a small interval of width <span class="math inline">\(\Delta x\)</span> around the value <span class="math inline">\(x\)</span> is approximately the height of a curve, <span class="math inline">\(\frac{1}{\sqrt{2\pi}} e^{-x^2/2}\)</span>, times the width of the interval. This is the definition of a probability density function!</p>
+<p>As <span class="math inline">\(m\to\infty\)</span>, the discrete steps <span class="math inline">\(\Delta x\)</span> become infinitesimally small, and the approximation becomes exact. We have just derived the probability density function (PDF) of the standardized normal distribution: <span class="math display">\[
+f(x) = \frac{1}{\sqrt{2\pi}} e^{-x^2/2}
+\]</span> The mean and variance of the <em>original</em> distribution are hidden in here. The mean <span class="math inline">\(\mu\)</span> was removed when we centered our variable <span class="math inline">\(x\)</span>. The variance <span class="math inline">\(\sigma^2\)</span> was scaled away to give this universal shape. This shows that <em>any</em> sum of i.i.d. variables, when recentered and rescaled, will converge to this exact same shape.</p>
+</section>
+<section id="a-sharper-approximation-the-edgeworth-correction" class="level3">
+<h3 class="anchored" data-anchor-id="a-sharper-approximation-the-edgeworth-correction">A Sharper Approximation: The Edgeworth Correction</h3>
+<p>What if we keep the next term in the exponent? <span class="math display">\[
+e^{\text{Exponent}} \approx e^{-\frac{\sigma^2 u^2}{2} - ix\sigma u} \cdot e^{-i\frac{\kappa_3 u^3}{6\sqrt{m}}}
+\]</span> For large <span class="math inline">\(m\)</span>, the argument of the second exponential is small, so we can use the approximation <span class="math inline">\(e^y \approx 1+y\)</span>: <span class="math display">\[
+e^{-\frac{\sigma^2 u^2}{2} - ix\sigma u} \left(1 - i\frac{\kappa_3 u^3}{6\sqrt{m}}\right)
+\]</span> Integrating this gives the main Gaussian term plus a correction term involving the integral of <span class="math inline">\(u^3\)</span> against the Gaussian. The result is the first-order <strong><a href="https://en.wikipedia.org/wiki/Edgeworth_series">Edgeworth series</a></strong> expansion: <span class="math display">\[
+\Pr(S_m=n) \approx \frac{1}{\sigma\sqrt{2\pi m}} e^{-x^2/2}
+\left[1 + \frac{\kappa_3}{6\,\sigma^3\,\sqrt{m}}(x^3-3x)\right].
+\]</span> This correction term accounts for the skewness (<span class="math inline">\(\kappa_3\)</span>) of the original distribution, and it’s our first hint of how the sum approaches the bell curve, along with the shape of the errors in the approximation.</p>
+<hr>
+</section>
+</section>
+<section id="beyond-integer-valued-variables-real-valued-x" class="level2">
+<h2 class="anchored" data-anchor-id="beyond-integer-valued-variables-real-valued-x">Beyond integer-valued variables (real-valued <span class="math inline">\(X\)</span>)</h2>
+<p>So far, our random variable <span class="math inline">\(X\)</span> could only take integer values. What if it’s a continuous variable that can take any real value? We can cleverly handle this by thinking of a continuous value as a limit of finely-grained discrete values.</p>
+<p>Let’s imagine a continuous random variable <span class="math inline">\(X\)</span> with some probability density function. We can approximate it with a discrete variable <span class="math inline">\(X_N\)</span> that takes values on a fine grid with spacing <span class="math inline">\(1/N\)</span>: <span class="math inline">\(k/N\)</span> for integers <span class="math inline">\(k\)</span>. The probability that <span class="math inline">\(X_N\)</span> takes the value <span class="math inline">\(k/N\)</span> would be approximately the density of <span class="math inline">\(X\)</span> at that point times the spacing: <span class="math inline">\(\Pr(X_N = k/N) \approx f(k/N) \cdot (1/N)\)</span>.</p>
+<p>Now, we can build a PGF for this discretized variable <span class="math inline">\(X_N\)</span>. But the powers will be fractions, like <span class="math inline">\(z^{k/N}\)</span>. This looks strange, but we can make it familiar with a simple substitution. Let a new variable be <span class="math inline">\(\zeta = z^{1/N}\)</span>. Then our PGF becomes a normal polynomial (or Laurent series) in <span class="math inline">\(\zeta\)</span>: <span class="math display">\[
+H_N(\zeta) = \sum_k \Pr(X_N = k/N) \zeta^k
+\]</span> This is amazing! We’ve transformed the continuous problem back into the discrete integer problem we just solved. We can now use our entire machinery on this new PGF.</p>
+<p>The sum of <span class="math inline">\(m\)</span> such independent variables, <span class="math inline">\(S_m = X_{N,1} + \dots + X_{N,m}\)</span>, will have a PGF of <span class="math inline">\(H_N(\zeta)^m\)</span>. The probability that this sum equals a certain value, say <span class="math inline">\(n/N\)</span>, is given by the coefficient of <span class="math inline">\(\zeta^n\)</span>: <span class="math display">\[
+\Pr(S_m = n/N) = [\zeta^n]H_N(\zeta)^m
+\]</span> We can run this through our whole derivation. The mean and variance of <span class="math inline">\(X_N\)</span> will be approximately the mean and variance of <span class="math inline">\(X\)</span>, and as we take the limit <span class="math inline">\(N \to \infty\)</span>, they will become exact. The final result for the probability will look just like our Local Limit Theorem, but for the variable <span class="math inline">\(\zeta\)</span>.</p>
+<p>When we translate back, we find that the probability density function of the sum <span class="math inline">\(S_m\)</span> converges to the same bell curve shape. The key insight is that the underlying logic—convolution becoming multiplication, logarithms linearizing powers, and the dominance of the quadratic term in the Taylor series—is completely independent of whether the original variable was discrete or continuous. By discretizing, we can see that the same universal force is at play. The passage to the continuous case is just a matter of taking the limit as our grid becomes infinitely fine. This confirms that the CLT is a truly universal law of probability.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/kdabhadkar\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="kdabhadkar/blog-comments" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Copyright © Kaivalya Dabhadkar</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
