@@ -69,8 +69,7 @@ format:
     mainfont: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     monofont: "Fira Code, 'SF Mono', Monaco, 'Courier New', monospace"
     html-math-method: mathjax
-    mathjax:
-      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
+    mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
     include-in-header:
       text: |
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">

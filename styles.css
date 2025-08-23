@@ -218,24 +218,43 @@ mjx-container {
 }
 
 /* ==========================================================================
-   FINAL CONSOLIDATED MATHJAX MOBILE FIX
+   MathJax Mobile Display Fix
    ========================================================================== */
 /*
- * Targets the outermost math wrapper and all descendants to neutralize
- * backgrounds and tap highlights, overriding code/Quarto/MathJax/browser layers.
+ * This rule ensures that MathJax expressions are selectable while also
+ * fixing the mobile tap-highlight issue. It targets both the main
+ * container and all its child elements, forcing the background to be
+ * transparent and disabling the native tap highlight color.
 */
-.math, .math * {
+mjx-container, mjx-container * {
+  -webkit-user-select: text!important;
+  -moz-user-select: text!important;
+  -ms-user-select: text!important;
+  user-select: text!important;
+  pointer-events: auto!important;
+  background: none !important;
+  background-color: transparent!important;
+  -webkit-tap-highlight-color: transparent!important;
+  -moz-tap-highlight-color: transparent!important;
+  tap-highlight-color: transparent!important;
+  outline: none!important;
+}
+
+/* Ensure the Quarto math wrapper also suppresses tap highlight */
+.math, .math *, code .math, code .math * {
+  -webkit-tap-highlight-color: transparent!important;
+  -moz-tap-highlight-color: transparent!important;
+  tap-highlight-color: transparent!important;
   background: none !important;
   background-color: transparent !important;
-  -webkit-tap-highlight-color: transparent !important;
-  -moz-tap-highlight-color: transparent !important;
-  tap-highlight-color: transparent !important;
-  outline: none !important;
+}
+
+/* Handle cases where inline math is wrapped in code tags */
+code .math, code .math *, code mjx-container, code mjx-container * {
+  background: none !important;
+  background-color: transparent !important;
   padding: 0 !important;
-  margin: 0 !important;
-  border: none !important;
   color: inherit !important;
-  font-size: inherit !important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
@@ -246,6 +265,16 @@ mjx-container {
 
 mjx-container[display="true"] mjx-math {
   padding: 0.5rem 1rem !important;
+}
+
+/* Inline math styling */
+mjx-container:not([display="true"]) {
+  padding: 0 0.05em !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  color: inherit !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
 }
 
 /* Equation numbering */
