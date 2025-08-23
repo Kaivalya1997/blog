@@ -272,10 +272,6 @@ mjx-container * {
     outline: none !important;
 }
 
-[data-bs-theme="dark"] mjx-container:not([display="true"]) {
-  background: rgba(167, 139, 250, 0.1) !important;
-}
-
 /* Equation numbering */
 .eq-number {
   color: var(--text-secondary);
