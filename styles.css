@@ -252,6 +252,16 @@ mjx-container:not([display="true"]) {
   overflow-y: visible !important;
 }
 
+/* Fix for blue dots on mobile - target MathJax character elements */
+mjx-c {
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 [data-bs-theme="dark"] mjx-container:not([display="true"]) {
   background: rgba(167, 139, 250, 0.1) !important;
 }

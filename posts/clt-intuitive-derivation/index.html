@@ -87,6 +87,27 @@ ul.task-list li input[type="checkbox"] {
     },
     options: {
       processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
+    },
+    chtml: {
+      scale: 1,
+      minScale: 0.5,
+      mtextInheritFont: true,
+      merrorInheritFont: true,
+      mathmlSpacing: false,
+      skipAttributes: {},
+      exFactor: 0.5,
+      displayAlign: 'center',
+      displayIndent: '0'
+    },
+    startup: {
+      pageReady: function() {
+        return MathJax.startup.defaultPageReady().then(function() {
+          // Fix for mobile rendering artifacts
+          document.querySelectorAll('mjx-c').forEach(function(el) {
+            el.style.padding = '0';
+          });
+        });
+      }
     }
   };
 </script>
