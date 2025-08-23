@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "posts.html",
-    "href": "posts.html",
-    "title": "All Posts",
-    "section": "",
-    "text": "Explore all blog posts below. Use the category filters and search to find specific topics."
-  },
-  {
-    "objectID": "posts.html#browse-all-articles",
-    "href": "posts.html#browse-all-articles",
-    "title": "All Posts",
-    "section": "",
-    "text": "Explore all blog posts below. Use the category filters and search to find specific topics."
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Exploring Mathematics & AI",
@@ -26,6 +12,20 @@
     "title": "Exploring Mathematics & AI",
     "section": "Recent Posts",
     "text": "Recent Posts\nBrowse through my latest articles below, or use the category filters to find topics that interest you most."
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "All Posts",
+    "section": "",
+    "text": "Explore all blog posts below. Use the category filters and search to find specific topics."
+  },
+  {
+    "objectID": "posts.html#browse-all-articles",
+    "href": "posts.html#browse-all-articles",
+    "title": "All Posts",
+    "section": "",
+    "text": "Explore all blog posts below. Use the category filters and search to find specific topics."
   },
   {
     "objectID": "posts/clt-intuitive-derivation/index.html",
