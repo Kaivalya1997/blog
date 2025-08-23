@@ -342,7 +342,7 @@ As we continue to scale and refine these models, we're discovering that attentio
 
 ## Code Repository
 
-Full implementation available at: [github.com/kdabhadkar/transformer-from-scratch](https://github.com/kdabhadkar/transformer-from-scratch)
+Full implementation available at: [github.com/Kaivalya1997/transformer-from-scratch](https://github.com/Kaivalya1997/transformer-from-scratch)
 
 ## References
 

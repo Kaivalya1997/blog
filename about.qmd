@@ -13,7 +13,7 @@ about:
       href: https://github.com/Kaivalya1997
     # - icon: twitter
     #   text: Twitter
-    #   href: https://twitter.com/kdabhadkar
+    #   href: https://twitter.com/Kaivalya1997
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/kaivalya-dabhadkar-384a47151

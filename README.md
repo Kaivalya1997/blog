@@ -291,9 +291,8 @@ If you'd like to contribute posts or improvements:
 
 ## 📬 Contact
 
-- GitHub: [@kdabhadkar](https://github.com/kdabhadkar)
-- Twitter: [@kdabhadkar](https://twitter.com/kdabhadkar)
-- LinkedIn: [Kaivalya Dabhadkar](https://linkedin.com/in/kdabhadkar)
+- GitHub: [@Kaivalya1997](https://github.com/Kaivalya1997)
+- LinkedIn: [Kaivalya Dabhadkar](https://linkedin.com/in/kaivalya-dabhadkar-384a47151)
 
 ---
 
