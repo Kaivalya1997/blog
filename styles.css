@@ -877,6 +877,15 @@ mjx-container[display="true"]::-webkit-scrollbar-thumb:hover {
   font-size: inherit;
 }
 
+/* Suppress tap highlight for MathJax SVG output as well */
+mjx-container svg, mjx-container svg * {
+  -webkit-tap-highlight-color: transparent !important;
+  -moz-tap-highlight-color: transparent !important;
+  tap-highlight-color: transparent !important;
+  background: none !important;
+  background-color: transparent !important;
+}
+
 /* Callout boxes for important information */
 .callout {
   padding: 1.5rem;
