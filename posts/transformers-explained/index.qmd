@@ -8,6 +8,7 @@ image: "transformer-arch.svg"
 published: false
 draft: true
 toc: true
+search: false
 number-sections: true
 highlight-style: github
 format:

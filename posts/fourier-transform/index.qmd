@@ -8,6 +8,7 @@ image: "fourier-viz.svg"
 draft: true
 published: false
 toc: true
+search: false
 number-sections: true
 highlight-style: github
 format:

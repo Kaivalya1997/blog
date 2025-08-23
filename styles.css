@@ -208,8 +208,6 @@ pre code {
 }
 
 mjx-container {
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
   max-width: 100% !important;
 }
 
@@ -230,6 +228,8 @@ mjx-container[display="true"] {
   border-radius: 0 !important;
   border: none !important;
   box-shadow: none !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
@@ -248,6 +248,8 @@ mjx-container:not([display="true"]) {
   background: transparent !important;
   border-radius: 0 !important;
   color: inherit !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
 }
 
 [data-bs-theme="dark"] mjx-container:not([display="true"]) {
