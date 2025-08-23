@@ -5,7 +5,8 @@ author: "Kaivalya Dabhadkar"
 date: "2024-01-20"
 categories: [AI, Deep Learning, Machine Learning, NLP]
 image: "transformer-arch.svg"
-draft: false
+published: false
+draft: true
 toc: true
 number-sections: true
 highlight-style: github

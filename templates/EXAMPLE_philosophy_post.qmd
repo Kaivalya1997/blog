@@ -1,4 +1,6 @@
 ---
+search: false
+---
 # EXAMPLE POST: Demonstrating how to add a Philosophy topic
 # This is a template - copy to posts/philosophy-ai/index.qmd to use
 

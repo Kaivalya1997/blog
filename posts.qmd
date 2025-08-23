@@ -5,10 +5,10 @@ listing:
   sort: "date desc"
   type: grid
   categories: true
-  sort-ui: true
+  sort-ui: [date, title]
   filter-ui: true
   feed: false  # RSS feed disabled
-  fields: [image, date, title, subtitle, categories, author, reading-time]
+  fields: [image, date, title, subtitle, categories, reading-time]
   page-size: 9
 page-layout: full
 title-block-banner: true

@@ -5,7 +5,8 @@ author: "Kaivalya Dabhadkar"
 date: "2024-01-15"
 categories: [Mathematics, Signal Processing, Applied Math]
 image: "fourier-viz.svg"
-draft: false
+draft: true
+published: false
 toc: true
 number-sections: true
 highlight-style: github

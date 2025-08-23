@@ -3,11 +3,12 @@ project:
   output-dir: _site
 
 website:
-  title: "Kaivalya Dabhadkar's Blog"
+  title: "KD's Blog"
   site-url: "https://kdabhadkar.github.io"
   # UPDATE THIS: Change description when adding new topics
   description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
   favicon: favicon.ico
+  draft-mode: gone
   
   navbar:
     background: primary
@@ -19,10 +20,10 @@ website:
       # Example for adding History section:
       # - text: "History"
       #   href: posts.qmd#category=History
-      - text: "Mathematics"
-        href: posts.qmd#category=Mathematics
-      - text: "AI & ML"
-        href: posts.qmd#category=AI
+      # - text: "Mathematics"
+      #   href: posts.qmd#category=Mathematics
+      # - text: "AI & ML"
+      #   href: posts.qmd#category=AI
       # - text: "Philosophy"  # Uncomment to add Philosophy section
       #   href: posts.qmd#category=Philosophy
       - text: "About"
@@ -30,13 +31,13 @@ website:
     right:
       # === SOCIAL LINKS: Update with your profiles ===
       - icon: github
-        href: https://github.com/kdabhadkar
+        href: https://github.com/Kaivalya1997
         aria-label: GitHub
-      - icon: twitter
-        href: https://twitter.com/kdabhadkar
-        aria-label: Twitter
+      # - icon: twitter
+      #   href: https://twitter.com/kdabhadkar
+      #   aria-label: Twitter
       - icon: linkedin
-        href: https://linkedin.com/in/kdabhadkar
+        href: https://www.linkedin.com/in/kaivalya-dabhadkar-384a47151
         aria-label: LinkedIn
         
   # === SIDEBAR CONFIGURATION ===
@@ -53,7 +54,7 @@ website:
           
   page-footer:
     center: |
-      Copyright © 2024 Kaivalya Dabhadkar
+      Copyright © Kaivalya Dabhadkar
     background: light
     
 format:
@@ -107,6 +108,47 @@ format:
               fontCache: 'global'
             }
           };
+        </script>
+        <script>
+          // Attach original TeX to MathJax containers and ensure copy-to-clipboard includes TeX
+          document.addEventListener('DOMContentLoaded', function () {
+            if (window.MathJax && MathJax.startup && MathJax.startup.promise) {
+              MathJax.startup.promise.then(function () {
+                try {
+                  var items = MathJax.startup.document.getMathItemsWithin(document.body);
+                  items.forEach(function (item) {
+                    var tex = item.math;
+                    var container = item.typesetRoot; // <mjx-container>
+                    if (container && tex) {
+                      container.setAttribute('data-tex', tex);
+                      var isDisplay = container.getAttribute('display') === 'true';
+                      container.setAttribute('data-tex-wrapper', isDisplay ? '$$' : '$');
+                    }
+                  });
+                } catch (e) { /* no-op */ }
+              });
+            }
+
+            document.addEventListener('copy', function (e) {
+              var sel = window.getSelection();
+              if (!sel || sel.rangeCount === 0) { return; }
+              var range = sel.getRangeAt(0);
+              var fragment = range.cloneContents();
+              var tmp = document.createElement('div');
+              tmp.appendChild(fragment);
+              var mjx = tmp.querySelectorAll('mjx-container');
+              if (!mjx.length) { return; } // fall back to default behavior
+              mjx.forEach(function (node) {
+                var tex = node.getAttribute('data-tex');
+                var wrap = node.getAttribute('data-tex-wrapper') || '$';
+                var replacement = document.createTextNode(tex ? (wrap + tex + wrap) : (node.innerText || ''));
+                node.parentNode.replaceChild(replacement, node);
+              });
+              var text = tmp.innerText;
+              e.clipboardData.setData('text/plain', text);
+              e.preventDefault();
+            });
+          });
         </script>
     
 execute:

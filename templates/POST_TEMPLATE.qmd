@@ -1,4 +1,6 @@
 ---
+search: false
+---
 # === POST METADATA ===
 # Update all fields below for your post
 

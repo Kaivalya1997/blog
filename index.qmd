@@ -1,15 +1,15 @@
 ---
 title: "Exploring Mathematics & AI"
-subtitle: "A Journey Through Abstract Concepts and Practical Applications"
+subtitle: "Understanding concepts one at a time"
 listing:
   contents: posts
   sort: "date desc"
   type: grid
   categories: true
-  sort-ui: true
+  sort-ui: [date, title]
   filter-ui: true
   feed: false  # Disable RSS feed generation
-  fields: [image, date, title, subtitle, categories, author, reading-time]
+  fields: [image, date, title, subtitle, categories, reading-time]
   page-size: 6
 page-layout: full
 title-block-banner: true
@@ -17,12 +17,27 @@ title-block-banner-color: "primary"
 toc: false
 ---
 
-:::{.callout-note appearance="simple" icon=false}
+:::::{.callout-note appearance="simple" icon=false}
 ## Welcome to My Blog! 🎯
 
-I'm Kaivalya Dabhadkar, and this is where I share my explorations across various fascinating topics. My primary focus is on **Mathematics** and **Artificial Intelligence**, but I also delve into other areas that capture my curiosity.
+Hi there! I'm **Kaivalya Dabhadkar**, and this is my digital playground where I share my adventures through the fascinating worlds of mathematics and artificial intelligence.
 
-### Current Topics:
+### My Philosophy: Intuition First! 🧠✨
+
+I've discovered something magical in my learning journey: **intuition comes before rigor**. Too often, academic texts dive straight into formal proofs and definitions, leaving us wondering:
+- *"Wait, why did someone think to do it this way?"* 🤔
+- *"If I were discovering this for the first time, how would I have approached it?"* 💭
+- *"What's the story behind this seemingly arbitrary choice?"* 📖
+
+That's exactly what I aim to fix here! I believe the best way to truly understand any concept is to:
+
+1. **Feel it first** - Get an intuitive sense of what's happening
+2. **Question everything** - Ask the "why" questions that textbooks often skip
+3. **Teach to learn** - Feynman Techniquing my way one at a time :)
+
+### What You'll Find Here 🎨
+
+My primary passion lies in **Mathematics** and **Artificial Intelligence**, but I love exploring any topic that sparks curiosity. Think of this blog as a conversation with a friend who's just as excited about understanding the "why" behind the "what."
 
 <!-- === TOPIC LIST: Add new topics here === -->
 - **📐 Mathematics**: Deep dives into pure and applied mathematics, from linear algebra to topology
@@ -35,13 +50,12 @@ I'm Kaivalya Dabhadkar, and this is where I share my explorations across various
 - **🎨 Creative Coding**: Artistic applications of algorithms
 -->
 
-### Upcoming Topics:
+### Upcoming Adventures 🚀
 <!-- List topics you plan to explore in the future -->
 - Statistical Learning Theory
-- Category Theory in Computer Science
-- Quantum Computing Fundamentals
+- Variational Autoencoders
 
-:::
+:::::
 
 ## Recent Posts
 

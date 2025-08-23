@@ -1,3 +1,7 @@
+---
+search: false
+---
+
 # 📚 How to Extend This Blog
 
 This guide shows you how to add new topics, categories, and customize your blog.

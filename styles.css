@@ -16,7 +16,7 @@
   --code-bg: #f3f4f6;
   --link-color: #2563eb;
   --link-hover: #1d4ed8;
-  --math-color: #7c3aed;
+  --math-color: var(--text-primary);
   --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -34,7 +34,7 @@
   --code-bg: #1f2937;
   --link-color: #60a5fa;
   --link-hover: #93bbfc;
-  --math-color: #a78bfa;
+  --math-color: var(--text-primary);
 }
 
 /* Base typography */
@@ -175,7 +175,7 @@ pre code {
 
 /* Math equations styling - Enhanced for better aesthetics */
 .math {
-  color: var(--math-color);
+  color: inherit;
   font-family: 'Latin Modern Math', 'STIX Two Math', 'Cambria Math', serif;
   font-size: 1.05em;
 }
@@ -187,12 +187,12 @@ pre code {
 .math.display {
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 1.5rem;
-  background: var(--bg-secondary);
-  border-left: 4px solid var(--math-color);
-  border-radius: 8px;
-  margin: 2rem 0;
-  box-shadow: var(--shadow-sm);
+  padding: 0;
+  background: transparent;
+  border-left: none;
+  border-radius: 0;
+  margin: 1.25rem 0;
+  box-shadow: none;
 }
 
 /* MathJax specific styling */
@@ -213,24 +213,29 @@ mjx-container {
   max-width: 100% !important;
 }
 
+/* Ensure math is selectable/copyable */
+mjx-container, mjx-container * {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  pointer-events: auto !important;
+}
+
 mjx-container[display="true"] {
   display: block !important;
-  margin: 1.5rem 0 !important;
-  padding: 1.5rem !important;
-  background: linear-gradient(135deg, 
-    rgba(124, 58, 237, 0.03) 0%, 
-    rgba(37, 99, 235, 0.03) 100%) !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(124, 58, 237, 0.1) !important;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.05) !important;
+  margin: 1.25rem 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
-  background: linear-gradient(135deg, 
-    rgba(167, 139, 250, 0.05) 0%, 
-    rgba(96, 165, 250, 0.05) 100%) !important;
-  border: 1px solid rgba(167, 139, 250, 0.2) !important;
-  box-shadow: 0 2px 8px rgba(167, 139, 250, 0.1) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 mjx-container[display="true"] mjx-math {
@@ -239,10 +244,10 @@ mjx-container[display="true"] mjx-math {
 
 /* Inline math styling */
 mjx-container:not([display="true"]) {
-  padding: 0 0.3em !important;
-  background: rgba(124, 58, 237, 0.05) !important;
-  border-radius: 4px !important;
-  color: var(--math-color) !important;
+  padding: 0 0.05em !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  color: inherit !important;
 }
 
 [data-bs-theme="dark"] mjx-container:not([display="true"]) {
@@ -266,7 +271,7 @@ mjx-container:not([display="true"]) {
 
 .katex {
   font-size: 1.1em;
-  color: var(--math-color);
+  color: inherit;
 }
 
 .katex-display > .katex {
@@ -367,11 +372,14 @@ tbody tr:hover {
   background: var(--bg-secondary);
 }
 
-/* TOC (Table of Contents) styling */
-.toc-active {
-  border-left: 3px solid var(--primary-color);
-  background: var(--bg-secondary);
-  font-weight: 600;
+/* TOC (Table of Contents) styling - Revamped */
+#toc-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
 }
 
 #TOC {
@@ -379,27 +387,46 @@ tbody tr:hover {
   top: 2rem;
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
-  padding: 1rem;
-  background: var(--bg-secondary);
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
+  padding: 0;
+  padding-left: 1.25rem;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border-color);
 }
 
 #TOC ul {
   list-style: none;
+  padding-left: 0;
+}
+
+#TOC ul ul {
   padding-left: 1rem;
 }
 
 #TOC a {
   color: var(--text-secondary);
-  padding: 0.25rem 0;
+  padding: 0.3rem 0;
   display: block;
-  transition: all 0.2s;
+  transition: color 0.2s ease;
+  font-size: 0.9rem;
+  text-decoration: none;
 }
 
 #TOC a:hover {
   color: var(--primary-color);
-  padding-left: 0.5rem;
+}
+
+/* Quarto uses .active on the parent li of the active link */
+#TOC .active > a {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Remove old custom class as it's no longer used */
+.toc-active {
+  border-left: none;
+  background: none;
+  font-weight: normal;
 }
 
 /* Footer styling */
@@ -842,6 +869,14 @@ input, textarea, select {
   text-align: center;
 }
 
+.quarto-title-banner .quarto-title, 
+.quarto-title-banner h1, 
+.quarto-title-banner .subtitle, 
+.quarto-title-banner p.subtitle, 
+.quarto-title-banner .lead {
+  text-align: center;
+}
+
 .quarto-title-banner h1 {
   color: white;
   -webkit-text-fill-color: white;
@@ -895,4 +930,28 @@ input, textarea, select {
   background: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
+}
+
+/* Ensure title banner content spans full grid and centers */
+.quarto-title-banner .column-body {
+  grid-column: 1 / -1 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.quarto-title-banner h1,
+.quarto-title-banner .subtitle,
+.quarto-title-banner p.subtitle,
+.quarto-title-banner .lead {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Make the title container span full width */
+.quarto-title-banner .quarto-title {
+  width: 100%;
+  max-width: 100%;
 }
