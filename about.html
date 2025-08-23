@@ -85,10 +85,11 @@ ul.task-list li input[type="checkbox"] {
     options: {
       processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
     },
-    chtml: {
+    svg: {
+      fontCache: 'global',
       scale: 1,
       minScale: 0.5,
-      mtextInheritFont: true,
+      mtextInheritFont: false,
       merrorInheritFont: true,
       mathmlSpacing: false,
       skipAttributes: {},
@@ -99,9 +100,9 @@ ul.task-list li input[type="checkbox"] {
     startup: {
       pageReady: function() {
         return MathJax.startup.defaultPageReady().then(function() {
-          // Fix for mobile rendering artifacts
-          document.querySelectorAll('mjx-c').forEach(function(el) {
-            el.style.padding = '0';
+          // Additional mobile fixes for SVG output
+          document.querySelectorAll('mjx-container svg').forEach(function(svg) {
+            svg.style.verticalAlign = 'middle';
           });
         });
       }

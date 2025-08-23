@@ -252,14 +252,35 @@ mjx-container:not([display="true"]) {
   overflow-y: visible !important;
 }
 
-/* Fix for blue dots on mobile - target MathJax character elements */
-mjx-c {
+/* Fix for blue dots on mobile - comprehensive targeting */
+mjx-c, mjx-mo, mjx-mi, mjx-mn, mjx-ms, mjx-mtext {
   padding: 0 !important;
   margin: 0 !important;
   border: none !important;
   outline: none !important;
   background: transparent !important;
   -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+}
+
+/* Additional mobile-specific fixes */
+mjx-container, mjx-math, mjx-mrow, mjx-mstyle {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  tap-highlight-color: transparent !important;
+}
+
+/* Force hardware acceleration to prevent rendering artifacts */
+mjx-container {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 [data-bs-theme="dark"] mjx-container:not([display="true"]) {
