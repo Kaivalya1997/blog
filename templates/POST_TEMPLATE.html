@@ -132,16 +132,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       exFactor: 0.5,
       displayAlign: 'center',
       displayIndent: '0'
-    },
-    startup: {
-      pageReady: function() {
-        return MathJax.startup.defaultPageReady().then(function() {
-          // Additional mobile fixes for SVG output
-          document.querySelectorAll('mjx-container svg').forEach(function(svg) {
-            svg.style.verticalAlign = 'middle';
-          });
-        });
-      }
     }
   };
 </script>
