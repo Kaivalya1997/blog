@@ -22,6 +22,9 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  /* Decoupled scrollbar colors */
+  --scrollbar-thumb-color: #c1c1c1;
+  --scrollbar-thumb-hover-color: #a8a8a8;
 }
 
 /* Dark mode variables */
@@ -35,6 +38,9 @@
   --link-color: #60a5fa;
   --link-hover: #93bbfc;
   --math-color: var(--text-primary);
+  /* Decoupled scrollbar colors (dark) */
+  --scrollbar-thumb-color: #555555;
+  --scrollbar-thumb-hover-color: #777777;
 }
 
 /* Base typography */
@@ -226,9 +232,20 @@ mjx-container, mjx-container * {
   -ms-user-select: text!important;
   user-select: text!important;
   pointer-events: auto!important;
+  background: none !important;
   background-color: transparent!important;
   -webkit-tap-highlight-color: transparent!important;
+  -moz-tap-highlight-color: transparent!important;
+  tap-highlight-color: transparent!important;
   outline: none!important;
+}
+
+/* Handle cases where inline math is wrapped in code tags */
+code .math, code .math *, code mjx-container, code mjx-container * {
+  background: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  color: inherit !important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
@@ -819,20 +836,20 @@ mjx-container[display="true"]::-webkit-scrollbar-thumb:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #c1c1c1; /* Neutral grey for light mode */
+    background: var(--scrollbar-thumb-color);
     border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: var(--scrollbar-thumb-hover-color);
 }
 
 [data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
-    background: #555555; /* Darker grey for dark mode */
+    background: var(--scrollbar-thumb-color);
 }
 
 [data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-    background: #777777;
+    background: var(--scrollbar-thumb-hover-color);
 }
 
 /* ==========================================================================
