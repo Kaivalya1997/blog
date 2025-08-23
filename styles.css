@@ -886,6 +886,11 @@ mjx-container svg, mjx-container svg * {
   background-color: transparent !important;
 }
 
+/* Comprehensive fix for WebKit tap highlight on MathJax elements (v3 and legacy) */
+mjx-container, .MathJax {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 /* Callout boxes for important information */
 .callout {
   padding: 1.5rem;
