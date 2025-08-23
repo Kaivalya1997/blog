@@ -4,8 +4,7 @@ project:
 
 website:
   title: "KD's Blog"
-  site-url: "https://kdabhadkar.github.io"
-  # UPDATE THIS: Change description when adding new topics
+  site-url: "https://kaivalya1997.github.io"
   description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
   favicon: favicon.ico
   draft-mode: gone
@@ -34,23 +33,11 @@ website:
         href: https://github.com/Kaivalya1997
         aria-label: GitHub
       # - icon: twitter
-      #   href: https://twitter.com/kdabhadkar
+      #   href: https://twitter.com/Kaivalya1997
       #   aria-label: Twitter
       - icon: linkedin
         href: https://www.linkedin.com/in/kaivalya-dabhadkar-384a47151
         aria-label: LinkedIn
-        
-  # === SIDEBAR CONFIGURATION ===
-  # Note: For dynamic categories, we use the listing page's filter UI
-  # Remove sidebar if you want a cleaner look, or keep for navigation
-  # sidebar:
-  #   - title: "Browse by Topic"
-  #     style: "floating"
-  #     contents:
-  #       - text: "All Posts"
-  #         href: index.qmd
-  #       # Add specific category links here if needed
-  #       # These will be shown regardless of whether posts exist
           
   page-footer:
     center: |
@@ -156,7 +143,7 @@ execute:
   
 comments:
   utterances:
-    repo: kdabhadkar/blog-comments
+    repo: Kaivalya1997/blog-comments
 
 
 
