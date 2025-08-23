@@ -70,7 +70,7 @@ format:
     monofont: "Fira Code, 'SF Mono', Monaco, 'Courier New', monospace"
     html-math-method: mathjax
     mathjax:
-      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
     include-in-header:
       text: |
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -90,10 +90,11 @@ format:
             options: {
               processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
             },
-            chtml: {
+            svg: {
+              fontCache: 'global',
               scale: 1,
               minScale: 0.5,
-              mtextInheritFont: true,
+              mtextInheritFont: false,
               merrorInheritFont: true,
               mathmlSpacing: false,
               skipAttributes: {},
@@ -104,9 +105,9 @@ format:
             startup: {
               pageReady: function() {
                 return MathJax.startup.defaultPageReady().then(function() {
-                  // Fix for mobile rendering artifacts
-                  document.querySelectorAll('mjx-c').forEach(function(el) {
-                    el.style.padding = '0';
+                  // Additional mobile fixes for SVG output
+                  document.querySelectorAll('mjx-container svg').forEach(function(svg) {
+                    svg.style.verticalAlign = 'middle';
                   });
                 });
               }
