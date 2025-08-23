@@ -835,6 +835,22 @@ mjx-container[display="true"]::-webkit-scrollbar-thumb:hover {
     background: #777777;
 }
 
+/* ==========================================================================
+   Final MathJax Inline Code Fix
+   ========================================================================== */
+/*
+ * This rule targets <code> tags that are specifically used for inline
+ * math expressions and resets their styling. It removes the gray
+ * background and extra padding that is applied by the global 'code' style,
+ * ensuring the math blends seamlessly with the surrounding text.
+*/
+.math.inline code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
 /* Callout boxes for important information */
 .callout {
   padding: 1.5rem;
