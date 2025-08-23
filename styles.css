@@ -240,6 +240,15 @@ mjx-container, mjx-container * {
   outline: none!important;
 }
 
+/* Ensure the Quarto math wrapper also suppresses tap highlight */
+.math, .math *, code .math, code .math * {
+  -webkit-tap-highlight-color: transparent!important;
+  -moz-tap-highlight-color: transparent!important;
+  tap-highlight-color: transparent!important;
+  background: none !important;
+  background-color: transparent !important;
+}
+
 /* Handle cases where inline math is wrapped in code tags */
 code .math, code .math *, code mjx-container, code mjx-container * {
   background: none !important;
