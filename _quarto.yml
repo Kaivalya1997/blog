@@ -7,7 +7,6 @@ website:
   site-url: "https://kaivalya1997.github.io"
   description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
   favicon: favicon.ico
-  draft-mode: gone
   
   navbar:
     background: primary
@@ -90,9 +89,6 @@ format:
             },
             options: {
               processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
-            },
-            svg: {
-              fontCache: 'global'
             }
           };
         </script>
