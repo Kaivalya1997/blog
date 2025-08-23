@@ -211,25 +211,24 @@ mjx-container {
   max-width: 100% !important;
 }
 
-/* Ensure math is selectable/copyable */
+/* ==========================================================================
+   MathJax Mobile Display Fix
+   ========================================================================== */
+/*
+ * This rule ensures that MathJax expressions are selectable while also
+ * fixing the mobile tap-highlight issue. It targets both the main
+ * container and all its child elements, forcing the background to be
+ * transparent and disabling the native tap highlight color.
+*/
 mjx-container, mjx-container * {
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
-  user-select: text !important;
-  pointer-events: auto !important;
-}
-
-mjx-container[display="true"] {
-  display: block !important;
-  margin: 1.25rem 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
+  -webkit-user-select: text!important;
+  -moz-user-select: text!important;
+  -ms-user-select: text!important;
+  user-select: text!important;
+  pointer-events: auto!important;
+  background-color: transparent!important;
+  -webkit-tap-highlight-color: transparent!important;
+  outline: none!important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
@@ -250,26 +249,6 @@ mjx-container:not([display="true"]) {
   color: inherit !important;
   overflow-x: visible !important;
   overflow-y: visible !important;
-}
-
-/* ==========================================================================
-   MathJax Accessibility Explorer Fix for Mobile
-   ========================================================================== */
-
-/*
- * FIX FOR BLUE MARKERS ON MOBILE
- * The small blue markers appearing after math expressions on mobile are
- * caused by the MathJax accessibility explorer's default blue highlight.
- * This feature is inadvertently triggered by touch events.
- *
- * This rule targets all child elements within a MathJax container and forces
- * their background to be transparent, effectively hiding the highlight
- * without disabling the underlying accessibility feature.
- */
-mjx-container * {
-    background-color: transparent !important;
-    -webkit-tap-highlight-color: transparent !important;
-    outline: none !important;
 }
 
 /* Equation numbering */
