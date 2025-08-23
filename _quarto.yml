@@ -70,7 +70,7 @@ format:
     monofont: "Fira Code, 'SF Mono', Monaco, 'Courier New', monospace"
     html-math-method: mathjax
     mathjax:
-      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg-full.js"
+      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
     include-in-header:
       text: |
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -101,16 +101,6 @@ format:
               exFactor: 0.5,
               displayAlign: 'center',
               displayIndent: '0'
-            },
-            startup: {
-              pageReady: function() {
-                return MathJax.startup.defaultPageReady().then(function() {
-                  // Additional mobile fixes for SVG output
-                  document.querySelectorAll('mjx-container svg').forEach(function(svg) {
-                    svg.style.verticalAlign = 'middle';
-                  });
-                });
-              }
             }
           };
         </script>
