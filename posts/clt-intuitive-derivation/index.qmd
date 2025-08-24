@@ -19,16 +19,18 @@ The **Central Limit Theorem (CLT)** answers an important question: Why does the 
 
 ![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.webp){fig-alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."}
 
-But what makes the CLT so profound is its universality. It doesn't matter what the probability distribution of your initial random variable is. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. As long as you perform the experiment repeatedly and independently, the result is always the same.
+Specifically, the theorem describes what happens when you take a random variable, $X$, and repeat the experiment many times to get a series of outcomes, $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
 
-This is where the concept of **IID (Independent and Identically Distributed)** random variables comes in.
+For the magic to happen, the random variables must be **IID (Independent and Identically Distributed)**.
 
--   **Identically Distributed:** We're drawing from the same random process every time (e.g., rolling the *same* weird die).
 -   **Independent:** The outcome of one trial doesn't influence the next (the die has no memory).
+-   **Identically Distributed:** We're drawing from the same random process every time (e.g., rolling the *same* weird die).
 
-When these conditions are met, the CLT states that if you take a large number of these variables, $X_1, X_2, \dots, X_m$, the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) will converge to a perfect bell curve.
+When these conditions are met, the **Central Limit Theorem** states that the distribution of the sum (or average) will converge to a perfect bell curve.
 
-Think about it in practical terms:
+But what makes this so profound is its **universality**. It doesn't matter what the probability distribution of the original variable $X$ was. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. The result is always the same: after summing enough of them, the bell curve emerges.
+
+We see this everywhere:
 
 -   **Human Height:** The height of a single person is determined by a vast number of random factors: genetics, nutrition, environment, and so on. Each factor contributes a small amount, pushing the final height up or down. While the distribution of each individual factor is unknown and certainly not normal, their *sum* results in the classic bell-curve distribution of heights we see in the population.
 -   **Manufacturing:** The number of microscopic flaws in a single microchip might follow some random, unknown distribution. But the *total* number of flaws in a batch of 500 chips will, again, follow a bell curve, which is the foundation of statistical quality control.
