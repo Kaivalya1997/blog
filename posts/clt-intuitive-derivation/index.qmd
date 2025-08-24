@@ -10,10 +10,6 @@ highlight-style: github
 format:
   html:
     code-fold: false
-# Removed post-level mathjax override to use project-wide SVG config
-#    html-math-method: mathjax
-#    mathjax:
-#      url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
 draft: false
 ---
 
