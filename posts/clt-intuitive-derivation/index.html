@@ -310,14 +310,15 @@ window.Quarto = {
 <figcaption>The Normal Distribution, showing the 68-95-99.7 rule.</figcaption>
 </figure>
 </div>
-<p>But what makes the CLT so profound is its universality. It doesn’t matter what the probability distribution of your initial random variable is. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. As long as you perform the experiment repeatedly and independently, the result is always the same.</p>
-<p>This is where the concept of <strong>IID (Independent and Identically Distributed)</strong> random variables comes in.</p>
+<p>Specifically, the theorem describes what happens when you take a random variable, <span class="math inline">\(X\)</span>, and repeat the experiment many times to get a series of outcomes, <span class="math inline">\(X_1, X_2, \dots, X_m\)</span>. What does the distribution of their <strong>sum</strong> (<span class="math inline">\(S_m = X_1 + \dots + X_m\)</span>) or their <strong>average</strong> (<span class="math inline">\(\bar{X}_m = S_m/m\)</span>) look like when <span class="math inline">\(m\)</span> is very large?</p>
+<p>For the magic to happen, the random variables must be <strong>IID (Independent and Identically Distributed)</strong>.</p>
 <ul>
-<li><strong>Identically Distributed:</strong> We’re drawing from the same random process every time (e.g., rolling the <em>same</em> weird die).</li>
 <li><strong>Independent:</strong> The outcome of one trial doesn’t influence the next (the die has no memory).</li>
+<li><strong>Identically Distributed:</strong> We’re drawing from the same random process every time (e.g., rolling the <em>same</em> weird die).</li>
 </ul>
-<p>When these conditions are met, the CLT states that if you take a large number of these variables, <span class="math inline">\(X_1, X_2, \dots, X_m\)</span>, the distribution of their <strong>sum</strong> (<span class="math inline">\(S_m = X_1 + \dots + X_m\)</span>) or their <strong>average</strong> (<span class="math inline">\(\bar{X}_m = S_m/m\)</span>) will converge to a perfect bell curve.</p>
-<p>Think about it in practical terms:</p>
+<p>When these conditions are met, the <strong>Central Limit Theorem</strong> states that the distribution of the sum (or average) will converge to a perfect bell curve.</p>
+<p>But what makes this so profound is its <strong>universality</strong>. It doesn’t matter what the probability distribution of the original variable <span class="math inline">\(X\)</span> was. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. The result is always the same: after summing enough of them, the bell curve emerges.</p>
+<p>We see this everywhere:</p>
 <ul>
 <li><strong>Human Height:</strong> The height of a single person is determined by a vast number of random factors: genetics, nutrition, environment, and so on. Each factor contributes a small amount, pushing the final height up or down. While the distribution of each individual factor is unknown and certainly not normal, their <em>sum</em> results in the classic bell-curve distribution of heights we see in the population.</li>
 <li><strong>Manufacturing:</strong> The number of microscopic flaws in a single microchip might follow some random, unknown distribution. But the <em>total</em> number of flaws in a batch of 500 chips will, again, follow a bell curve, which is the foundation of statistical quality control.</li>
