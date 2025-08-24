@@ -186,19 +186,40 @@ pre code {
   font-size: 1.05em;
 }
 
-.math.inline {
-  padding: 0 0.2em;
+/* ==========================================================================
+   Corrected Math Overflow and Scrolling
+   ========================================================================== */
+
+/*
+ * This rule targets block-level (display) math equations.
+ * It allows them to scroll horizontally if they are too wide for the
+ * screen, and explicitly hides any vertical scrollbar.
+*/
+.math.display,
+mjx-container[display="true"] {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden; /* Explicitly disable vertical scroll */
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.25rem 0;
+  margin: 1.25rem 0;
 }
 
-.math.display {
+/*
+ * This rule targets inline math expressions. It allows long expressions
+ * to scroll horizontally but, crucially, `overflow-y: hidden` is included
+ * to prevent the unwanted vertical scrollbar from appearing on any
+ * inline symbols. This is the key fix for the issue you observed.
+*/
+.math.inline,
+mjx-container:not([display="true"]) {
+  display: inline-block;
+  max-width: 100%;
   overflow-x: auto;
-  overflow-y: hidden;
-  padding: 0;
-  background: transparent;
-  border-left: none;
-  border-radius: 0;
-  margin: 1.25rem 0;
-  box-shadow: none;
+  overflow-y: hidden; /* This is the key fix */
+  vertical-align: middle;
+  white-space: nowrap; /* Prevents long inline math from wrapping */
 }
 
 /* MathJax specific styling */
@@ -265,16 +286,6 @@ code .math, code .math *, code mjx-container, code mjx-container * {
 
 mjx-container[display="true"] mjx-math {
   padding: 0.5rem 1rem !important;
-}
-
-/* Inline math styling */
-mjx-container:not([display="true"]) {
-  padding: 0 0.05em !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-  color: inherit !important;
-  overflow-x: visible !important;
-  overflow-y: hidden !important;
 }
 
 /* Equation numbering */
