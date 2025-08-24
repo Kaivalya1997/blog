@@ -67,7 +67,6 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 h2 {
@@ -97,6 +96,7 @@ h3 {
   font-size: 1.3rem;
   background: var(--gradient-1);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -234,17 +234,11 @@ mjx-container, mjx-container * {
   pointer-events: auto!important;
   background: none !important;
   background-color: transparent!important;
-  -webkit-tap-highlight-color: transparent!important;
-  -moz-tap-highlight-color: transparent!important;
-  tap-highlight-color: transparent!important;
   outline: none!important;
 }
 
 /* Ensure the Quarto math wrapper also suppresses tap highlight */
 .math, .math *, code .math, code .math * {
-  -webkit-tap-highlight-color: transparent!important;
-  -moz-tap-highlight-color: transparent!important;
-  tap-highlight-color: transparent!important;
   background: none !important;
   background-color: transparent !important;
 }
@@ -944,16 +938,13 @@ mjx-container[display="true"]::-webkit-scrollbar-thumb:hover {
 
 /* Suppress tap highlight for MathJax SVG output as well */
 mjx-container svg, mjx-container svg * {
-  -webkit-tap-highlight-color: transparent !important;
-  -moz-tap-highlight-color: transparent !important;
-  tap-highlight-color: transparent !important;
   background: none !important;
   background-color: transparent !important;
 }
 
 /* Comprehensive fix for WebKit tap highlight on MathJax elements (v3 and legacy) */
 mjx-container, .MathJax {
-  -webkit-tap-highlight-color: transparent !important;
+  -webkit-tap-highlight-color: transparent !important; /* keep only the webkit-safe variant */
 }
 
 /* Callout boxes for important information */
@@ -1123,6 +1114,5 @@ mjx-container *,
 mjx-container svg,
 mjx-container svg * {
   -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
-  tap-highlight-color: rgba(0,0,0,0) !important;
   -webkit-touch-callout: none !important;
 }
