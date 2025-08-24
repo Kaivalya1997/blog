@@ -19,9 +19,21 @@ The **Central Limit Theorem (CLT)** answers an important question: Why does the 
 
 ![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.webp){fig-alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."}
 
-Specifically, if we take any random variable $X$ (like the outcome of a weird, lopsided die), and we repeat the experiment $m$ times to get independent results $X_1, X_2, \dots, X_m$, what does the probability distribution of their sum, $S_m = X_1 + \dots + X_m$, look like when $m$ is very large?
+But what makes the CLT so profound is its universality. It doesn't matter what the probability distribution of your initial random variable is. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. As long as you perform the experiment repeatedly and independently, the result is always the same.
 
-The CLT states that the probability distribution of this \emph{sum} $S_m$ will always look like a perfect bell curve, no matter how strange the original die was (as long as it has a well-defined average and spread). This derivation is a mathematical journey to see exactly why this universal shape magically appears.
+This is where the concept of **IID (Independent and Identically Distributed)** random variables comes in.
+
+-   **Identically Distributed:** We're drawing from the same random process every time (e.g., rolling the *same* weird die).
+-   **Independent:** The outcome of one trial doesn't influence the next (the die has no memory).
+
+When these conditions are met, the CLT states that if you take a large number of these variables, $X_1, X_2, \dots, X_m$, the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) will converge to a perfect bell curve.
+
+Think about it in practical terms:
+
+-   **Human Height:** The height of a single person is determined by a vast number of random factors: genetics, nutrition, environment, and so on. Each factor contributes a small amount, pushing the final height up or down. While the distribution of each individual factor is unknown and certainly not normal, their *sum* results in the classic bell-curve distribution of heights we see in the population.
+-   **Manufacturing:** The number of microscopic flaws in a single microchip might follow some random, unknown distribution. But the *total* number of flaws in a batch of 500 chips will, again, follow a bell curve, which is the foundation of statistical quality control.
+
+The individual randomness gets "averaged out," and a predictable, universal shape emerges. The final bell curve only cares about the mean and variance of the original die, completely forgetting all other details of its shape. This derivation is a mathematical journey to see exactly why this phenomenon occurs.
 
 ---
 
@@ -49,7 +61,7 @@ Why is this natural?
 -   **Labels, not powers:** The exponent $k$ is just a label for the outcome $X=k$. The polynomial is a fancy storage system where the coefficient of $z^k$ holds the probability of the outcome $k$.
 -   **Convolution by multiplication:** This is the killer feature. If $X$ and $Y$ are independent, the probability that $X+Y=n$ is found by summing over all pairs of outcomes that add to $n$: $\sum_k \Pr(X=k)\Pr(Y=n-k)$. This operation is called a **[convolution](https://en.wikipedia.org/wiki/Convolution)**. When you multiply the PGFs $H_X(z)$ and $H_Y(z)$, the rule for multiplying polynomials does *exactly the same calculation*. The coefficient of $z^n$ in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs:
     $$H_{X+Y}(z)=H_X(z)\,H_Y(z).$$
--   **From coins to dice:** For a biased coin where heads=1 and tails=0, with $\Pr(1)=p$, the PGF is $H(z) = (1-p)z^0 + pz^1$. For two flips, the PGF is $H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2$. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.
+-   **From coins to dice:** For a biased coin where heads $=1$ and tails $=0$, with $\Pr(1)=p$, the PGF is $H(z) = (1-p)z^0 + pz^1$. For two flips, the PGF is $H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2$. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.
 
 For distributions that can take negative integer values, the PGF becomes a **[Laurent series](https://en.wikipedia.org/wiki/Laurent_series)** with negative powers, like $H(z) = \sum_{k=-\infty}^{\infty} p_k z^k$. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!
 
@@ -119,9 +131,9 @@ Let's use the simplest and most convenient loop: the unit circle, parametrized b
 
 ![A diagram of the unit circle in the complex plane, showing $z = e^{i\theta}$.](images/unit-circle-contour.png){fig-alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis."}
 
--   The function is $f(z) = h(z)^m$.
--   The differential is $dz = i e^{i\theta} d\theta$.
--   The denominator is $z^{n+1} = (e^{i\theta})^{n+1} = e^{i(n+1)\theta}$.
+*   The function is $f(z) = h(z)^m$.
+*   The differential is $dz = i e^{i\theta} d\theta$.
+*   The denominator is $z^{n+1} = (e^{i\theta})^{n+1} = e^{i(n+1)\theta}$.
 
 Plugging these in, we get:
 $$
@@ -171,8 +183,27 @@ This is a key moment. In many academic books, the characteristic function is int
 So, we define $g(\theta) = \log \varphi_X(\theta) = \log h(e^{i\theta})$. Our integrand's exponent is now $m\, g(\theta) - in\theta$.
 
 ### **The Taylor Series and Cumulants**
-The Taylor series of $g(\theta) = \log \mathbb{E}[e^{i\theta X}]$ is special because its coefficients define the **[cumulants](https://en.wikipedia.org/wiki/Cumulant)** ($\kappa_j$) of our distribution. The **general formula** for the $j$-th cumulant is given by the $j$-th derivative of the log-generating function evaluated at the origin:
+The natural next step to approximate the integral is to expand the function $g(\theta)$ as a Taylor series. This immediately raises the crucial question: around which point should we center the expansion? As we will see, the entire success of the approximation hinges on choosing $\theta=0$.
 
+The rigorous answer for this choice lies in analyzing the magnitude of our integrand. The integral we must solve is $\frac{1}{2\pi} \int \varphi_X(\theta)^m e^{-in\theta} d\theta$. The dominant term that dictates the behavior of the integral for large $m$ is $\varphi_X(\theta)^m$. To analyze its magnitude, we use a key property of complex numbers: the magnitude of a number raised to a power is the magnitude of the number raised to that same power, i.e., $|z^n|=|z|^n$. Therefore, the magnitude of our term is simply $|\varphi_X(\theta)|^m$.
+
+Our first step is to prove that the magnitude of the characteristic function, $|\varphi_X(\theta)|$, is at most 1. The intuition for this comes from visualizing the sum of complex numbers as vector addition—since complex numbers add component-wise, just like vectors, the process can be seen as joining vectors tip-to-tail. The **triangle inequality** ($|\sum z_i| \le \sum |z_i|$) simply states that the length of the final resulting vector can never be greater than the sum of the lengths of all the individual vectors.
+
+By definition, $\varphi_X(\theta) = \sum_k p_k e^{ik\theta}$. Applying the triangle inequality:
+$$
+||\varphi_X(\theta)| = \left|\sum_k p_k e^{ik\theta}\right| \le \sum_k |p_k e^{ik\theta}| = \sum_k p_k |e^{ik\theta}|
+$$
+Since $|e^{ik\theta}|=1$ for any real $k$ and $\theta$, this simplifies to:
+$$
+||\varphi_X(\theta)| \le \sum_k p_k = 1
+$$
+The equality $|\varphi_X(\theta)|=1$ holds if and only if all the complex numbers $e^{ik\theta}$ (for which $p_k>0$) point in the same direction. For any non-trivial distribution (with at least two different outcomes), this only happens when $\theta=0$. At $\theta=0$, every term $e^{ik\cdot 0}$ is just 1. For any $\theta \neq 0$, the different values of $k$ cause the terms to have different phases, so they are no longer perfectly aligned, and the magnitude of their sum is strictly less than 1. This means that the function $|\varphi_X(\theta)|$ has a unique, global maximum value of 1 at precisely $\theta=0$.
+
+Now, consider what happens when we raise this to a large power, $m$. The peak at $\theta=0$, where the value is $1^m = 1$, remains. However, for any other value of $\theta$ where $|\varphi_X(\theta)| < 1$, the value of $|\varphi_X(\theta)|^m$ plummets towards zero exponentially fast as $m$ grows. For instance, if at some point the magnitude is 0.99, for $m=1000$ it becomes $0.99^{1000} \approx 4 \times 10^{-5}$.
+
+This creates an extremely sharp "spike" in the integrand's magnitude, centered at $\theta=0$. The result is that the only part of the integral that contributes significantly to the final value comes from an infinitesimally small neighborhood around $\theta=0$. The contributions from all other regions are exponentially suppressed and become negligible. Therefore, to accurately approximate the integral for large $m$, we *must* approximate the function $g(\theta)$ in this tiny, all-important region around the origin. The Taylor series is the fundamental mathematical tool for this. Expanding around $\theta=0$ is not a mere convenience; it is a mathematically necessary step.
+
+Now that we have rigorously established *why* we must expand around $\theta=0$, we can proceed. The Taylor series of $g(\theta) = \log \mathbb{E}[e^{i\theta X}]$ is special because its coefficients define the **[cumulants](https://en.wikipedia.org/wiki/Cumulant)** ($\kappa_j$) of our distribution. The **general formula** for the $j$-th cumulant is given by the $j$-th derivative of the log-generating function evaluated at the origin:
 $$
 \kappa_j = \frac{1}{i^j} \left. \frac{d^j}{d\theta^j} \, g(\theta) \right|_{\theta=0}.
 $$
