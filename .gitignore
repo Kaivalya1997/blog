@@ -1,9 +1,10 @@
 # Quarto
 /.quarto/
-.quarto-cache/
 /_site/
 /_book/
 /_freeze/
+/_extensions/
+/docs/
 
 # Python
 __pycache__/
@@ -16,7 +17,8 @@ venv/
 .venv
 
 # Jupyter
-.ipynb_checkpoints/
+.ipynb_checkpoints
+*.ipynb
 
 # IDE
 .vscode/
@@ -35,6 +37,8 @@ Thumbs.db
 # Dependencies
 node_modules/
 
+# Build outputs
+
 # Template and test posts
 posts/test-*
 posts/draft-*
@@ -42,3 +46,9 @@ posts/*_TEMPLATE*
 posts/*_EXAMPLE*
 
 **/*.quarto_ipynb
+
+# Quarto build files
+listings.json
+search.json
+sitemap.xml
+index-listing.json
