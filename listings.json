@@ -2,12 +2,14 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/vae-experiments/index.html",
       "/posts/clt-intuitive-derivation/index.html"
     ]
   },
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/vae-experiments/index.html",
       "/posts/clt-intuitive-derivation/index.html"
     ]
   }

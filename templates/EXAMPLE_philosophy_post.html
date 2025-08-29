@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>All Posts – KD’s Blog</title>
+<title>example_philosophy_post – KD's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6b14a356b2e972449ca94ca4dd8572f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ad6b6a17dfc676e765e84438f4457988.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6b14a356b2e972449ca94ca4dd8572f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ad6b6a17dfc676e765e84438f4457988.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,35 +68,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-subtitle','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -174,47 +143,18 @@ ul.task-list li input[type="checkbox"] {
   });
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">KD’s Blog</span>
     </a>
   </div>
@@ -225,11 +165,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -252,131 +192,103 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">All Posts</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page-left">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="QUk=">AI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R2VuZXJhdGl2ZSUyME1vZGVscw==">Generative Models <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWF0aGVtYXRpY3M=">Mathematics <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UHJvYmFiaWxpdHk=">Probability <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U3RhdGlzdGljcw==">Statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VmFyaWF0aW9uYWwlMjBJbmZlcmVuY2U=">Variational Inference <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#example-post-demonstrating-how-to-add-a-philosophy-topic" id="toc-example-post-demonstrating-how-to-add-a-philosophy-topic" class="nav-link active" data-scroll-target="#example-post-demonstrating-how-to-add-a-philosophy-topic">EXAMPLE POST: Demonstrating how to add a Philosophy topic</a></li>
+  <li><a href="#this-is-a-template---copy-to-postsphilosophy-aiindex.qmd-to-use" id="toc-this-is-a-template---copy-to-postsphilosophy-aiindex.qmd-to-use" class="nav-link" data-scroll-target="#this-is-a-template---copy-to-postsphilosophy-aiindex.qmd-to-use">This is a template - copy to posts/philosophy-ai/index.qmd to use</a></li>
+  <li><a href="#note-using-new-philosophy-category-alongside-ai" id="toc-note-using-new-philosophy-category-alongside-ai" class="nav-link" data-scroll-target="#note-using-new-philosophy-category-alongside-ai">Note: Using new “Philosophy” category alongside AI</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-classical-turing-test" id="toc-the-classical-turing-test" class="nav-link" data-scroll-target="#the-classical-turing-test">The Classical Turing Test</a></li>
+  <li><a href="#modern-perspectives" id="toc-modern-perspectives" class="nav-link" data-scroll-target="#modern-perspectives">Modern Perspectives</a>
+  <ul class="collapse">
+  <li><a href="#the-chinese-room-argument" id="toc-the-chinese-room-argument" class="nav-link" data-scroll-target="#the-chinese-room-argument">The Chinese Room Argument</a></li>
+  <li><a href="#consciousness-vs.-intelligence" id="toc-consciousness-vs.-intelligence" class="nav-link" data-scroll-target="#consciousness-vs.-intelligence">Consciousness vs.&nbsp;Intelligence</a></li>
+  </ul></li>
+  <li><a href="#implications-for-ai-development" id="toc-implications-for-ai-development" class="nav-link" data-scroll-target="#implications-for-ai-development">Implications for AI Development</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
-
-<section id="browse-all-articles" class="level2">
-<h2 class="anchored" data-anchor-id="browse-all-articles">Browse All Articles</h2>
-<p>Explore all blog posts below. Use the category filters and search to find specific topics.</p>
-
+<section id="example-post-demonstrating-how-to-add-a-philosophy-topic" class="level1">
+<h1>EXAMPLE POST: Demonstrating how to add a Philosophy topic</h1>
+</section>
+<section id="this-is-a-template---copy-to-postsphilosophy-aiindex.qmd-to-use" class="level1">
+<h1>This is a template - copy to posts/philosophy-ai/index.qmd to use</h1>
+<p>title: “Can Machines Think? Revisiting the Turing Test” subtitle: “Philosophical implications of AI consciousness and intelligence” author: “Kaivalya Dabhadkar” date: “2024-01-30”</p>
+</section>
+<section id="note-using-new-philosophy-category-alongside-ai" class="level1">
+<h1>Note: Using new “Philosophy” category alongside AI</h1>
+<p>categories: [Philosophy, AI, Consciousness, AI Ethics]</p>
+<p>image: “thinking-machine.jpg” draft: true # Set to false when ready to publish toc: true number-sections: true highlight-style: github</p>
+<p>format: html: code-fold: true code-summary: “Show code” —</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Alan Turing’s famous question “Can machines think?” has evolved from a theoretical curiosity to an urgent practical concern as AI systems become increasingly sophisticated. This post explores the philosophical implications of machine consciousness.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Central Question
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a machine can perfectly simulate human responses, does the distinction between simulation and genuine understanding matter?</p>
+</div>
+</div>
+</section>
+<section id="the-classical-turing-test" class="level2">
+<h2 class="anchored" data-anchor-id="the-classical-turing-test">The Classical Turing Test</h2>
+<p>In 1950, Turing proposed the “Imitation Game” as a practical test for machine intelligence…</p>
+</section>
+<section id="modern-perspectives" class="level2">
+<h2 class="anchored" data-anchor-id="modern-perspectives">Modern Perspectives</h2>
+<section id="the-chinese-room-argument" class="level3">
+<h3 class="anchored" data-anchor-id="the-chinese-room-argument">The Chinese Room Argument</h3>
+<p>John Searle’s thought experiment challenges the notion that syntax can give rise to semantics…</p>
+</section>
+<section id="consciousness-vs.-intelligence" class="level3">
+<h3 class="anchored" data-anchor-id="consciousness-vs.-intelligence">Consciousness vs.&nbsp;Intelligence</h3>
+<p>The distinction between functional intelligence and phenomenal consciousness…</p>
+</section>
+</section>
+<section id="implications-for-ai-development" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-ai-development">Implications for AI Development</h2>
+<p>As we develop more sophisticated AI systems, these philosophical questions become practical concerns…</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The question of machine consciousness remains open, but its exploration reveals deep insights about the nature of mind itself.</p>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<ul>
+<li>Turing, A. (1950). “Computing Machinery and Intelligence”</li>
+<li>Searle, J. (1980). “Minds, Brains, and Programs”</li>
+<li>Chalmers, D. (1995). “Facing Up to the Problem of Consciousness”</li>
+</ul>
 
 
 </section>
+</section>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-date-sort" data-direction="asc">
-        Date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        Date - Newest
-      </option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
-    </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="QUklMkNEZWVwJTIwTGVhcm5pbmclMkNWYXJpYXRpb25hbCUyMEluZmVyZW5jZSUyQ0dlbmVyYXRpdmUlMjBNb2RlbHMlMkNNYXRoZW1hdGljcw==" data-listing-date-sort="1757030400000" data-listing-file-modified-sort="1756494649238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7306">
-<a href="./posts/vae-experiments/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A Rigorous Deep Dive into a Power-Basis Cubic VAE
-</h5>
-<div class="card-subtitle listing-subtitle">
-From First Principles to a VAE Implementation: The Surprising Complexity of a Simple Idea
-</div>
-<div class="listing-reading-time card-text text-muted">37 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('QUk='); return false;">AI</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('VmFyaWF0aW9uYWwlMjBJbmZlcmVuY2U='); return false;">Variational Inference</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('R2VuZXJhdGl2ZSUyME1vZGVscw=='); return false;">Generative Models</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWF0aGVtYXRpY3M='); return false;">Mathematics</div>
-
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 5, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="TWF0aGVtYXRpY3MlMkNQcm9iYWJpbGl0eSUyQ1N0YXRpc3RpY3M=" data-listing-date-sort="1755907200000" data-listing-file-modified-sort="1756494649238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4508">
-<a href="./posts/clt-intuitive-derivation/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/clt-intuitive-derivation/images/normal_distribution.webp" alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3." style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-The Bell Curve rising: An Intuitive CLT Derivation
-</h5>
-<div class="card-subtitle listing-subtitle">
-From generating functions to the Gaussian integral, step by step
-</div>
-<div class="listing-reading-time card-text text-muted">23 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWF0aGVtYXRpY3M='); return false;">Mathematics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHJvYmFiaWxpdHk='); return false;">Probability</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('U3RhdGlzdGljcw=='); return false;">Statistics</div>
-
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Aug 23, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -803,5 +715,5 @@ Aug 23, 2025
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>All Posts – KD’s Blog</title>
+<title>post_template – KD's Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,29 +20,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-6b14a356b2e972449ca94ca4dd8572f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ad6b6a17dfc676e765e84438f4457988.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6b14a356b2e972449ca94ca4dd8572f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ad6b6a17dfc676e765e84438f4457988.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,35 +103,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-image','listing-date','listing-title','listing-subtitle','listing-categories','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -204,17 +208,17 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">KD’s Blog</span>
     </a>
   </div>
@@ -225,11 +229,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -252,131 +256,286 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">All Posts</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta column-page-left">
-
-      
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="QUk=">AI <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGVlcCUyMExlYXJuaW5n">Deep Learning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R2VuZXJhdGl2ZSUyME1vZGVscw==">Generative Models <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWF0aGVtYXRpY3M=">Mathematics <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UHJvYmFiaWxpdHk=">Probability <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U3RhdGlzdGljcw==">Statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VmFyaWF0aW9uYWwlMjBJbmZlcmVuY2U=">Variational Inference <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#post-metadata" id="toc-post-metadata" class="nav-link active" data-scroll-target="#post-metadata">=== POST METADATA ===</a></li>
+  <li><a href="#update-all-fields-below-for-your-post" id="toc-update-all-fields-below-for-your-post" class="nav-link" data-scroll-target="#update-all-fields-below-for-your-post">Update all fields below for your post</a></li>
+  <li><a href="#categories" id="toc-categories" class="nav-link" data-scroll-target="#categories">=== CATEGORIES ===</a></li>
+  <li><a href="#choose-relevant-categories-from-existing-ones-or-create-new" id="toc-choose-relevant-categories-from-existing-ones-or-create-new" class="nav-link" data-scroll-target="#choose-relevant-categories-from-existing-ones-or-create-new">Choose relevant categories from existing ones or create new</a></li>
+  <li><a href="#common-categories-mathematics-ai-machine-learning-deep-learning" id="toc-common-categories-mathematics-ai-machine-learning-deep-learning" class="nav-link" data-scroll-target="#common-categories-mathematics-ai-machine-learning-deep-learning">Common categories: Mathematics, AI, Machine Learning, Deep Learning,</a></li>
+  <li><a href="#signal-processing-applied-math-statistics-algorithms" id="toc-signal-processing-applied-math-statistics-algorithms" class="nav-link" data-scroll-target="#signal-processing-applied-math-statistics-algorithms">Signal Processing, Applied Math, Statistics, Algorithms</a></li>
+  <li><a href="#new-topic-examples-philosophy-history-physics-creative-coding" id="toc-new-topic-examples-philosophy-history-physics-creative-coding" class="nav-link" data-scroll-target="#new-topic-examples-philosophy-history-physics-creative-coding">New topic examples: Philosophy, History, Physics, Creative Coding</a></li>
+  <li><a href="#optional-settings" id="toc-optional-settings" class="nav-link" data-scroll-target="#optional-settings">=== OPTIONAL SETTINGS ===</a></li>
+  <li><a href="#format-options" id="toc-format-options" class="nav-link" data-scroll-target="#format-options">=== FORMAT OPTIONS ===</a></li>
+  <li><a href="#code-execution" id="toc-code-execution" class="nav-link" data-scroll-target="#code-execution">=== CODE EXECUTION ===</a>
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#main-content" id="toc-main-content" class="nav-link" data-scroll-target="#main-content">Main Content</a>
+  <ul class="collapse">
+  <li><a href="#subsection-1" id="toc-subsection-1" class="nav-link" data-scroll-target="#subsection-1">Subsection 1</a></li>
+  <li><a href="#including-mathematics" id="toc-including-mathematics" class="nav-link" data-scroll-target="#including-mathematics">Including Mathematics</a></li>
+  <li><a href="#including-code" id="toc-including-code" class="nav-link" data-scroll-target="#including-code">Including Code</a></li>
+  <li><a href="#adding-images" id="toc-adding-images" class="nav-link" data-scroll-target="#adding-images">Adding Images</a></li>
+  <li><a href="#using-callouts" id="toc-using-callouts" class="nav-link" data-scroll-target="#using-callouts">Using Callouts</a></li>
+  </ul></li>
+  <li><a href="#practical-applications" id="toc-practical-applications" class="nav-link" data-scroll-target="#practical-applications">Practical Applications</a></li>
+  <li><a href="#interactive-examples" id="toc-interactive-examples" class="nav-link" data-scroll-target="#interactive-examples">Interactive Examples</a></li>
+  <li><a href="#advanced-topics" id="toc-advanced-topics" class="nav-link" data-scroll-target="#advanced-topics">Advanced Topics</a>
+  <ul class="collapse">
+  <li><a href="#going-deeper" id="toc-going-deeper" class="nav-link" data-scroll-target="#going-deeper">Going Deeper</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further Reading</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
+<section id="post-metadata" class="level1">
+<h1>=== POST METADATA ===</h1>
+</section>
+<section id="update-all-fields-below-for-your-post" class="level1">
+<h1>Update all fields below for your post</h1>
+<p>title: “Your Post Title Here” subtitle: “A compelling subtitle that expands on the main title” author: “Kaivalya Dabhadkar” # Change to your name date: “2024-01-25” # Format: YYYY-MM-DD</p>
+</section>
+<section id="categories" class="level1">
+<h1>=== CATEGORIES ===</h1>
+</section>
+<section id="choose-relevant-categories-from-existing-ones-or-create-new" class="level1">
+<h1>Choose relevant categories from existing ones or create new</h1>
+</section>
+<section id="common-categories-mathematics-ai-machine-learning-deep-learning" class="level1">
+<h1>Common categories: Mathematics, AI, Machine Learning, Deep Learning,</h1>
+</section>
+<section id="signal-processing-applied-math-statistics-algorithms" class="level1">
+<h1>Signal Processing, Applied Math, Statistics, Algorithms</h1>
+</section>
+<section id="new-topic-examples-philosophy-history-physics-creative-coding" class="level1">
+<h1>New topic examples: Philosophy, History, Physics, Creative Coding</h1>
+<p>categories: [Primary Category, Secondary Category, Optional Third]</p>
+</section>
+<section id="optional-settings" class="level1">
+<h1>=== OPTIONAL SETTINGS ===</h1>
+<p>image: “thumbnail.jpg” # Optional: Add image to post directory draft: false # Set to true to hide from listings while writing toc: true # Table of contents number-sections: true # Number the sections (1.1, 1.2, etc.) highlight-style: github # Code syntax highlighting theme</p>
+</section>
+<section id="format-options" class="level1">
+<h1>=== FORMAT OPTIONS ===</h1>
+<p>format: html: code-fold: true # Allow code folding code-summary: “Show code” html-math-method: mathjax # For math rendering mathjax: url: “https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js”</p>
+</section>
+<section id="code-execution" class="level1">
+<h1>=== CODE EXECUTION ===</h1>
+<p>execute: echo: true # Show code warning: false # Hide warnings eval: false # Set to true if you want code to actually run —</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<!-- Start with a compelling hook that draws readers in -->
+<p>Begin your post with an engaging introduction that explains what the reader will learn and why it matters.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Insight
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Highlight the main takeaway or insight of your post here.</p>
+</div>
+</div>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<!-- Provide necessary context and background -->
+<p>Give readers the foundation they need to understand your main content.</p>
+</section>
+<section id="main-content" class="level2">
+<h2 class="anchored" data-anchor-id="main-content">Main Content</h2>
+<section id="subsection-1" class="level3">
+<h3 class="anchored" data-anchor-id="subsection-1">Subsection 1</h3>
+<p>Your main content goes here. Remember to: - Use clear, concise language - Break up long paragraphs - Include examples</p>
+</section>
+<section id="including-mathematics" class="level3">
+<h3 class="anchored" data-anchor-id="including-mathematics">Including Mathematics</h3>
+<p>For inline math, use: <span class="math inline">\(e^{i\pi} + 1 = 0\)</span></p>
+<p>For display equations: <span class="math display">\[
+f(x) = \int_{-\infty}^{\infty} g(t) e^{-ixt} dt
+\]</span></p>
+</section>
+<section id="including-code" class="level3">
+<h3 class="anchored" data-anchor-id="including-code">Including Code</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python code example</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> example_function(x):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">    Document your functions clearly</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">**</span> <span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the function</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> example_function(<span class="dv">5</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Result: </span><span class="sc">{</span>result<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="adding-images" class="level3">
+<h3 class="anchored" data-anchor-id="adding-images">Adding Images</h3>
+<!-- Place images in your post directory -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="image.jpg" class="img-fluid figure-img"></p>
+<figcaption>Image caption here</figcaption>
+</figure>
+</div>
+</section>
+<section id="using-callouts" class="level3">
+<h3 class="anchored" data-anchor-id="using-callouts">Using Callouts</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pro Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use callouts to highlight important information.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Alert readers to potential pitfalls.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Emphasize crucial concepts.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="practical-applications" class="level2">
+<h2 class="anchored" data-anchor-id="practical-applications">Practical Applications</h2>
+<!-- Show real-world uses of the concept -->
+<p>Demonstrate how the concepts apply in practice.</p>
+</section>
+<section id="interactive-examples" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-examples">Interactive Examples</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If execute.eval is true, this code will run</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create visualization</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi, <span class="dv">100</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Sine Wave'</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'sin(x)'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="advanced-topics" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-topics">Advanced Topics</h2>
+<section id="going-deeper" class="level3">
+<h3 class="anchored" data-anchor-id="going-deeper">Going Deeper</h3>
+<p>For readers who want to explore further, provide advanced content or extensions.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Summarize the key points and provide a satisfying conclusion to your post.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Takeaway
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reinforce the main message of your post.</p>
+</div>
+</div>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further Reading</h2>
+<ul>
+<li><strong>Book/Paper 1</strong>: Brief description</li>
+<li><strong>Book/Paper 2</strong>: Brief description</li>
+<li><strong>Online Resource</strong>: <a href="https://example.com">Link text</a></li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Author, A. (2024). <em>Title of Work</em>. Publisher.</li>
+<li>Author, B. (2023). Title of article. <em>Journal Name</em>, 10(2), 123-145.</li>
+</ol>
+<!-- 
+## WRITING TIPS:
 
-<section id="browse-all-articles" class="level2">
-<h2 class="anchored" data-anchor-id="browse-all-articles">Browse All Articles</h2>
-<p>Explore all blog posts below. Use the category filters and search to find specific topics.</p>
+1. **Title**: Make it compelling and SEO-friendly
+2. **Introduction**: Hook readers in the first paragraph
+3. **Structure**: Use headers to break up content
+4. **Examples**: Include concrete examples
+5. **Visuals**: Add diagrams, plots, or images
+6. **Code**: Make code examples runnable and well-commented
+7. **Math**: Explain equations, don't just show them
+8. **Conclusion**: Summarize key points
+9. **References**: Cite your sources
 
+## CATEGORIES GUIDE:
+
+### For Math Posts:
+categories: [Mathematics, Linear Algebra, Analysis]
+categories: [Mathematics, Topology, Geometry]
+
+### For AI/ML Posts:
+categories: [AI, Deep Learning, Neural Networks]
+categories: [Machine Learning, Statistics, Algorithms]
+
+### For New Topics:
+categories: [Philosophy, AI Ethics, Consciousness]
+categories: [History, History of Mathematics, Biographies]
+categories: [Physics, Quantum Computing, Mechanics]
+categories: [Creative Coding, Generative Art, Visualization]
+-->
 
 
 </section>
+</section>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-date-sort" data-direction="asc">
-        Date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        Date - Newest
-      </option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
-    </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
-    </div>
-</div>
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="QUklMkNEZWVwJTIwTGVhcm5pbmclMkNWYXJpYXRpb25hbCUyMEluZmVyZW5jZSUyQ0dlbmVyYXRpdmUlMjBNb2RlbHMlMkNNYXRoZW1hdGljcw==" data-listing-date-sort="1757030400000" data-listing-file-modified-sort="1756494649238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7306">
-<a href="./posts/vae-experiments/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A Rigorous Deep Dive into a Power-Basis Cubic VAE
-</h5>
-<div class="card-subtitle listing-subtitle">
-From First Principles to a VAE Implementation: The Surprising Complexity of a Simple Idea
-</div>
-<div class="listing-reading-time card-text text-muted">37 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('QUk='); return false;">AI</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGVlcCUyMExlYXJuaW5n'); return false;">Deep Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('VmFyaWF0aW9uYWwlMjBJbmZlcmVuY2U='); return false;">Variational Inference</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('R2VuZXJhdGl2ZSUyME1vZGVscw=='); return false;">Generative Models</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWF0aGVtYXRpY3M='); return false;">Mathematics</div>
-
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Sep 5, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="TWF0aGVtYXRpY3MlMkNQcm9iYWJpbGl0eSUyQ1N0YXRpc3RpY3M=" data-listing-date-sort="1755907200000" data-listing-file-modified-sort="1756494649238" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4508">
-<a href="./posts/clt-intuitive-derivation/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/clt-intuitive-derivation/images/normal_distribution.webp" alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3." style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-The Bell Curve rising: An Intuitive CLT Derivation
-</h5>
-<div class="card-subtitle listing-subtitle">
-From generating functions to the Gaussian integral, step by step
-</div>
-<div class="listing-reading-time card-text text-muted">23 min</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWF0aGVtYXRpY3M='); return false;">Mathematics</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('UHJvYmFiaWxpdHk='); return false;">Probability</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('U3RhdGlzdGljcw=='); return false;">Statistics</div>
-
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Aug 23, 2025
-</div>
-</div>
-</div>
-</div></a>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -803,5 +962,5 @@ Aug 23, 2025
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
