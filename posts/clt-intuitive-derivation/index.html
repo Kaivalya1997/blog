@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.33">
+<meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -39,10 +39,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-75b0a601fc0641b374d67df79b4f175a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9346ad716792c6ea4a70ecb1c093ba3a.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4dac09544dd2dff9b4013f9f189d5bb5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-8a9848f8d79b2d254ead83ae78069bc9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -86,10 +86,20 @@ ul.task-list li input[type="checkbox"] {
       tags: 'ams'
     },
     options: {
-      processHtmlClass: 'tex2jax_process|mathjax_process|math|output'
+      processHtmlClass: 'tex2jax_process|mathjax_process|math|output',
+      enableExplorer: false
     },
     svg: {
-      fontCache: 'global'
+      fontCache: 'global',
+      scale: 1,
+      minScale: 0.5,
+      mtextInheritFont: false,
+      merrorInheritFont: true,
+      mathmlSpacing: false,
+      skipAttributes: {},
+      exFactor: 0.5,
+      displayAlign: 'center',
+      displayIndent: '0'
     }
   };
 </script>
@@ -300,8 +310,20 @@ window.Quarto = {
 <figcaption>The Normal Distribution, showing the 68-95-99.7 rule.</figcaption>
 </figure>
 </div>
-<p>Specifically, if we take any random variable <span class="math inline">\(X\)</span> (like the outcome of a weird, lopsided die), and we repeat the experiment <span class="math inline">\(m\)</span> times to get independent results <span class="math inline">\(X_1, X_2, \dots, X_m\)</span>, what does the probability distribution of their sum, <span class="math inline">\(S_m = X_1 + \dots + X_m\)</span>, look like when <span class="math inline">\(m\)</span> is very large?</p>
-<p>The CLT states that the probability distribution of this <span class="math inline">\(S_m\)</span> will always look like a perfect bell curve, no matter how strange the original die was (as long as it has a well-defined average and spread). This derivation is a mathematical journey to see exactly why this universal shape magically appears.</p>
+<p>Specifically, the theorem describes what happens when you take a random variable, <span class="math inline">\(X\)</span>, and repeat the experiment many times to get a series of outcomes, <span class="math inline">\(X_1, X_2, \dots, X_m\)</span>. What does the distribution of their <strong>sum</strong> (<span class="math inline">\(S_m = X_1 + \dots + X_m\)</span>) or their <strong>average</strong> (<span class="math inline">\(\bar{X}_m = S_m/m\)</span>) look like when <span class="math inline">\(m\)</span> is very large?</p>
+<p>For the magic to happen, the random variables must be <strong>IID (Independent and Identically Distributed)</strong>.</p>
+<ul>
+<li><strong>Independent:</strong> The outcome of one trial doesn’t influence the next (the die has no memory).</li>
+<li><strong>Identically Distributed:</strong> We’re drawing from the same random process every time (e.g., rolling the <em>same</em> weird die).</li>
+</ul>
+<p>When these conditions are met, the <strong>Central Limit Theorem</strong> states that the distribution of the sum (or average) will converge to a perfect bell curve.</p>
+<p>But what makes this so profound is its <strong>universality</strong>. It doesn’t matter what the probability distribution of the original variable <span class="math inline">\(X\)</span> was. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. The result is always the same: after summing enough of them, the bell curve emerges.</p>
+<p>We see this everywhere:</p>
+<ul>
+<li><strong>Human Height:</strong> The height of a single person is determined by a vast number of random factors: genetics, nutrition, environment, and so on. Each factor contributes a small amount, pushing the final height up or down. While the distribution of each individual factor is unknown and certainly not normal, their <em>sum</em> results in the classic bell-curve distribution of heights we see in the population.</li>
+<li><strong>Manufacturing:</strong> The number of microscopic flaws in a single microchip might follow some random, unknown distribution. But the <em>total</em> number of flaws in a batch of 500 chips will, again, follow a bell curve, which is the foundation of statistical quality control.</li>
+</ul>
+<p>The individual randomness gets “averaged out,” and a predictable, universal shape emerges. The final bell curve only cares about the mean and variance of the original die, completely forgetting all other details of its shape. This derivation is a mathematical journey to see exactly why this phenomenon occurs.</p>
 <hr>
 </section>
 <section id="encoding-probabilities-the-pgf" class="level2">
@@ -322,7 +344,7 @@ window.Quarto = {
 <ul>
 <li><strong>Labels, not powers:</strong> The exponent <span class="math inline">\(k\)</span> is just a label for the outcome <span class="math inline">\(X=k\)</span>. The polynomial is a fancy storage system where the coefficient of <span class="math inline">\(z^k\)</span> holds the probability of the outcome <span class="math inline">\(k\)</span>.</li>
 <li><strong>Convolution by multiplication:</strong> This is the killer feature. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, the probability that <span class="math inline">\(X+Y=n\)</span> is found by summing over all pairs of outcomes that add to <span class="math inline">\(n\)</span>: <span class="math inline">\(\sum_k \Pr(X=k)\Pr(Y=n-k)\)</span>. This operation is called a <strong><a href="https://en.wikipedia.org/wiki/Convolution">convolution</a></strong>. When you multiply the PGFs <span class="math inline">\(H_X(z)\)</span> and <span class="math inline">\(H_Y(z)\)</span>, the rule for multiplying polynomials does <em>exactly the same calculation</em>. The coefficient of <span class="math inline">\(z^n\)</span> in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs: <span class="math display">\[H_{X+Y}(z)=H_X(z)\,H_Y(z).\]</span></li>
-<li><strong>From coins to dice:</strong> For a biased coin where heads=1 and tails=0, with <span class="math inline">\(\Pr(1)=p\)</span>, the PGF is <span class="math inline">\(H(z) = (1-p)z^0 + pz^1\)</span>. For two flips, the PGF is <span class="math inline">\(H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2\)</span>. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.</li>
+<li><strong>From coins to dice:</strong> For a biased coin where heads <span class="math inline">\(=1\)</span> and tails <span class="math inline">\(=0\)</span>, with <span class="math inline">\(\Pr(1)=p\)</span>, the PGF is <span class="math inline">\(H(z) = (1-p)z^0 + pz^1\)</span>. For two flips, the PGF is <span class="math inline">\(H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2\)</span>. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.</li>
 </ul>
 <p>For distributions that can take negative integer values, the PGF becomes a <strong><a href="https://en.wikipedia.org/wiki/Laurent_series">Laurent series</a></strong> with negative powers, like <span class="math inline">\(H(z) = \sum_{k=-\infty}^{\infty} p_k z^k\)</span>. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!</p>
 <p>For a standard fair die, the outcomes are <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>, each with probability <span class="math inline">\(\tfrac{1}{6}\)</span>. The blueprint function is: <span class="math display">\[
@@ -342,8 +364,8 @@ h(z) = \frac{1}{6}z^1 + \frac{1}{6}z^2 + \frac{1}{6}z^3 + \frac{1}{6}z^4 + \frac
 <section id="a-worked-example-three-dice" class="level4">
 <h4 class="anchored" data-anchor-id="a-worked-example-three-dice">A worked example (three dice)</h4>
 <p>Let <span class="math inline">\(h(z)=\tfrac{1}{6}(z+z^2+z^3+z^4+z^5+z^6)\)</span>. For three dice, <span class="math display">\[
-[z^9]h(z)^3 = \sum_{a+b+c=9} \tfrac{1}{6^3}\,1 = \frac{10}{216},
-\]</span> where the <span class="math inline">\(10\)</span> solutions <span class="math inline">\((a,b,c)\in\{1,\dots,6\}^3\)</span> with <span class="math inline">\(a+b+c=9\)</span> are counted by simple stars-and-bars with bounds (or by direct enumeration). This matches the usual table of sums for three dice.</p>
+[z^9]h(z)^3 = \sum_{a+b+c=9} \tfrac{1}{6^3}\,1 = \frac{25}{216},
+\]</span> where the <span class="math inline">\(25\)</span> solutions <span class="math inline">\((a,b,c)\in\{1,\dots,6\}^3\)</span> with <span class="math inline">\(a+b+c=9\)</span> are counted by simple stars-and-bars with bounds (or by direct enumeration). This matches the usual table of sums for three dice.</p>
 </section>
 <section id="notation-the-coefficient-operator" class="level4">
 <h4 class="anchored" data-anchor-id="notation-the-coefficient-operator">Notation: the coefficient operator</h4>
@@ -419,8 +441,17 @@ h(e^{i\theta}) = \mathbb{E}[e^{i\theta X}]
 </section>
 <section id="the-taylor-series-and-cumulants" class="level3">
 <h3 class="anchored" data-anchor-id="the-taylor-series-and-cumulants"><strong>The Taylor Series and Cumulants</strong></h3>
-<p>The Taylor series of <span class="math inline">\(g(\theta) = \log \mathbb{E}[e^{i\theta X}]\)</span> is special because its coefficients define the <strong><a href="https://en.wikipedia.org/wiki/Cumulant">cumulants</a></strong> (<span class="math inline">\(\kappa_j\)</span>) of our distribution. The <strong>general formula</strong> for the <span class="math inline">\(j\)</span>-th cumulant is given by the <span class="math inline">\(j\)</span>-th derivative of the log-generating function evaluated at the origin:</p>
-<p><span class="math display">\[
+<p>The natural next step to approximate the integral is to expand the function <span class="math inline">\(g(\theta)\)</span> as a Taylor series. This immediately raises the crucial question: around which point should we center the expansion? As we will see, the entire success of the approximation hinges on choosing <span class="math inline">\(\theta=0\)</span>.</p>
+<p>The rigorous answer for this choice lies in analyzing the magnitude of our integrand. The integral we must solve is <span class="math inline">\(\frac{1}{2\pi} \int \varphi_X(\theta)^m e^{-in\theta} d\theta\)</span>. The dominant term that dictates the behavior of the integral for large <span class="math inline">\(m\)</span> is <span class="math inline">\(\varphi_X(\theta)^m\)</span>. To analyze its magnitude, we use a key property of complex numbers: the magnitude of a number raised to a power is the magnitude of the number raised to that same power, i.e., <span class="math inline">\(|z^n|=|z|^n\)</span>. Therefore, the magnitude of our term is simply <span class="math inline">\(|\varphi_X(\theta)|^m\)</span>.</p>
+<p>Our first step is to prove that the magnitude of the characteristic function, <span class="math inline">\(|\varphi_X(\theta)|\)</span>, is at most 1. The intuition for this comes from visualizing the sum of complex numbers as vector addition—since complex numbers add component-wise, just like vectors, the process can be seen as joining vectors tip-to-tail. The <strong>triangle inequality</strong> (<span class="math inline">\(|\sum z_i| \le \sum |z_i|\)</span>) simply states that the length of the final resulting vector can never be greater than the sum of the lengths of all the individual vectors.</p>
+<p>By definition, <span class="math inline">\(\varphi_X(\theta) = \sum_k p_k e^{ik\theta}\)</span>. Applying the triangle inequality: <span class="math display">\[
+||\varphi_X(\theta)| = \left|\sum_k p_k e^{ik\theta}\right| \le \sum_k |p_k e^{ik\theta}| = \sum_k p_k |e^{ik\theta}|
+\]</span> Since <span class="math inline">\(|e^{ik\theta}|=1\)</span> for any real <span class="math inline">\(k\)</span> and <span class="math inline">\(\theta\)</span>, this simplifies to: <span class="math display">\[
+||\varphi_X(\theta)| \le \sum_k p_k = 1
+\]</span> The equality <span class="math inline">\(|\varphi_X(\theta)|=1\)</span> holds if and only if all the complex numbers <span class="math inline">\(e^{ik\theta}\)</span> (for which <span class="math inline">\(p_k&gt;0\)</span>) point in the same direction. For any non-trivial distribution (with at least two different outcomes), this only happens when <span class="math inline">\(\theta=0\)</span>. At <span class="math inline">\(\theta=0\)</span>, every term <span class="math inline">\(e^{ik\cdot 0}\)</span> is just 1. For any <span class="math inline">\(\theta \neq 0\)</span>, the different values of <span class="math inline">\(k\)</span> cause the terms to have different phases, so they are no longer perfectly aligned, and the magnitude of their sum is strictly less than 1. This means that the function <span class="math inline">\(|\varphi_X(\theta)|\)</span> has a unique, global maximum value of 1 at precisely <span class="math inline">\(\theta=0\)</span>.</p>
+<p>Now, consider what happens when we raise this to a large power, <span class="math inline">\(m\)</span>. The peak at <span class="math inline">\(\theta=0\)</span>, where the value is <span class="math inline">\(1^m = 1\)</span>, remains. However, for any other value of <span class="math inline">\(\theta\)</span> where <span class="math inline">\(|\varphi_X(\theta)| &lt; 1\)</span>, the value of <span class="math inline">\(|\varphi_X(\theta)|^m\)</span> plummets towards zero exponentially fast as <span class="math inline">\(m\)</span> grows. For instance, if at some point the magnitude is 0.99, for <span class="math inline">\(m=1000\)</span> it becomes <span class="math inline">\(0.99^{1000} \approx 4 \times 10^{-5}\)</span>.</p>
+<p>This creates an extremely sharp “spike” in the integrand’s magnitude, centered at <span class="math inline">\(\theta=0\)</span>. The result is that the only part of the integral that contributes significantly to the final value comes from an infinitesimally small neighborhood around <span class="math inline">\(\theta=0\)</span>. The contributions from all other regions are exponentially suppressed and become negligible. Therefore, to accurately approximate the integral for large <span class="math inline">\(m\)</span>, we <em>must</em> approximate the function <span class="math inline">\(g(\theta)\)</span> in this tiny, all-important region around the origin. The Taylor series is the fundamental mathematical tool for this. Expanding around <span class="math inline">\(\theta=0\)</span> is not a mere convenience; it is a mathematically necessary step.</p>
+<p>Now that we have rigorously established <em>why</em> we must expand around <span class="math inline">\(\theta=0\)</span>, we can proceed. The Taylor series of <span class="math inline">\(g(\theta) = \log \mathbb{E}[e^{i\theta X}]\)</span> is special because its coefficients define the <strong><a href="https://en.wikipedia.org/wiki/Cumulant">cumulants</a></strong> (<span class="math inline">\(\kappa_j\)</span>) of our distribution. The <strong>general formula</strong> for the <span class="math inline">\(j\)</span>-th cumulant is given by the <span class="math inline">\(j\)</span>-th derivative of the log-generating function evaluated at the origin: <span class="math display">\[
 \kappa_j = \frac{1}{i^j} \left. \frac{d^j}{d\theta^j} \, g(\theta) \right|_{\theta=0}.
 \]</span></p>
 <p>These cumulants are the distribution’s fundamental properties:</p>
@@ -458,8 +489,14 @@ m\left(i\mu\,\theta - \frac{\sigma^2}{2}\,\theta^2 - \dots\right) - i(m\mu + x\s
 </section>
 <section id="the-mathematical-microscope" class="level3">
 <h3 class="anchored" data-anchor-id="the-mathematical-microscope">The Mathematical Microscope</h3>
-<p>The expression is still complicated. But we know that for large <span class="math inline">\(m\)</span>, the probability distribution for <span class="math inline">\(S_m\)</span> gets wider. The Taylor series for <span class="math inline">\(g(\theta)\)</span> is only accurate for small <span class="math inline">\(\theta\)</span>. The brilliant next step is to realize these two effects must balance. We need a change of variables that zooms in on the origin <span class="math inline">\(\theta=0\)</span> at just the right rate to keep the picture stable.</p>
-<p>This zoom level is <span class="math inline">\(\theta = u/\sqrt{m}\)</span>. Let’s see why it’s perfect by examining each term in the exponent:</p>
+<p>Our exponent, <span class="math inline">\(-m\frac{\sigma^2}{2}\theta^2 - ix\sigma\sqrt{m}\theta - m\left(i\frac{\kappa_3}{6}\theta^3 + \dots\right)\)</span>, still looks complicated. The key to simplifying it is to understand the behavior for large <span class="math inline">\(m\)</span>.</p>
+<p>The term <span class="math inline">\(e^{-m\frac{\sigma^2}{2}\theta^2}\)</span> acts as a Gaussian “envelope” that rapidly decays to zero as <span class="math inline">\(\theta\)</span> moves away from the origin. As <span class="math inline">\(m\)</span> gets larger, this envelope shrinks tighter and tighter, meaning the effective region of integration gets narrower. This provides a formal reason for our earlier insight: the integral is dominated by the behavior near <span class="math inline">\(\theta=0\)</span>.</p>
+<p>This observation forces a critical question: how do we properly “zoom in” on the origin to see the stable, non-trivial behavior of the integral as <span class="math inline">\(m \to \infty\)</span>? We need a change of variables for <span class="math inline">\(\theta\)</span> that depends on <span class="math inline">\(m\)</span>. Let’s consider the dominant term, <span class="math inline">\(m\theta^2\)</span>. For the integral to converge to a meaningful, constant shape, this term must be stable—it cannot vanish or diverge as <span class="math inline">\(m \to \infty\)</span>. This implies that <span class="math inline">\(m\theta^2\)</span> must be of order 1. This simple requirement dictates the scaling law: <span class="math display">\[
+m\theta^2 \sim \text{constant} \implies \theta \sim \frac{1}{\sqrt{m}}
+\]</span> This is the unique scaling that works. If we zoomed in too much (e.g., <span class="math inline">\(\theta \sim 1/m\)</span>), the quadratic term would vanish and we’d lose the Gaussian shape. If we didn’t zoom in enough (e.g., <span class="math inline">\(\theta \sim 1/m^{1/4}\)</span>), the term would blow up.</p>
+<p>This insight motivates the formal change of variables: <span class="math display">\[
+\theta = \frac{u}{\sqrt{m}}
+\]</span> Here, <span class="math inline">\(u\)</span> is our new coordinate, a “stabilized” variable that lives on a constant scale while we send <span class="math inline">\(m \to \infty\)</span>. This change of variables is like placing the integrand under a mathematical microscope with a zoom level of <span class="math inline">\(\sqrt{m}\)</span>, perfectly calibrated to reveal the universal shape hidden at the origin. It is important to remember that this is a standard change of variables for a definite integral. We are simply re-scaling our axis of integration; the value of the integral is preserved as long as we correctly transform the differential (<span class="math inline">\(d\theta = du/\sqrt{m}\)</span>) and the integration limits. Let’s see why this is perfect by examining each term in the exponent:</p>
 <ul>
 <li><p><strong>The Variance Term:</strong> <span class="math display">\[
 -m\frac{\sigma^2}{2}\theta^2 \quad \longrightarrow \quad -m\frac{\sigma^2}{2}\left(\frac{u}{\sqrt{m}}\right)^2 = -m\frac{\sigma^2}{2}\frac{u^2}{m} = -\frac{\sigma^2}{2}u^2

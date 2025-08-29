@@ -22,6 +22,9 @@
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  /* Decoupled scrollbar colors */
+  --scrollbar-thumb-color: #c1c1c1;
+  --scrollbar-thumb-hover-color: #a8a8a8;
 }
 
 /* Dark mode variables */
@@ -35,6 +38,9 @@
   --link-color: #60a5fa;
   --link-hover: #93bbfc;
   --math-color: var(--text-primary);
+  /* Decoupled scrollbar colors (dark) */
+  --scrollbar-thumb-color: #555555;
+  --scrollbar-thumb-hover-color: #777777;
 }
 
 /* Base typography */
@@ -61,7 +67,6 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
 h2 {
@@ -91,6 +96,7 @@ h3 {
   font-size: 1.3rem;
   background: var(--gradient-1);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -208,28 +214,41 @@ pre code {
 }
 
 mjx-container {
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
   max-width: 100% !important;
 }
 
-/* Ensure math is selectable/copyable */
+/* ==========================================================================
+   MathJax Mobile Display Fix
+   ========================================================================== */
+/*
+ * This rule ensures that MathJax expressions are selectable while also
+ * fixing the mobile tap-highlight issue. It targets both the main
+ * container and all its child elements, forcing the background to be
+ * transparent and disabling the native tap highlight color.
+*/
 mjx-container, mjx-container * {
-  -webkit-user-select: text !important;
-  -moz-user-select: text !important;
-  -ms-user-select: text !important;
-  user-select: text !important;
-  pointer-events: auto !important;
+  -webkit-user-select: text!important;
+  -moz-user-select: text!important;
+  -ms-user-select: text!important;
+  user-select: text!important;
+  pointer-events: auto!important;
+  background: none !important;
+  background-color: transparent!important;
+  outline: none!important;
 }
 
-mjx-container[display="true"] {
-  display: block !important;
-  margin: 1.25rem 0 !important;
+/* Ensure the Quarto math wrapper also suppresses tap highlight */
+.math, .math *, code .math, code .math * {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+/* Handle cases where inline math is wrapped in code tags */
+code .math, code .math *, code mjx-container, code mjx-container * {
+  background: none !important;
+  background-color: transparent !important;
   padding: 0 !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
+  color: inherit !important;
 }
 
 [data-bs-theme="dark"] mjx-container[display="true"] {
@@ -248,10 +267,58 @@ mjx-container:not([display="true"]) {
   background: transparent !important;
   border-radius: 0 !important;
   color: inherit !important;
+  overflow: visible !important;
+  /* Hide scrollbars for inline math across browsers */
+  -ms-overflow-style: none !important; /* IE/Edge */
+  scrollbar-width: none !important; /* Firefox */
 }
 
-[data-bs-theme="dark"] mjx-container:not([display="true"]) {
-  background: rgba(167, 139, 250, 0.1) !important;
+/* Hide WebKit scrollbars for inline MathJax containers */
+mjx-container:not([display="true"])::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Prevent scrollable areas inside inline MathJax */
+mjx-container:not([display="true"]) mjx-math,
+mjx-container:not([display="true"]) svg {
+  overflow: visible !important;
+}
+
+/* Ensure any nested elements within inline MathJax don't show scrollbars */
+mjx-container:not([display="true"]) *,
+mjx-container:not([display="true"]) *:before,
+mjx-container:not([display="true"]) *:after {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+mjx-container:not([display="true"]) *::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* KaTeX inline math: hide vertical scrollbars entirely */
+.katex:not(.katex-display) {
+  overflow-y: hidden !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.katex:not(.katex-display)::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Final guard: inline math must never become a scroll container (all engines) */
+.math.inline,
+.math.inline *,
+mjx-container:not([display="true"]),
+mjx-container:not([display="true"]) mjx-math,
+mjx-container:not([display="true"]) * {
+  overflow: visible !important;
+  max-height: none !important;
+  -webkit-overflow-scrolling: auto !important;
 }
 
 /* Equation numbering */
@@ -280,26 +347,26 @@ mjx-container:not([display="true"]) {
   width: 100%;
 }
 
-/* Scrollbar for math containers */
-mjx-container::-webkit-scrollbar,
+/* Scrollbar for display math containers only */
+mjx-container[display="true"]::-webkit-scrollbar,
 .katex-display::-webkit-scrollbar {
   height: 6px;
 }
 
-mjx-container::-webkit-scrollbar-track,
+mjx-container[display="true"]::-webkit-scrollbar-track,
 .katex-display::-webkit-scrollbar-track {
   background: var(--bg-secondary);
   border-radius: 3px;
 }
 
-mjx-container::-webkit-scrollbar-thumb,
+mjx-container[display="true"]::-webkit-scrollbar-thumb,
 .katex-display::-webkit-scrollbar-thumb {
   background: var(--math-color);
   border-radius: 3px;
   opacity: 0.5;
 }
 
-mjx-container::-webkit-scrollbar-thumb:hover,
+mjx-container[display="true"]::-webkit-scrollbar-thumb:hover,
 .katex-display::-webkit-scrollbar-thumb:hover {
   opacity: 0.8;
 }
@@ -563,8 +630,23 @@ tbody tr:hover {
     font-size: 0.85em !important;
   }
   
-  mjx-container mjx-math {
+  /* Only display math should scroll horizontally on mobile */
+  mjx-container[display="true"] mjx-math {
     overflow-x: auto !important;
+    overflow-y: hidden !important;
+    max-width: 100% !important;
+    -ms-overflow-style: none !important; /* IE/Edge */
+    scrollbar-width: none !important; /* Firefox */
+  }
+
+  mjx-container[display="true"] mjx-math::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  /* Inline math must never create a scrollable box */
+  mjx-container:not([display="true"]) mjx-math {
+    overflow: visible !important;
     max-width: 100% !important;
   }
   
@@ -778,23 +860,91 @@ input, textarea, select {
   }
 }
 
-/* Custom scrollbar */
+/* ==========================================================================
+   Scoped Scrollbar Styling
+   ========================================================================== */
+
+/*
+ * Apply custom blue scrollbar ONLY to elements designed to scroll:
+ * code blocks (pre) and display-mode MathJax equations
+ */
+pre::-webkit-scrollbar,
+mjx-container[display="true"]::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+pre::-webkit-scrollbar-track,
+mjx-container[display="true"]::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb,
+mjx-container[display="true"]::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover,
+mjx-container[display="true"]::-webkit-scrollbar-thumb:hover {
+    background: var(--link-hover);
+}
+
+/*
+ * Neutral global scrollbar for the main page
+ */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+    width: 10px;
+    height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+    background: var(--bg-secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 5px;
+    background: var(--scrollbar-thumb-color);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--link-hover);
+    background: var(--scrollbar-thumb-hover-color);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb-color);
+}
+
+[data-bs-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover-color);
+}
+
+/* ==========================================================================
+   Final MathJax Inline Code Fix
+   ========================================================================== */
+/*
+ * This rule targets <code> tags that are specifically used for inline
+ * math expressions and resets their styling. It removes the gray
+ * background and extra padding that is applied by the global 'code' style,
+ * ensuring the math blends seamlessly with the surrounding text.
+*/
+.math.inline code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* Suppress tap highlight for MathJax SVG output as well */
+mjx-container svg, mjx-container svg * {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+/* Comprehensive fix for WebKit tap highlight on MathJax elements (v3 and legacy) */
+mjx-container, .MathJax {
+  -webkit-tap-highlight-color: transparent !important; /* keep only the webkit-safe variant */
 }
 
 /* Callout boxes for important information */
@@ -954,4 +1104,15 @@ input, textarea, select {
 .quarto-title-banner .quarto-title {
   width: 100%;
   max-width: 100%;
+}
+
+/* Catch-all for MathJax on mobile WebKit */
+mjx-container,
+mjx-container *,
+.math,
+.math *,
+mjx-container svg,
+mjx-container svg * {
+  -webkit-tap-highlight-color: rgba(0,0,0,0) !important;
+  -webkit-touch-callout: none !important;
 }

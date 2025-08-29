@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://kaivalya1997.github.io/templates/POST_TEMPLATE.html</loc>
-    <lastmod>2025-08-23T13:26:11.479Z</lastmod>
-  </url>
-  <url>
-    <loc>https://kaivalya1997.github.io/posts.html</loc>
-    <lastmod>2025-08-23T13:26:11.465Z</lastmod>
+    <loc>https://kaivalya1997.github.io/templates/EXAMPLE_philosophy_post.html</loc>
+    <lastmod>2025-08-29T17:13:34.690Z</lastmod>
   </url>
   <url>
     <loc>https://kaivalya1997.github.io/index.html</loc>
-    <lastmod>2025-08-23T13:26:11.463Z</lastmod>
+    <lastmod>2025-08-29T17:13:34.688Z</lastmod>
   </url>
   <url>
-    <loc>https://kaivalya1997.github.io/about.html</loc>
-    <lastmod>2025-08-23T13:26:11.415Z</lastmod>
+    <loc>https://kaivalya1997.github.io/posts.html</loc>
+    <lastmod>2025-08-29T17:13:34.688Z</lastmod>
   </url>
   <url>
     <loc>https://kaivalya1997.github.io/EXTENDING_BLOG.html</loc>
-    <lastmod>2025-08-23T13:26:11.411Z</lastmod>
+    <lastmod>2025-08-29T17:13:34.687Z</lastmod>
   </url>
   <url>
     <loc>https://kaivalya1997.github.io/posts/clt-intuitive-derivation/index.html</loc>
-    <lastmod>2025-08-23T13:26:11.469Z</lastmod>
+    <lastmod>2025-08-29T17:13:34.689Z</lastmod>
   </url>
   <url>
-    <loc>https://kaivalya1997.github.io/templates/EXAMPLE_philosophy_post.html</loc>
-    <lastmod>2025-08-23T13:26:11.477Z</lastmod>
+    <loc>https://kaivalya1997.github.io/about.html</loc>
+    <lastmod>2025-08-29T17:13:34.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://kaivalya1997.github.io/templates/POST_TEMPLATE.html</loc>
+    <lastmod>2025-08-29T17:13:34.690Z</lastmod>
   </url>
 </urlset>
