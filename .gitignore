@@ -1,5 +1,6 @@
 # Quarto
 /.quarto/
+.quarto-cache/
 /_site/
 /_book/
 /_freeze/
@@ -15,8 +16,7 @@ venv/
 .venv
 
 # Jupyter
-.ipynb_checkpoints
-*.ipynb
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
@@ -35,14 +35,10 @@ Thumbs.db
 # Dependencies
 node_modules/
 
-# Build outputs
-*.html
-!index.html
-!about.html
-!posts.html
-
 # Template and test posts
 posts/test-*
 posts/draft-*
 posts/*_TEMPLATE*
 posts/*_EXAMPLE*
+
+**/*.quarto_ipynb

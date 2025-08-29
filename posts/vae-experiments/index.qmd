@@ -1,0 +1,445 @@
+---
+title: "A Rigorous Deep Dive into a Power-Basis Cubic VAE"
+subtitle: "From First Principles to a VAE Implementation: The Surprising Complexity of a Simple Idea"
+author: "Kaivalya Dabhadkar"
+date: "2025-09-05"
+categories: [AI, Deep Learning, Variational Inference, Generative Models, Mathematics]
+toc: true
+number-sections: false
+highlight-style: github
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+    html-math-method: mathjax
+draft: true
+published: false
+search: false
+---
+
+## 1. The Premise: Seeking a Simpler, More Flexible Latent Space
+
+### 1.1. The Reign of the Gaussian VAE
+
+In the vast landscape of generative models, the Variational Autoencoder (VAE) stands as a cornerstone, celebrated for its elegant fusion of deep learning and Bayesian inference. At its heart lies a simple yet profound idea: learn a compressed, probabilistic representation of data in a lower-dimensional latent space. The default, near-universal choice for modeling this latent space, for both the prior \(p(\mathbf{z})\) and the approximate posterior \(q_\phi(\mathbf{z}|\mathbf{x})\), is the Gaussian distribution.
+
+This dominance is not accidental. The Gaussian offers two critical conveniences that make the entire VAE framework computationally tractable:
+
+1.  **The Reparameterization Trick**: This technique allows us to sample from the distribution in a way that keeps the computation graph fully differentiable. For a Gaussian, it's as simple as \( \mathbf{z} = \boldsymbol{\mu} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon} \), where \(\boldsymbol{\epsilon} \sim \mathcal{N}(0, I)\). This moves the stochasticity "outside" the parameters we need to learn, enabling low-variance gradients to flow freely.
+2.  **An Analytical KL Divergence**: The Evidence Lower Bound (ELBO), the objective function for VAEs, contains a Kullback–Leibler (KL) divergence term that measures the "distance" between the posterior and the prior. When both are Gaussian, this term can be calculated in a simple, closed-form expression, avoiding the need for noisy Monte Carlo estimation.
+
+While convenient, this "Gaussian-by-default" approach imposes a rigid structure on the latent space that can be fundamentally at odds with the data's true nature. The limitations are significant:
+
+-   **Unbounded Support**: The Gaussian is defined over all real numbers \((-\infty, \infty)\). If the underlying factors of variation in our data are naturally bounded—such as representing angles, proportions, probabilities, or physical attributes that cannot be negative—the Gaussian is a structurally inappropriate model.
+-   **Unimodality**: A simple diagonal Gaussian has only one peak, or mode. It cannot efficiently represent data that has several distinct clusters or modes in its latent representation. The model is forced to "average" over these modes, often resulting in blurry, unrealistic samples and reconstructions.
+
+### 1.2. The Quest for a Simple Alternative: The Cubic Polynomial
+
+This leads us to a foundational question: can we find a distribution that is nearly as simple as the Gaussian but offers greater flexibility? The most natural step up in complexity from a quadratic function (which defines the log-probability of a Gaussian) is a **cubic polynomial**.
+
+Our goal in this post is to embark on a deep, rigorous, and exhaustive exploration of this seemingly straightforward idea. We will attempt to build a VAE latent distribution from the ground up using a standard, power-basis cubic polynomial:
+$$
+p(t) = a_3 t^3 + a_2 t^2 + a_1 t + a_0
+$$
+To make our analysis concrete, we will define this distribution over the symmetric, bounded interval \([-1, 1]\). We aim for our final model to have **three tunable parameters** that a neural network can learn, creating a direct analogy to the two tunable parameters (mean and standard deviation) of the Gaussian.
+
+This post will be a detailed mathematical journey. We will derive, from first principles, the precise and surprisingly complex constraints that the coefficients \((a_0, a_1, a_2, a_3)\) must satisfy for \(p(t)\) to be a valid probability density function. We will discover that enforcing these constraints within a neural network is a formidable challenge, leading us to a crucial insight about the nature of model design. This exploration will ultimately reveal why alternative approaches, such as using a different polynomial basis, are not just a matter of preference but a necessary step for creating a robust and practical model.
+
+---
+
+## 2. The Labyrinth of Constraints: Deriving a Power-Basis Cubic PDF
+
+For our polynomial \(p(t)\) to serve as a valid Probability Density Function (PDF) on the interval \([-1, 1]\), it must satisfy two non-negotiable axioms of probability theory:
+
+1.  **Normalization**: The total probability over the entire sample space must equal one.
+    \[ \int_{-1}^{1} p(t) dt = 1 \]
+2.  **Non-negativity**: The probability density must be non-negative everywhere within the sample space.
+    \[ p(t) \ge 0 \quad \text{for all} \quad t \in [-1, 1] \]
+
+While these axioms seem simple, applying them to a power-basis polynomial unveils a web of interconnected constraints.
+
+### 2.1. The Normalization Constraint: A First Simplification
+
+Let's begin by enforcing the normalization axiom. We integrate our polynomial \(p(t) = a_3 t^3 + a_2 t^2 + a_1 t + a_0\) over the symmetric interval \([-1, 1]\):
+\[
+\int_{-1}^{1} (a_3 t^3 + a_2 t^2 + a_1 t + a_0) dt = 1
+\]
+A key property of definite integrals is that any odd function (where \(f(-x) = -f(x)\)) integrated over a symmetric interval is zero. In our polynomial, the terms \(a_3 t^3\) and \(a_1 t\) are odd functions.
+\[
+\int_{-1}^{1} (a_3 t^3 + a_1 t) dt = \left[ \frac{a_3}{4}t^4 + \frac{a_1}{2}t^2 \right]_{-1}^{1} = \left(\frac{a_3}{4} + \frac{a_1}{2}\right) - \left(\frac{a_3(-1)^4}{4} + \frac{a_1(-1)^2}{2}\right) = 0
+\]
+The even function terms, \(a_2 t^2\) and \(a_0\), survive. Their integral over a symmetric interval is twice the integral over the positive half.
+\[
+\int_{-1}^{1} (a_2 t^2 + a_0) dt = 2 \int_{0}^{1} (a_2 t^2 + a_0) dt = 2 \left[ \frac{a_2}{3}t^3 + a_0 t \right]_{0}^{1} = 2\left(\frac{a_2}{3} + a_0\right)
+\]
+Setting this result to 1 gives us our first major constraint on the coefficients:
+$$
+2\left(\frac{a_2}{3} + a_0\right) = 1 \quad \implies \quad \boxed{a_0 = \frac{1}{2} - \frac{a_2}{3}}
+$$
+This is a powerful result. The normalization requirement has eliminated one of our four degrees of freedom. This means we are left with exactly **three free parameters**—\(a_1, a_2, a_3\)—which a neural network can learn. This aligns perfectly with our initial goal. Our normalized cubic PDF now takes the form:
+$$
+p(t) = a_3 t^3 + a_2 t^2 + a_1 t + \left(\frac{1}{2} - \frac{a_2}{3}\right)
+$$
+
+### 2.2. The Non-Negativity Constraint: The True Challenge
+
+This is where the apparent simplicity of the cubic polynomial reveals its hidden complexity. We must guarantee that \(p(t) \ge 0\) for **every** point \(t \in [-1, 1]\). For a continuous function on a closed interval, this is equivalent to ensuring that its value at the boundaries and at any internal local minima is non-negative.
+
+#### Step 1: Boundary Conditions
+
+First, we evaluate \(p(t)\) at the interval boundaries, \(t=1\) and \(t=-1\), and require them to be non-negative.
+For \(t=1\):
+$$
+p(1) = a_3(1)^3 + a_2(1)^2 + a_1(1) + \left(\frac{1}{2} - \frac{a_2}{3}\right) = a_3 + a_1 + \frac{2a_2}{3} + \frac{1}{2} \ge 0
+$$
+For \(t=-1\):
+$$
+p(-1) = a_3(-1)^3 + a_2(-1)^2 + a_1(-1) + \left(\frac{1}{2} - \frac{a_2}{3}\right) = -a_3 - a_1 + \frac{2a_2}{3} + \frac{1}{2} \ge 0
+$$
+These two linear inequalities can be combined. Adding them together gives a simple bound on \(a_2\):
+\[
+(p(1) + p(-1)) = \left(a_3 + a_1 + \frac{2a_2}{3} + \frac{1}{2}\right) + \left(-a_3 - a_1 + \frac{2a_2}{3} + \frac{1}{2}\right) = \frac{4a_2}{3} + 1 \ge 0 \implies \boxed{a_2 \ge -\frac{3}{4}}
+\]
+This also gives us a condition on the combination of \(a_1\) and \(a_3\). From the two inequalities, we must have:
+\[
+a_3 + a_1 \ge -\left(\frac{2a_2}{3} + \frac{1}{2}\right) \quad \text{and} \quad -(a_3 + a_1) \ge -\left(\frac{2a_2}{3} + \frac{1}{2}\right)
+\]
+This is equivalent to:
+\[
+\boxed{|a_3 + a_1| \le \frac{2a_2}{3} + \frac{1}{2}}
+\]
+So far, these constraints, while interconnected, are still manageable.
+
+#### Step 2: Internal Extrema Conditions
+
+The most difficult part of the problem arises from the internal minima. A local minimum can only occur where the derivative of the function is zero. Let's find the derivative of our PDF:
+$$
+p'(t) = \frac{d}{dt} \left(a_3 t^3 + a_2 t^2 + a_1 t + a_0\right) = 3a_3 t^2 + 2a_2 t + a_1
+$$
+We must find the roots of \(p'(t)=0\), which is a standard quadratic equation. The locations of the extrema are given by the quadratic formula:
+$$
+t^{*}_{\pm} = \frac{-2a_2 \pm \sqrt{(2a_2)^2 - 4(3a_3)(a_1)}}{2(3a_3)} = \frac{-a_2 \pm \sqrt{a_2^2 - 3a_1 a_3}}{3a_3}
+$$
+The behavior depends on the discriminant, \(\Delta = a_2^2 - 3a_1 a_3\).
+
+-   **Case 1: \(\Delta < 0\)**. If the discriminant is negative, there are no real roots. The derivative \(p'(t)\) is never zero, meaning the function \(p(t)\) is monotonic over the entire interval. In this case, its minimum value must be at one of the boundaries, \(t=-1\) or \(t=1\). Since we already handled the boundary conditions, no further work is needed. This case holds if \(a_2^2 < 3a_1 a_3\).
+
+-   **Case 2: \(\Delta \ge 0\)**. If the discriminant is non-negative, there are one or two real roots. For each root \(t^*\) that is a local minimum, we have a new check:
+    1.  Does this minimum lie **inside** our interval, i.e., \(t^* \in (-1, 1)\)?
+    2.  If it does, we must enforce the new, non-linear constraint \(p(t^*) \ge 0\).
+
+Let's imagine the root \(t^* = \frac{-a_2 + \sqrt{\Delta}}{3a_3}\) is a local minimum inside \((-1, 1)\). We would need to enforce:
+\[
+a_3 (t^*)^3 + a_2 (t^*)^2 + a_1 t^* + \left(\frac{1}{2} - \frac{a_2}{3}\right) \ge 0
+\]
+Substituting the complex expression for \(t^*\) into this inequality results in a deeply complex, non-linear constraint on the parameters \(a_1, a_2, a_3\). It involves square roots and polynomials of the parameters themselves, defining a bizarrely shaped valid region in the 3D parameter space.
+
+### 2.3. Conclusion: The Impracticality of the Power Basis
+
+To use this PDF in a VAE, an encoder would need to output three unconstrained real numbers, say from a linear layer. We would then need a differentiable function that maps these three numbers into the valid, constrained space of \((a_1, a_2, a_3)\).
+
+The constraints we derived are:
+1.  \(a_2 \ge -\frac{3}{4}\)
+2.  \(|a_3 + a_1| \le \frac{2a_2}{3} + \frac{1}{2}\)
+3.  A highly complex, conditional, non-linear constraint involving \(p(t^*) \ge 0\) that only applies when \(a_2^2 \ge 3a_1 a_3\) and when the resulting \(t^*\) falls within \((-1, 1)\).
+
+Finding a closed-form, differentiable mapping that enforces this entire set of conditions is, for all practical purposes, impossible. The "simple" power-basis polynomial has led us to an intractable parameterization problem. This is a crucial realization: **the simplicity of a model's definition does not imply simplicity of its use in optimization.**
+
+This deep dive motivates the search for a better way. Instead of starting with a simple form and deriving complex constraints, what if we started with simple constraints and derived a more complex form? This is the philosophy that leads us to the Bernstein basis.
+
+---
+
+## 3. A Constructive Solution: The Bernstein Basis
+
+The analysis in Part 1 reveals a crucial insight: ensuring the non-negativity of a polynomial in power-basis form is mathematically complex. The solution is not to wrestle with these intractable constraints, but to choose a different basis for our polynomial—one where the non-negativity is guaranteed by construction.
+
+This is precisely what **Bernstein basis polynomials** offer. For a degree-3 polynomial on the interval \([0, 1]\), the basis functions are:
+$$
+\begin{aligned}
+B_0(t) &= \binom{3}{0} t^0 (1-t)^3 = (1-t)^3 \\
+B_1(t) &= \binom{3}{1} t^1 (1-t)^2 = 3t(1-t)^2 \\
+B_2(t) &= \binom{3}{2} t^2 (1-t)^1 = 3t^2(1-t) \\
+B_3(t) &= \binom{3}{3} t^3 (1-t)^0 = t^3
+\end{aligned}
+$$
+These functions are all **non-negative** for \(t \in [0, 1]\). This property is the key.
+
+We can now define our PDF as a linear combination of these basis functions:
+$$
+p(t;\mathbf{c}) = \sum_{k=0}^3 c_k B_k(t)
+$$
+If we enforce the simple constraint that all coefficients \(c_k \ge 0\), the non-negativity of \(p(t)\) is automatically guaranteed.
+
+### 3.1. Normalization of the Bernstein-Cubic
+
+For the normalization, we integrate each basis function over \([0, 1]\). This integral is a classic result related to the Beta function, \(\int_0^1 t^x (1-t)^y dt = \frac{x!y!}{(x+y+1)!}\).
+\[
+\int_0^1 B_k(t)\,dt = \binom{3}{k} \int_0^1 t^k (1-t)^{3-k} dt = \frac{3!}{k!(3-k)!} \frac{k!(3-k)!}{(3+1)!} = \frac{3!}{4!} = \frac{1}{4}
+\]
+Therefore, the integral of our PDF is:
+\[
+\int_0^1 p(t;\mathbf{c})\,dt = \sum_{k=0}^3 c_k \int_0^1 B_k(t)\,dt = \frac{1}{4}\sum_{k=0}^3 c_k
+\]
+To make this equal 1, we only need to enforce \(\sum_{k=0}^3 c_k = 4\).
+
+So, our two simple, elegant constraints are:
+$$
+c_k \ge 0 \quad \text{and} \quad \sum_{k=0}^3 c_k = 4
+$$
+A neural network can easily produce parameters satisfying these constraints by outputting a 4-dimensional vector \(\boldsymbol{\alpha}\) and setting \(\mathbf{c} = 4 \cdot \text{softmax}(\boldsymbol{\alpha})\). This gives us **3 effective tunable parameters**, as one is fixed by the sum constraint.
+
+### 3.2. CDF, Sampling, and Gradients
+
+The path forward is now clear and practical:
+-   **CDF**: The Cumulative Distribution Function is \(F(t;\mathbf{c}) = \sum_{k=0}^3 c_k I_k(t)\), where \(I_k(t)\) are the simple polynomial antiderivatives of \(B_k(t)\).
+-   **Sampling**: We can find a sample \(t\) by numerically solving \(F(t;\mathbf{c}) = u\) for a uniform random variable \(u \sim \mathrm{Uniform}(0,1)\). Robust methods like Newton's method combined with bisection are effective, as the PDF \(p(t) = F'(t)\) is guaranteed non-negative.
+-   **Gradients**: The pathwise gradient for reparameterization, \(\frac{\partial t}{\partial c_r}\), is found using the implicit function theorem, resulting in a clean, analytical expression for backpropagation.
+
+By switching to the Bernstein basis, we have transformed an intractable problem into an elegant, practical, and robust framework.
+
+---
+
+## 4. The VAE Framework with a Bernstein-Cubic Latent
+
+We now formalize the VAE using our robust Bernstein-cubic distribution. We will define it on \([0, 1]\) for simplicity, but it can be affinely transformed to any interval \([L, U]\).
+
+-   **Encoder & Posterior**: The encoder network \(E_\phi(\mathbf{x})\) outputs a vector \(\boldsymbol{\alpha}_q \in \mathbb{R}^4\) for each latent dimension. The posterior coefficients are \(\mathbf{c}_q = 4 \cdot \text{softmax}(\boldsymbol{\alpha}_q)\).
+-   **Prior**: The prior \(p_\psi(\mathbf{z})\) is defined by a set of learnable parameters \(\boldsymbol{\alpha}_p \in \mathbb{R}^4\) for each latent dimension, with \(\mathbf{c}_p = 4 \cdot \text{softmax}(\boldsymbol{\alpha}_p)\).
+
+### 4.1. The ELBO in Full Detail
+
+The Evidence Lower Bound (ELBO) is:
+\[
+\mathcal{L}(\phi, \psi, \theta) = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})} [\log p_\theta(\mathbf{x}|\mathbf{z})] - \text{KL}(q_\phi(\mathbf{z}|\mathbf{x}) || p_\psi(\mathbf{z}))
+\]
+Since the KL-divergence term is intractable, we use the Monte Carlo formulation:
+\[
+\mathcal{L} \approx \frac{1}{S} \sum_{s=1}^S \left( \log p_\theta(\mathbf{x}|\mathbf{z}^{(s)}) + \log p_\psi(\mathbf{z}^{(s)}) - \log q_\phi(\mathbf{z}^{(s)}|\mathbf{x}) \right)
+\]
+where \(\mathbf{z}^{(s)}\) is a sample from the posterior \(q_\phi(\mathbf{z}|\mathbf{x})\) obtained via inverse-CDF sampling.
+
+Each term is now fully differentiable:
+-   \(\log p_\theta(\mathbf{x}|\mathbf{z})\): The standard reconstruction loss. Gradients flow through the decoder and back to the sample \(\mathbf{z}\).
+-   \(\log p_\psi(\mathbf{z})\): The log-probability of the sample under the prior. Gradients flow to the prior's parameters \(\boldsymbol{\alpha}_p\).
+-   \(\log q_\phi(\mathbf{z}|\mathbf{x})\): The log-probability under the posterior.
+
+The total gradient for the encoder parameters \(\boldsymbol{\alpha}_q\) has two components:
+1.  **Pathwise Gradient**: From the \(\log p_\theta\) and \(\log p_\psi\) terms, flowing "through" the sample \(\mathbf{z}\) via the implicit function theorem.
+2.  **Score Function Gradient**: From the \(-\log q_\phi\) term, which depends directly on \(\boldsymbol{\alpha}_q\).
+
+### 4.2. ELBO: Step-by-step derivation and per-dimension form
+
+We consider a factorized latent across dimensions \(j=1,\dots,d\):
+\[
+q_\phi(\mathbf{z}|\mathbf{x})=\prod_{j=1}^d q_{\phi,j}(z_j|\mathbf{x}),\quad p_\psi(\mathbf{z})=\prod_{j=1}^d p_{\psi,j}(z_j).
+\]
+For each dimension defined on \([L_j,U_j]\), introduce the affine transform \(t_j=(z_j-L_j)/(U_j-L_j)\in[0,1]\). The posterior and prior densities are
+\[
+q_{\phi,j}(z_j|\mathbf{x})=\frac{1}{U_j-L_j}\sum_{k=0}^3 c^{(q)}_{j,k}(\mathbf{x})\,B_k(t_j),\quad
+p_{\psi,j}(z_j)=\frac{1}{U_j-L_j}\sum_{k=0}^3 c^{(p)}_{j,k}\,B_k(t_j),
+\]
+with coefficients constrained via softmax: \(\mathbf{c}^{(q)}_{j}=4\,\text{softmax}(\boldsymbol{\alpha}^{(q)}_j(\mathbf{x}))\), \(\mathbf{c}^{(p)}_{j}=4\,\text{softmax}(\boldsymbol{\alpha}^{(p)}_j)\).
+
+The ELBO for a single datum \(\mathbf{x}\) is
+\[
+\mathcal{L}(\mathbf{x})=\mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})]\;-
+\mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}\Big[\log q_\phi(\mathbf{z}|\mathbf{x})-\log p_\psi(\mathbf{z})\Big].
+\]
+Using Monte Carlo with \(S\) samples \(\mathbf{z}^{(s)}\sim q_\phi(\cdot|\mathbf{x})\):
+\[
+\widehat{\mathcal{L}}(\mathbf{x})=\frac{1}{S}\sum_{s=1}^S \Big(\log p_\theta(\mathbf{x}|\mathbf{z}^{(s)})+\sum_{j=1}^d \log p_{\psi,j}(z^{(s)}_j)-\sum_{j=1}^d \log q_{\phi,j}(z^{(s)}_j|\mathbf{x})\Big).
+\]
+Explicitly, for each dimension \(j\):
+\[
+\log q_{\phi,j}(z_j|\mathbf{x})=\log\Big(\sum_{k=0}^3 c^{(q)}_{j,k}(\mathbf{x})\,B_k(t_j)\Big)-\log(U_j-L_j),
+\]
+\[
+\log p_{\psi,j}(z_j)=\log\Big(\sum_{k=0}^3 c^{(p)}_{j,k}\,B_k(t_j)\Big)-\log(U_j-L_j).
+\]
+The \(-\log(U_j-L_j)\) terms cancel in the KL difference per dimension, yielding a numerically nicer objective.
+
+#### Pathwise sampling and gradients
+For each \(j\), draw \(u_j\sim\text{Uniform}(0,1)\) and solve \(F_{q,j}(t_j;\mathbf{c}^{(q)}_j(\mathbf{x}))=u_j\) for \(t_j\in[0,1]\), then set \(z_j=L_j+(U_j-L_j)\,t_j\).
+Implicit differentiation of \(F_{q,j}(t_j;\mathbf{c}^{(q)}_j)=u_j\) gives
+\[
+\frac{\partial t_j}{\partial c^{(q)}_{j,r}}=-\,\frac{I_r(t_j)}{\sum_{k=0}^3 c^{(q)}_{j,k}\,B_k(t_j)}.
+\]
+Gradients w.r.t. prior coefficients are direct:
+\[
+\frac{\partial}{\partial c^{(p)}_{j,r}}\log p_{\psi,j}(z_j)=\frac{B_r(t_j)}{\sum_{k=0}^3 c^{(p)}_{j,k}\,B_k(t_j)}.
+\]
+Direct gradients for the posterior log term are
+\[
+\frac{\partial}{\partial c^{(q)}_{j,r}}\big(-\log q_{\phi,j}(z_j|\mathbf{x})\big)=-\,\frac{B_r(t_j)}{\sum_{k=0}^3 c^{(q)}_{j,k}\,B_k(t_j)}.
+\]
+Pathwise gradients propagate through \(t_j\) and \(z_j\) into the reconstruction \(\log p_\theta\) and prior \(\log p_\psi\). If \(c=4\,\text{softmax}(\alpha)\), then \(\partial c_s/\partial\alpha_r=4\,s_s(\delta_{sr}-s_r)\).
+
+#### Interval choice and invariances
+- Changing support from \([0,1]\) to \([L_j,U_j]\) adds a constant \(-\log(U_j-L_j)\) to both \(\log q\) and \(\log p\); it cancels in the \(\mathrm{KL}\).
+- Using the same \([L_j,U_j]\) for \(q\) and \(p\) per dimension avoids support mismatch.
+
+#### Numerical stability
+Use \(\log(\sum c_k B_k(t)+\varepsilon)\) with small \(\varepsilon\), and clip Newton steps with bracketing to ensure monotone CDF inversion.
+
+---
+
+## 5. PyTorch Implementation
+
+This implementation demonstrates the complete pipeline, including the custom autograd function for differentiable inverse-CDF sampling.
+
+```python
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+def bernstein3(t):
+    """Computes the Bernstein basis polynomials of degree 3."""
+    B0 = (1.0 - t)**3
+    B1 = 3.0 * t * (1.0 - t)**2
+    B2 = 3.0 * t**2 * (1.0 - t)
+    B3 = t**3
+    return torch.stack([B0, B1, B2, B3], dim=-1)
+
+def I_bernstein3(t):
+    """Computes the antiderivatives of the Bernstein basis polynomials."""
+    I0 = t - 1.5*t**2 + t**3 - 0.25*t**4
+    I1 = 1.5*t**2 - 2.0*t**3 + 0.75*t**4
+    I2 = t**3 - 0.75*t**4
+    I3 = 0.25*t**4
+    return torch.stack([I0, I1, I2, I3], dim=-1)
+
+def softmax_to_c(alpha):
+    """Converts unconstrained parameters to valid Bernstein coefficients."""
+    return 4.0 * F.softmax(alpha, dim=-1)
+
+def cubic_pdf01(t, alpha, eps=1e-12):
+    """Computes the cubic PDF on [0,1]."""
+    c = softmax_to_c(alpha)
+    B = bernstein3(t)
+    return (c * B).sum(dim=-1).clamp_min(eps)
+
+def cubic_cdf01(t, alpha):
+    """Computes the cubic CDF on [0,1]."""
+    c = softmax_to_c(alpha)
+    I = I_bernstein3(t)
+    return (c * I).sum(dim=-1)
+
+@torch.no_grad()
+def inv_cdf01_solver(u, alpha, iters=12, eps=1e-12):
+    """Robust numerical solver for the inverse CDF."""
+    t = u.clone()
+    lo, hi = torch.zeros_like(u), torch.ones_like(u)
+    for _ in range(iters):
+        Fval = cubic_cdf01(t, alpha)
+        pdf  = cubic_pdf01(t, alpha, eps=eps)
+        diff = Fval - u
+        newton = (diff / pdf).clamp(-0.2, 0.2)
+        t_new = (t - newton).clamp(0.0, 1.0)
+        mask = diff > 0
+        hi = torch.where(mask, t, hi)
+        lo = torch.where(~mask, t, lo)
+        escaped = (t_new < lo) | (t_new > hi)
+        t = torch.where(escaped, 0.5 * (lo + hi), t_new)
+    return t
+
+class InverseCDFBernstein3(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, u, alpha):
+        t = inv_cdf01_solver(u, alpha)
+        ctx.save_for_backward(t, alpha)
+        return t
+
+    @staticmethod
+    def backward(ctx, grad_out):
+        t, alpha = ctx.saved_tensors
+        B = bernstein3(t)
+        I = I_bernstein3(t)
+        c = softmax_to_c(alpha)
+        pdf = (c * B).sum(dim=-1).clamp_min(1e-12)
+        dt_dc = -I / pdf.unsqueeze(-1)
+        s = c / 4.0
+        v = dt_dc * (4.0 * s)
+        v_sum = v.sum(dim=-1, keepdim=True)
+        dtdalpha = v - s * v_sum
+        grad_alpha = grad_out.unsqueeze(-1) * dtdalpha
+        return None, grad_alpha
+
+def sample_q01(alpha):
+    """Differentiably sample from the cubic distribution on [0,1]."""
+    shape = alpha.shape[:-1]
+    u = torch.rand(shape, device=alpha.device)
+    return InverseCDFBernstein3.apply(u, alpha)
+
+class Encoder(nn.Module):
+    def __init__(self, x_dim, h_dim, z_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(x_dim, h_dim), nn.ReLU(),
+            nn.Linear(h_dim, z_dim * 4)
+        )
+    def forward(self, x):
+        return self.net(x).view(x.size(0), -1, 4)
+
+class Decoder(nn.Module):
+    def __init__(self, z_dim, h_dim, x_dim):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(z_dim, h_dim), nn.ReLU(),
+            nn.Linear(h_dim, x_dim)
+        )
+    def forward(self, z):
+        return self.net(z)
+
+class CubicVAE(nn.Module):
+    def __init__(self, x_dim, h_dim, z_dim, L=0.0, U=1.0):
+        super().__init__()
+        self.enc = Encoder(x_dim, h_dim, z_dim)
+        self.dec = Decoder(z_dim, h_dim, x_dim)
+        self.z_dim = z_dim
+        self.L = L
+        self.U = U
+        self.alpha_p = nn.Parameter(torch.zeros(z_dim, 4))
+
+    def forward(self, x, S=1):
+        B = x.size(0)
+        alpha_q = self.enc(x)
+        elbo = 0.0
+        for _ in range(S):
+            t = sample_q01(alpha_q)
+            z = self.L + (self.U - self.L) * t
+            logits = self.dec(z)
+            log_px = -F.binary_cross_entropy_with_logits(
+                logits, x, reduction='none'
+            ).sum(dim=1)
+            log_pz = self.log_pdf(z, self.alpha_p.expand(B, -1, -1)).sum(dim=1)
+            log_qz = self.log_pdf(z, alpha_q).sum(dim=1)
+            elbo = elbo + (log_px + log_pz - log_qz)
+        return elbo / S
+
+    def log_pdf(self, z, alpha):
+        t = (z - self.L) / (self.U - self.L)
+        log_p01 = torch.log(cubic_pdf01(t, alpha))
+        return log_p01 - torch.log(torch.tensor(self.U - self.L, device=z.device))
+```
+
+---
+
+## 6. Conclusion: From a Simple Idea to a Rigorous Solution
+
+Our investigation started with a simple and intuitive goal: to replace the Gaussian latent distribution in a VAE with a power-basis cubic polynomial. However, our rigorous mathematical analysis revealed that this "simple" idea is fraught with complexity. The non-negativity constraint imposes a set of intractable, non-linear conditions on the polynomial's coefficients, making it unsuitable for direct parameterization by a neural network.
+
+This journey highlights a critical lesson in theoretical deep learning: an approach's utility is defined not by the simplicity of its initial form, but by the simplicity of its constraints and the ease of its integration into a gradient-based optimization pipeline.
+
+The Bernstein basis, while appearing more complex at first glance, provides a far more elegant and practical solution. By building the non-negativity and normalization properties directly into the formulation, it allows us to define a flexible, bounded, and fully differentiable latent distribution. This demonstrates the power of choosing the right mathematical tools to turn a complex problem into a tractable one.
+
+#### Antiderivatives used in the CDF
+For completeness, the antiderivatives \(I_k(t)=\int_0^t B_k(u)\,du\) are
+\[
+\begin{aligned}
+I_0(t)&=t-\tfrac{3}{2}t^2+t^3-\tfrac{1}{4}t^4,\\
+I_1(t)&=\tfrac{3}{2}t^2-2t^3+\tfrac{3}{4}t^4,\\
+I_2(t)&=t^3-\tfrac{3}{4}t^4,\\
+I_3(t)&=\tfrac{1}{4}t^4.
+\end{aligned}
+\]
+Thus \(F(t;\mathbf{c})=\sum_{k=0}^3 c_k I_k(t)\) and \(F'(t;\mathbf{c})=\sum_{k=0}^3 c_k B_k(t)\).
