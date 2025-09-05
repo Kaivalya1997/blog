@@ -342,7 +342,14 @@ The integral becomes:
 $$
 \int_{-\infty}^{\infty} e^{-\frac{\sigma^2}{2}(u + ix/\sigma)^2 - x^2/2} du = e^{-x^2/2} \int_{-\infty}^{\infty} e^{-\frac{\sigma^2}{2}(u + ix/\sigma)^2} du
 $$
-The integral $\int e^{-a(t+b)^2}dt$ over the real line is $\sqrt{\pi/a}$, regardless of the shift $b$ (which can be proven by shifting the contour in the complex plane). Here, $a=\sigma^2/2$, so the integral evaluates to $\sqrt{2\pi/\sigma^2}$.
+The integral on the right-hand side is a form of the Gaussian integral. Its evaluation hinges on a key property: an integral of the form $\int_{-\infty}^{\infty} e^{-a(t+b)^2}dt$ is equal to $\sqrt{\pi/a}$, regardless of the shift $b$ (for a beautiful derivation of this integral, see 3Blue1Brown [here](https://youtu.be/cy8r7WSuT1I?t=224)).
+
+If $b$ is a real number, this is easy to see. We can just make a substitution $u = t+b$. Then $du = dt$, and the limits of integration don't change. The integral becomes $\int_{-\infty}^{\infty} e^{-au^2}du$, which is a standard Gaussian integral whose value is $\sqrt{\pi/a}$.
+
+In our case, the shift is a purely imaginary number ($b = ix/\sigma$). This makes the substitution a bit more subtle, as it shifts the path of integration off the real axis and into the complex plane. The full justification comes from a result in complex analysis called Cauchy's Integral Theorem, which states that for a "well-behaved" function (analytic) like our integrand, the integral's value doesn't change when you shift the integration contour, provided you don't cross any singularities (which our function doesn't have).
+
+So, whether the shift $b$ is real or complex, the result is the same. For our integral, we have $a=\sigma^2/2$, so the integral evaluates to $\sqrt{\pi/(\sigma^2/2)} = \sqrt{2\pi/\sigma^2}$.
+
 Plugging this back in:
 $$
 \Pr(S_m=n) \approx \frac{1}{2\pi\sqrt{m}} \cdot \sqrt{\frac{2\pi}{\sigma^2}} e^{-x^2/2} = \frac{1}{\sigma\sqrt{2\pi m}} e^{-x^2/2}.
