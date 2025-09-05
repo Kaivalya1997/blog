@@ -6,7 +6,7 @@ toc: false  # Disable "On this page" section
 about:
   template: trestles
   image-shape: round
-  image-width: 250px
+  image-width: 160px
   links:
     - icon: github
       text: GitHub

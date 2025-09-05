@@ -17,7 +17,7 @@ draft: false
 
 The **Central Limit Theorem (CLT)** answers an important question: Why does the **bell curve** (or Normal Distribution) show up everywhere in the real world?
 
-![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.png){fig-alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."}
+![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.png){fig-alt="Normal Distribution bell curve diagram showing the 68-95-99.7 rule with standard deviations from the mean" width="60%"}
 
 Specifically, the theorem describes what happens when you take a random variable, $X$, and repeat the experiment many times to get a series of outcomes, $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
 

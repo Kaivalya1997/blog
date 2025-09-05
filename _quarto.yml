@@ -7,23 +7,21 @@ website:
   site-url: "https://kaivalya1997.github.io"
   description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
   favicon: favicon.ico
+  image: "profile.jpg"
+  twitter-card:
+    creator: "@Kaivalya1997"
+    image: "profile.jpg"
+  open-graph: true
+  page-navigation: true
+  back-to-top-navigation: true
   
   navbar:
     background: primary
     search: true
+    pinned: true
     left:
       - text: "Home"
         href: index.qmd
-      # === ADD NEW TOPIC SECTIONS HERE ===
-      # Example for adding History section:
-      # - text: "History"
-      #   href: posts.qmd#category=History
-      # - text: "Mathematics"
-      #   href: posts.qmd#category=Mathematics
-      # - text: "AI & ML"
-      #   href: posts.qmd#category=AI
-      # - text: "Philosophy"  # Uncomment to add Philosophy section
-      #   href: posts.qmd#category=Philosophy
       - text: "About"
         href: about.qmd
     right:
@@ -45,7 +43,7 @@ website:
     
 format:
   html:
-    theme: [litera, theme-light.scss]  # Single theme - no dark mode toggle
+    theme: [litera, theme-light.scss]
     css: styles.css
     toc: true
     toc-depth: 3
@@ -68,6 +66,7 @@ format:
     linestretch: 1.7
     mainfont: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
     monofont: "Fira Code, 'SF Mono', Monaco, 'Courier New', monospace"
+    highlight-style: github
     html-math-method: mathjax
     mathjax: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"
     include-in-header:
@@ -152,6 +151,8 @@ execute:
 comments:
   utterances:
     repo: Kaivalya1997/blog-comments
+    theme: github-light
+    issue-term: pathname
 
 
 

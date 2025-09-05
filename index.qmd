@@ -25,6 +25,7 @@ Hi there! I'm **Kaivalya Dabhadkar**, and this is my digital playground where I 
 ### My Philosophy: Intuition First! 🧠✨
 
 I've discovered something magical in my learning journey: **intuition comes before rigor**. Too often, academic texts dive straight into formal proofs and definitions, leaving us wondering:
+
 - *"Wait, why did someone think to do it this way?"* 🤔
 - *"If I were discovering this for the first time, how would I have approached it?"* 💭
 - *"What's the story behind this seemingly arbitrary choice?"* 📖
