@@ -17,7 +17,7 @@ draft: false
 
 The **Central Limit Theorem (CLT)** answers an important question: Why does the **bell curve** (or Normal Distribution) show up everywhere in the real world?
 
-![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.webp){fig-alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."}
+![The Normal Distribution, showing the 68-95-99.7 rule.](images/normal_distribution.png){fig-alt="A diagram of the Normal Distribution bell curve. The central peak is at the mean mu. The curve shows that 68% of data falls within 1 standard deviation, 95% within 2, and 99.7% within 3."}
 
 Specifically, the theorem describes what happens when you take a random variable, $X$, and repeat the experiment many times to get a series of outcomes, $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
 
@@ -193,11 +193,11 @@ Our first step is to prove that the magnitude of the characteristic function, $|
 
 By definition, $\varphi_X(\theta) = \sum_k p_k e^{ik\theta}$. Applying the triangle inequality:
 $$
-||\varphi_X(\theta)| = \left|\sum_k p_k e^{ik\theta}\right| \le \sum_k |p_k e^{ik\theta}| = \sum_k p_k |e^{ik\theta}|
+|\varphi_X(\theta)| = \left|\sum_k p_k e^{ik\theta}\right| \le \sum_k |p_k e^{ik\theta}| = \sum_k p_k |e^{ik\theta}|
 $$
 Since $|e^{ik\theta}|=1$ for any real $k$ and $\theta$, this simplifies to:
 $$
-||\varphi_X(\theta)| \le \sum_k p_k = 1
+|\varphi_X(\theta)| \le \sum_k p_k = 1
 $$
 The equality $|\varphi_X(\theta)|=1$ holds if and only if all the complex numbers $e^{ik\theta}$ (for which $p_k>0$) point in the same direction. For any non-trivial distribution (with at least two different outcomes), this only happens when $\theta=0$. At $\theta=0$, every term $e^{ik\cdot 0}$ is just 1. For any $\theta \neq 0$, the different values of $k$ cause the terms to have different phases, so they are no longer perfectly aligned, and the magnitude of their sum is strictly less than 1. This means that the function $|\varphi_X(\theta)|$ has a unique, global maximum value of 1 at precisely $\theta=0$.
 
