@@ -279,7 +279,7 @@ window.Quarto = {
   <li><a href="#the-clt" id="toc-the-clt" class="nav-link active" data-scroll-target="#the-clt"><strong>The CLT</strong></a></li>
   <li><a href="#encoding-probabilities-the-pgf" id="toc-encoding-probabilities-the-pgf" class="nav-link" data-scroll-target="#encoding-probabilities-the-pgf"><strong>Encoding Probabilities (The PGF)</strong></a>
   <ul class="collapse">
-  <li><a href="#a-gentler-start-probabilities-as-polynomials" id="toc-a-gentler-start-probabilities-as-polynomials" class="nav-link" data-scroll-target="#a-gentler-start-probabilities-as-polynomials">A gentler start: probabilities as polynomials</a></li>
+  <li><a href="#a-gentler-start-an-analogy-from-counting" id="toc-a-gentler-start-an-analogy-from-counting" class="nav-link" data-scroll-target="#a-gentler-start-an-analogy-from-counting">A gentler start: an analogy from counting</a></li>
   <li><a href="#the-magic-of-multiplication" id="toc-the-magic-of-multiplication" class="nav-link" data-scroll-target="#the-magic-of-multiplication"><strong>The Magic of Multiplication</strong></a></li>
   </ul></li>
   <li><a href="#the-coefficient-extractor-machine" id="toc-the-coefficient-extractor-machine" class="nav-link" data-scroll-target="#the-coefficient-extractor-machine"><strong>The “Coefficient Extractor” Machine</strong></a>
@@ -317,7 +317,7 @@ window.Quarto = {
 <p>The <strong>Central Limit Theorem (CLT)</strong> answers an important question: Why does the <strong>bell curve</strong> (or Normal Distribution) show up everywhere in the real world?</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/normal_distribution.png" class="img-fluid figure-img" style="width:60.0%" alt="Normal Distribution bell curve diagram showing the 68-95-99.7 rule with standard deviations from the mean"></p>
+<p><img src="images/normal_distribution.png" class="img-fluid figure-img" alt="Normal Distribution bell curve diagram showing the 68-95-99.7 rule with standard deviations from the mean" width="600"></p>
 <figcaption>The Normal Distribution, showing the 68-95-99.7 rule.</figcaption>
 </figure>
 </div>
@@ -339,28 +339,39 @@ window.Quarto = {
 </section>
 <section id="encoding-probabilities-the-pgf" class="level2">
 <h2 class="anchored" data-anchor-id="encoding-probabilities-the-pgf"><strong>Encoding Probabilities (The PGF)</strong></h2>
-<p>First, we need a way to mathematically describe our single die. We’ll package its probabilities into a special polynomial called a <strong>Probability Generating Function (PGF)</strong>. This isn’t just a convenient trick; it’s a cornerstone of <strong><a href="https://en.wikipedia.org/wiki/Combinatorics">combinatorics</a></strong> for solving counting problems.</p>
-<section id="a-gentler-start-probabilities-as-polynomials" class="level3">
-<h3 class="anchored" data-anchor-id="a-gentler-start-probabilities-as-polynomials">A gentler start: probabilities as polynomials</h3>
-<p>Imagine you want to count the number of ways to form 10 Rupees using a collection of 1, 2, and 5 Rupee coins. This is a classic combinatorial problem. A powerful way to solve it is to represent the available coins as polynomials:</p>
+<p>To get to the heart of the Central Limit Theorem, we need a mathematical tool to describe what happens when we sum up many random variables, like the rolls of a die. Let’s try to build such a tool from scratch.</p>
+<p>The core challenge is this: when we add the scores from two dice, their outcomes <em>add</em>, but their independent probabilities <em>multiply</em>. How can we find a mathematical representation that captures this dual behavior?</p>
+<p>Let’s focus on the outcomes first. Suppose we represent an outcome value <span class="math inline">\(a\)</span> by <span class="math inline">\(f(a)\)</span>. We want combining two outcomes <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> to correspond to the outcome <span class="math inline">\(a+b\)</span>. If we combine representations by multiplying, then we require <span class="math inline">\(f(a)\,f(b)=f(a+b)\)</span>.</p>
+<p>This functional equation has a standard solution: take <span class="math inline">\(f(a)=x^a\)</span> for some base <span class="math inline">\(x\)</span>. Then <span class="math inline">\(x^a x^b = x^{a+b}\)</span>, exactly as required.</p>
+<p>This gives us the key. We can represent an outcome <span class="math inline">\(k\)</span> with the term <span class="math inline">\(x^k\)</span>. The variable <span class="math inline">\(x\)</span> is just a formal placeholder. Now, where do the probabilities fit in? A probability <span class="math inline">\(p_k\)</span> is the weight of the outcome <span class="math inline">\(k\)</span>, so the most natural place to put it is as a coefficient: <span class="math inline">\(p_k x^k\)</span>.</p>
+<p>To represent the entire die, which can take on any of the values <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>, we can simply sum up these weighted terms. This creates a polynomial, which packages all the information about our random variable into a single expression. This is the <strong>Probability Generating Function (PGF)</strong>.</p>
+<p>For a discrete random variable <span class="math inline">\(X\)</span> that takes integer values with probabilities <span class="math inline">\(p_k=\Pr(X=k)\)</span>, we formally define its PGF as:</p>
+<p><span class="math display">\[H(x)=\sum_k p_k\,x^k.\]</span></p>
+<p>Before applying this representation to dice, a quick analogy from counting clarifies why polynomials are the right container.</p>
+<section id="a-gentler-start-an-analogy-from-counting" class="level3">
+<h3 class="anchored" data-anchor-id="a-gentler-start-an-analogy-from-counting">A gentler start: an analogy from counting</h3>
+<p>Before diving deeper into probabilities, let’s see this polynomial trick in a simpler context: counting combinations. This idea is a cornerstone of <strong><a href="https://en.wikipedia.org/wiki/Combinatorics">combinatorics</a></strong> for solving counting problems.</p>
+<p>Imagine you want to count the number of ways to form 10 Rupees using a collection of 1, 2, and 5 Rupee coins. This is a classic combinatorial problem. We can represent the available coins as polynomials:</p>
 <ul>
 <li><strong>1 Rupee Coins:</strong> <span class="math inline">\((1 + x^1 + x^2 + \dots)\)</span></li>
 <li><strong>2 Rupee Coins:</strong> <span class="math inline">\((1 + x^2 + x^4 + \dots)\)</span></li>
 <li><strong>5 Rupee Coins:</strong> <span class="math inline">\((1 + x^5 + x^{10} + \dots)\)</span></li>
 </ul>
 <p>When you multiply these polynomials, voila! The coefficient of <span class="math inline">\(x^{10}\)</span> in the final product gives you the exact number of ways to make change for 10 Rupees.</p>
-<p>Why does this work? The exponents <em>add</em>, just like the coin values do. The polynomial multiplication automatically explores every single combination of choices for you.</p>
-<p>A PGF does the exact same thing, but for probabilities. For a discrete random variable <span class="math inline">\(X\)</span> that takes integer values with probabilities <span class="math inline">\(p_k=\Pr(X=k)\)</span>, we define: <span class="math display">\[H(z)=\sum_k p_k\,z^k.\]</span></p>
-<p>Why is this natural?</p>
+<p>Why does this work? The exponents <em>add</em>, just like the coin values do. The polynomial multiplication automatically explores every single combination of choices for you. A PGF does the exact same thing, but the coefficients are probabilities instead of just 1s for counting.</p>
+<section id="why-is-this-natural" class="level4">
+<h4 class="anchored" data-anchor-id="why-is-this-natural">Why is this natural?</h4>
 <ul>
-<li><strong>Labels, not powers:</strong> The exponent <span class="math inline">\(k\)</span> is just a label for the outcome <span class="math inline">\(X=k\)</span>. The polynomial is a fancy storage system where the coefficient of <span class="math inline">\(z^k\)</span> holds the probability of the outcome <span class="math inline">\(k\)</span>.</li>
-<li><strong>Convolution by multiplication:</strong> This is the killer feature. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, the probability that <span class="math inline">\(X+Y=n\)</span> is found by summing over all pairs of outcomes that add to <span class="math inline">\(n\)</span>: <span class="math inline">\(\sum_k \Pr(X=k)\Pr(Y=n-k)\)</span>. This operation is called a <strong><a href="https://en.wikipedia.org/wiki/Convolution">convolution</a></strong>. When you multiply the PGFs <span class="math inline">\(H_X(z)\)</span> and <span class="math inline">\(H_Y(z)\)</span>, the rule for multiplying polynomials does <em>exactly the same calculation</em>. The coefficient of <span class="math inline">\(z^n\)</span> in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs: <span class="math display">\[H_{X+Y}(z)=H_X(z)\,H_Y(z).\]</span></li>
-<li><strong>From coins to dice:</strong> For a biased coin where heads <span class="math inline">\(=1\)</span> and tails <span class="math inline">\(=0\)</span>, with <span class="math inline">\(\Pr(1)=p\)</span>, the PGF is <span class="math inline">\(H(z) = (1-p)z^0 + pz^1\)</span>. For two flips, the PGF is <span class="math inline">\(H(z)^2 = (1-p)^2 + 2p(1-p)z^1 + p^2z^2\)</span>. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.</li>
+<li><strong>Labels, not powers:</strong> The exponent <span class="math inline">\(k\)</span> is just a label for the outcome <span class="math inline">\(X=k\)</span>. The polynomial is a fancy storage system where the coefficient of <span class="math inline">\(x^k\)</span> holds the probability of the outcome <span class="math inline">\(k\)</span>.</li>
+<li><strong>Convolution by multiplication:</strong> This is the killer feature. If <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are independent, the probability that <span class="math inline">\(X+Y=n\)</span> is found by summing over all pairs of outcomes that add to <span class="math inline">\(n\)</span>: <span class="math inline">\(\sum_k \Pr(X=k)\Pr(Y=n-k)\)</span>. This operation is called a <strong><a href="https://en.wikipedia.org/wiki/Convolution">convolution</a></strong>. When you multiply the PGFs <span class="math inline">\(H_X(x)\)</span> and <span class="math inline">\(H_Y(x)\)</span>, the rule for multiplying polynomials does <em>exactly the same calculation</em>. The coefficient of <span class="math inline">\(x^n\)</span> in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs: <span class="math display">\[H_{X+Y}(x)=H_X(x)\,H_Y(x).\]</span></li>
+<li><strong>From coins to dice:</strong> For a biased coin where heads <span class="math inline">\(=1\)</span> and tails <span class="math inline">\(=0\)</span>, with <span class="math inline">\(\Pr(1)=p\)</span>, the PGF is <span class="math inline">\(H(x) = (1-p)x^0 + px^1\)</span>. For two flips, the PGF is <span class="math inline">\(H(x)^2 = (1-p)^2 + 2p(1-p)x^1 + p^2x^2\)</span>. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.</li>
 </ul>
-<p>For distributions that can take negative integer values, the PGF becomes a <strong><a href="https://en.wikipedia.org/wiki/Laurent_series">Laurent series</a></strong> with negative powers, like <span class="math inline">\(H(z) = \sum_{k=-\infty}^{\infty} p_k z^k\)</span>. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!</p>
+<p>For distributions that can take negative integer values, the PGF becomes a <strong><a href="https://en.wikipedia.org/wiki/Laurent_series">Laurent series</a></strong> with negative powers, like <span class="math inline">\(H(x) = \sum_{k=-\infty}^{\infty} p_k x^k\)</span>. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!</p>
+<p>Let’s now instantiate this for a fair six-sided die. To match common conventions in generatingfunctionology, we’ll switch the placeholder from <span class="math inline">\(x\)</span> to <span class="math inline">\(z\)</span> when we write the die’s blueprint <span class="math inline">\(h(z)\)</span> and use coefficient extraction <span class="math inline">\([z^n]\)</span>.</p>
 <p>For a standard fair die, the outcomes are <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>, each with probability <span class="math inline">\(\tfrac{1}{6}\)</span>. The blueprint function is: <span class="math display">\[
 h(z) = \frac{1}{6}z^1 + \frac{1}{6}z^2 + \frac{1}{6}z^3 + \frac{1}{6}z^4 + \frac{1}{6}z^5 + \frac{1}{6}z^6
 \]</span></p>
+</section>
 </section>
 <section id="the-magic-of-multiplication" class="level3">
 <h3 class="anchored" data-anchor-id="the-magic-of-multiplication"><strong>The Magic of Multiplication</strong></h3>

@@ -1576,6 +1576,97 @@ mjx-container, .MathJax {
   animation: gradientShift 10s ease infinite;
 }
 
+/* Override Quarto's column-page-left positioning for title banner */
+.quarto-title-banner .quarto-title.column-page-left,
+.quarto-title-banner .quarto-title.column-page,
+.quarto-title-banner .column-page-left,
+.quarto-title-banner .column-page {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  grid-column: 1 / -1 !important; /* Full width in grid */
+}
+
+/* Center the title content */
+.quarto-title-banner .quarto-title {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Ensure title banner children are centered */
+.quarto-title-banner .quarto-title > * {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Override page-columns container in banner */
+.quarto-title-banner .page-columns,
+.quarto-title-banner .quarto-title-banner-page-columns {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Fix post title alignment - Override column-body for posts */
+.quarto-title-banner .quarto-title.column-body,
+.quarto-title-banner .column-body,
+.quarto-title.column-body {
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  grid-column: 1 / -1 !important; /* Break out of grid */
+}
+
+/* Override the page-columns grid that contains the title */
+.quarto-title-banner .page-columns {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  grid-template-columns: none !important;
+}
+
+/* Specifically target column-body within page-columns */
+.page-columns .column-body {
+  grid-column-start: unset !important;
+  grid-column-end: unset !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+}
+
+/* Force title elements to center in post banners */
+.quarto-title-banner .column-body h1.title,
+.quarto-title-banner .column-body .subtitle,
+.quarto-title-banner .column-body .lead {
+  text-align: center !important;
+  width: 100% !important;
+}
+
+/* Center categories in post banners */
+.quarto-title-banner .column-body .quarto-categories {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
 @keyframes gradientShift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
