@@ -131,7 +131,7 @@ This is our perfect machine. It works even if $P(z)$ is a Laurent series with ne
 
 Let's use the simplest and most convenient loop: the unit circle, parametrized by $z = e^{i\theta}$ for $\theta \in [-\pi, \pi]$. Let's see what happens to our formula.
 
-![A diagram of the unit circle in the complex plane, showing $z = e^{i\theta}$.](images/unit-circle-contour.png){fig-alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis."}
+![A diagram of the unit circle in the complex plane, showing $z = e^{i\theta}$.](images/unit-circle-contour.png){fig-alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis." width="400"}
 
 *   The function is $f(z) = h(z)^m$.
 *   The differential is $dz = i e^{i\theta} d\theta$.
