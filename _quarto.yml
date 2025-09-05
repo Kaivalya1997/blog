@@ -4,7 +4,7 @@ project:
 
 website:
   title: "KD's Blog"
-  site-url: "https://kaivalya1997.github.io"
+  site-url: "https://kaivalya1997.github.io/blog"
   description: "Exploring the frontiers of Mathematics and Artificial Intelligence"
   favicon: favicon.ico
   image: "profile.jpg"
