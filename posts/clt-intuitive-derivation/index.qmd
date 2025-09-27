@@ -17,7 +17,7 @@ draft: false
 
 The **Central Limit Theorem (CLT)** answers an important question: Why does the **bell curve** (the Normal Distribution) show up everywhere in the real world?
 
-![The Normal Distribution with it's pdf.](images/normal_distribution.png){fig-alt="Normal Distribution bell curve diagram" width="600"}
+![The Normal Distribution with it's pdf.](images/normal_distribution.png){fig-alt="Normal Distribution bell curve diagram" width="1000"}
 
 More specifically, the theorem describes what happens when we take a random variable, say $X$, and repeat any "experiment" many times to get a series of outcomes (resulting output values of the random variable), $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
 
@@ -148,7 +148,7 @@ This is a perfect machine for our purpose. It works even if $P(z)$ is a Laurent 
 
 Let's use the simplest and most convenient loop: the unit circle, parametrized by $z = e^{i\theta}$ for $\theta \in [-\pi, \pi]$. Let's see what happens to our formula.
 
-![A diagram of the unit circle in the complex plane, showing $z = e^{i\theta}$.](images/unit-circle-contour.png){fig-alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis." width="400"}
+![A diagram of the unit circle in the complex plane, showing $z = e^{i\theta}$.](images/unit-circle-contour.png){fig-alt="The unit circle in the x-y plane, centered at the origin. A point z on the circle is shown with an angle theta from the positive x-axis." width="800"}
 
 *   The function is $f(z) = h(z)^m$.
 *   The differential is $dz = i e^{i\theta} d\theta$.
