@@ -15,91 +15,91 @@ draft: false
 
 ## **The CLT**
 
-The **Central Limit Theorem (CLT)** answers an important question: Why does the **bell curve** (or Normal Distribution) show up everywhere in the real world?
+The **Central Limit Theorem (CLT)** answers an important question: Why does the **bell curve** (the Normal Distribution) show up everywhere in the real world?
 
 ![The Normal Distribution with it's pdf.](images/normal_distribution.png){fig-alt="Normal Distribution bell curve diagram" width="600"}
 
-Specifically, the theorem describes what happens when you take a random variable, $X$, and repeat the experiment many times to get a series of outcomes, $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
+More specifically, the theorem describes what happens when we take a random variable, say $X$, and repeat any "experiment" many times to get a series of outcomes (resulting output values of the random variable), $X_1, X_2, \dots, X_m$. What does the distribution of their **sum** ($S_m = X_1 + \dots + X_m$) or their **average** ($\bar{X}_m = S_m/m$) look like when $m$ is very large?
 
-For the magic to happen, the random variables must be **IID (Independent and Identically Distributed)**.
+For the bell curve phenomenon to happen, the random variables must be **IID (Independent and Identically Distributed)**.
 
--   **Independent:** The outcome of one trial doesn't influence the next (the die has no memory).
--   **Identically Distributed:** We're drawing from the same random process every time (e.g., rolling the *same* weird die).
+-   **Independent:** The outcome of one trial of the experiment doesn't influence the next (the die has no memory).
+-   **Identically Distributed:** We're drawing from the same random process every time (e.g., rolling the *same* die with the same probability distribution).
 
-When these conditions are met, the **Central Limit Theorem** states that the distribution of the sum (or average) will converge to a perfect bell curve.
+When these conditions are met, the **Central Limit Theorem** states that the distribution of the sum (or average) will converge to a curve as the number of trials $m$ becomes larger and larger.
 
-But what makes this so profound is its **universality**. It doesn't matter what the probability distribution of the original variable $X$ was. You could be rolling a standard six-sided die, flipping a biased coin, or measuring something with a bizarre, skewed distribution that looks nothing like a bell curve. The result is always the same: after summing enough of them, the bell curve emerges.
+What makes this profound and useful though is its **universality**. It doesn't matter what the probability distribution of the original variable $X$ is. We could be rolling an ordinary six-sided die, tossing a biased coin, or measuring something with a weird, skewed distribution that looks nothing like a bell curve. The result is always the same: after summing enough of them, the bell curve emerges naturally.
 
 We see this everywhere:
 
--   **Human Height:** The height of a single person is determined by a vast number of random factors: genetics, nutrition, environment, and so on. Each factor contributes a small amount, pushing the final height up or down. While the distribution of each individual factor is unknown and certainly not normal, their *sum* results in the classic bell-curve distribution of heights we see in the population.
--   **Manufacturing:** The number of microscopic flaws in a single microchip might follow some random, unknown distribution. But the *total* number of flaws in a batch of 500 chips will, again, follow a bell curve, which is the foundation of statistical quality control.
+-   **Human Height:** The height of a single person is determined by a large number of random factors: genetics, nutrition, and so on. The final height of a single person (the random variable in this case) may be a complicated function of these factors, and may not be a normal distribution. Still when the *sum* of heights for a large number of different individuals is taken, this *sum* (and thus the *average* height) results in the classic bell-curve distribution of heights we see in the population.
+-   **Manufacturing:** The number of microscopic flaws in a single semiconductor chip might follow some unknown distribution dependent on the manufacturing process and other factors. But the *total* number of flaws in a batch of chips (say a 1000 chips) will, again, follow a bell curve, which is the basis for statistical quality control.
 
-The individual randomness gets "averaged out," and a predictable, universal shape emerges. The final bell curve only cares about the mean and variance of the original die, completely forgetting all other details of its shape. This derivation is a mathematical journey to see exactly why this phenomenon occurs.
+So essentially what happens is that individual randomness gets "averaged out" and a predictable shape emerges. The emergent bell curve only cares about the mean and variance of the original random variable $X$, completely forgetting all other details of its probability distribution. The following derivation explains exactly why this phenomenon occurs.
 
 ---
 
 ## **Encoding Probabilities (The PGF)**
 
-To get to the heart of the Central Limit Theorem, we need a mathematical tool to describe what happens when we sum up many random variables, like the rolls of a die. Let's try to build such a tool from scratch.
+To get to the heart of the Central Limit Theorem, we need a mathematical tool to describe what happens when we sum up many random variables, like the rolls of a die. Let's try to build such a tool from first principles.
 
-The core challenge is this: when we add the scores from two dice, their outcomes *add*, but their independent probabilities *multiply*. How can we find a mathematical representation that captures this dual behavior?
+The challenge is this: when we add the scores from two dice, their outcomes should *add*, but their independent probabilities should *multiply* (by the laws of probability). How can we find a mathematical representation that encapsulates this behavior?
 
-Let's focus on the outcomes first. Suppose we represent an outcome value $a$ by $f(a)$. We want combining two outcomes $a$ and $b$ to correspond to the outcome $a+b$. If we combine representations by multiplying, then we require $f(a)\,f(b)=f(a+b)$.
+Let's focus on the outcomes first. Suppose we represent an outcome value $a$ by $f(a)$. We want the combination of two outcomes $a$ and $b$ to correspond to the outcome $a+b$. The "combination" of two outcomes entails a multiplication of their probabilities (only if the outcomes are independent). Thus our representation function $f(x)$ needs to satisfy $f(a)\,f(b)=f(a+b)$.
 
-This functional equation has a standard solution: take $f(a)=x^a$ for some base $x$. Then $x^a x^b = x^{a+b}$, exactly as required.
+This functional equation is pretty common and has a well known solution which can be easily derived: $f(a)=x^a$ for some base $x$. We see that $x^a x^b = x^{a+b}$, exactly as we require.
 
-This gives us the key. We can represent an outcome $k$ with the term $x^k$. The variable $x$ is just a formal placeholder. Now, where do the probabilities fit in? A probability $p_k$ is the weight of the outcome $k$, so the most natural place to put it is as a coefficient: $p_k x^k$.
+This gives us the key. We can represent an outcome $k$ with the term $x^k$. The variable $x$ is just a placeholder. Now where do the probabilities fit in here? A probability $p_k$ is the weight of the outcome $k$, so the most natural place to put it is as a coefficient: $p_k x^k$.
 
-To represent the entire die, which can take on any of the values $\{1, 2, 3, 4, 5, 6\}$, we can simply sum up these weighted terms. This creates a polynomial, which packages all the information about our random variable into a single expression. This is the **Probability Generating Function (PGF)**.
+To represent the entire die, which can take on any of the values $\{1, 2, 3, 4, 5, 6\}$, we can simply sum up these weighted terms. This creates a polynomial, which packages all the information about our random variable into a single expression. This representation is called the **Probability Generating Function (PGF)**.
 
-For a discrete random variable $X$ that takes integer values with probabilities $p_k=\Pr(X=k)$, we formally define its PGF as:
+For a discrete random variable $X$ that takes integer values with probabilities $p_k=\Pr(X=k)$, we define its PGF as:
 
 $$H(x)=\sum_k p_k\,x^k.$$
 
-Before applying this representation to dice, a quick analogy from counting clarifies why polynomials are the right container.
+Before applying this representation to dice, a quick analogy from counting clarifies why polynomials are appropriate and convenient representations encoding probability distributions.
 
-### A gentler start: an analogy from counting
+### An analogy from counting
 
-Before diving deeper into probabilities, let's see this polynomial trick in a simpler context: counting combinations. This idea is a cornerstone of **[combinatorics](https://en.wikipedia.org/wiki/Combinatorics)** for solving counting problems.
+ Let's see this polynomial representation we discussed above in a simpler context: counting combinations. This idea is a cornerstone of **[combinatorics](https://en.wikipedia.org/wiki/Combinatorics)** for solving counting problems.
 
-Imagine you want to count the number of ways to form 10 Rupees using a collection of 1, 2, and 5 Rupee coins. This is a classic combinatorial problem. We can represent the available coins as polynomials:
+Imagine we want to count the number of ways to form 10 Rupees using a collection of 1, 2, and 5 Rupee coins. This is a classic combinatorial problem. We can represent the available coins as polynomials:
 
 -   **1 Rupee Coins:** $(1 + x^1 + x^2 + \dots)$
 -   **2 Rupee Coins:** $(1 + x^2 + x^4 + \dots)$
 -   **5 Rupee Coins:** $(1 + x^5 + x^{10} + \dots)$
 
-When you multiply these polynomials, voila! The coefficient of $x^{10}$ in the final product gives you the exact number of ways to make change for 10 Rupees.
+When we multiply these polynomials, voila! The coefficient of $x^{10}$ in the final product gives we the exact number of ways to make change for 10 Rupees.
 
-Why does this work? The exponents *add*, just like the coin values do. The polynomial multiplication automatically explores every single combination of choices for you. A PGF does the exact same thing, but the coefficients are probabilities instead of just 1s for counting.
+Why does this work? The exponents *add*, just like the coin values do. The polynomial multiplication automatically explores every single combination of choices for us. A PGF does the exact same thing, but the coefficients are probabilities instead of $1's$ for counting.
 
-#### Why is this natural?
+#### Why is this a natural representation?
 
--   **Labels, not powers:** The exponent $k$ is just a label for the outcome $X=k$. The polynomial is a fancy storage system where the coefficient of $x^k$ holds the probability of the outcome $k$.
--   **Convolution by multiplication:** This is the killer feature. If $X$ and $Y$ are independent, the probability that $X+Y=n$ is found by summing over all pairs of outcomes that add to $n$: $\sum_k \Pr(X=k)\Pr(Y=n-k)$. This operation is called a **[convolution](https://en.wikipedia.org/wiki/Convolution)**. When you multiply the PGFs $H_X(x)$ and $H_Y(x)$, the rule for multiplying polynomials does *exactly the same calculation*. The coefficient of $x^n$ in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs:
+-   **Powers as labels:** The exponent $k$ is just a label for the outcome $X=k$. The polynomial is in effect a storage system where the coefficient of $x^k$ holds the probability of the outcome $k$.
+-   **Convolution by multiplication:** This is the crux of why this representation works. If $X$ and $Y$ are independent, the probability that $X+Y=n$ is found by summing over all pairs of outcomes that add to $n$: $\sum_k \Pr(X=k)\Pr(Y=n-k)$. This operation is called a **[convolution](https://en.wikipedia.org/wiki/Convolution)**. When we multiply the PGFs $H_X(x)$ and $H_Y(x)$, the rule for multiplying polynomials does *exactly the same calculation*. The coefficient of $x^n$ in the product is precisely that sum! So, for sums of independent variables, the PGF of the sum is the product of the PGFs:
     $$H_{X+Y}(x)=H_X(x)\,H_Y(x).$$
--   **From coins to dice:** For a biased coin where heads $=1$ and tails $=0$, with $\Pr(1)=p$, the PGF is $H(x) = (1-p)x^0 + px^1$. For two flips, the PGF is $H(x)^2 = (1-p)^2 + 2p(1-p)x^1 + p^2x^2$. The coefficients are the binomial probabilities! This idea scales perfectly to dice or any other discrete distribution.
+-   **From coins to dice:** For a biased coin where heads $=1$ and tails $=0$, with $\Pr(1)=p$, the PGF is $H(x) = (1-p)x^0 + px^1$. For two flips, the PGF is $H(x)^2 = (1-p)^2 + 2p(1-p)x^1 + p^2x^2$. The coefficients are simply the binomial probabilities. This idea extends perfectly to dice or any other discrete distribution.
 
 For distributions that can take negative integer values, the PGF becomes a **[Laurent series](https://en.wikipedia.org/wiki/Laurent_series)** with negative powers, like $H(x) = \sum_{k=-\infty}^{\infty} p_k x^k$. All the logic, including the convolution property and the Cauchy integral extractor, works exactly the same!
 
-Let's now instantiate this for a fair six-sided die. To match common conventions in generatingfunctionology, we'll switch the placeholder from $x$ to $z$ when we write the die's blueprint $h(z)$ and use coefficient extraction $[z^n]$.
+Let's now demonstrate this for a fair six-sided die. To match common conventions, we'll switch the placeholder from $x$ to $z$ when we write the die's blueprint $h(z)$ and use coefficient extraction $[z^n]$.
 
-For a standard fair die, the outcomes are $\{1, 2, 3, 4, 5, 6\}$, each with probability $\tfrac{1}{6}$. The blueprint function is:
+For a standard fair die, the outcomes are $\{1, 2, 3, 4, 5, 6\}$, each with probability $\tfrac{1}{6}$. The representation function is:
 $$
  h(z) = \frac{1}{6}z^1 + \frac{1}{6}z^2 + \frac{1}{6}z^3 + \frac{1}{6}z^4 + \frac{1}{6}z^5 + \frac{1}{6}z^6
 $$
 
 ### **The Magic of Multiplication**
-Here's where the magic happens. What if we want the probabilities for the sum of **two** dice? We simply multiply the blueprint by itself: $h(z)^2$.
+What if we want the probabilities for the sum of **two** dice? We simply multiply the representation function by itself: $h(z)^2$.
 
-Why does this work? Consider getting a total of 3. This can happen as (1+2) or (2+1). When we multiply out $h(z) \times h(z)$, the math automatically finds every combination that produces a $z^3$ term:
+Why does this work? Consider getting a total of 3. This can happen as (1+2) or (2+1). When we multiply out $h(z) \times h(z)$, this automatically finds every combination that produces a $z^3$ term:
 $$
 \underbrace{\left(\tfrac{1}{6}z^1\right) \times \left(\tfrac{1}{6}z^2\right)}_{\text{Roll 1, then 2}} +
 \underbrace{\left(\tfrac{1}{6}z^2\right) \times \left(\tfrac{1}{6}z^1\right)}_{\text{Roll 2, then 1}}
 = \frac{2}{36}z^3
 $$
 
-The math does all the tedious bookkeeping for us! The coefficient $\tfrac{2}{36}$ is exactly the correct probability for the sum being 3.
+The resulting expression does all the tedious bookkeeping for us! The coefficient $\tfrac{2}{36}$ is exactly the correct probability for the sum being 3.
 
 This powerful idea is our starting point:
 **To find the probability that the sum of $m$ rolls is $n$, we just need to find the coefficient of the $z^n$ term in the expansion of $h(z)^m$.** We write this as $[z^n]h(z)^m$.
@@ -109,7 +109,7 @@ Let $h(z)=\tfrac{1}{6}(z+z^2+z^3+z^4+z^5+z^6)$. For three dice,
 $$
 [z^9]h(z)^3 = \sum_{a+b+c=9} \tfrac{1}{6^3}\,1 = \frac{25}{216},
 $$
-where the $25$ solutions $(a,b,c)\in\{1,\dots,6\}^3$ with $a+b+c=9$ are counted by simple stars-and-bars with bounds (or by direct enumeration). This matches the usual table of sums for three dice.
+where the $25$ solutions $(a,b,c)\in\{1,\dots,6\}^3$ with $a+b+c=9$ are counted by by direct enumeration. This matches the usual table of sums for three dice.
 
 #### Notation: the coefficient operator
 For a formal power series $F(z)=\sum_n c_n z^n$, the extractor is
@@ -122,7 +122,7 @@ When $F$ is analytic on and inside a circle $\gamma$, Cauchy’s formula gives a
 
 ### Why do we need an extractor?
 
-For a small number of dice, say $m=3$, we could grit our teeth and manually expand the polynomial $h(z)^3$ to find the probability of any given sum. But for $m=100$, this is impossible. The polynomial would have hundreds of terms, and we only care about *one* of them! We need a surgical tool, a mathematical machine that can reach into the enormous expansion of $h(z)^m$ and pull out just the single coefficient we need, $[z^n]h(z)^m$, without doing the whole expansion.
+For a small number of dice, say $m=3$, we could grit our teeth and manually expand the polynomial $h(z)^3$ to find the probability of any given sum. But for $m=100$, this is practically impossible. The polynomial would have hundreds of terms, and we only care about *one* of them! We need a surgical tool, a mathematical machine that can reach out into the enormous expansion of $h(z)^m$ and pull out just the single coefficient we need, $[z^n]h(z)^m$, without doing the whole expansion.
 
 ### How to Isolate a Coefficient (The Residue Trick)
 
@@ -132,17 +132,17 @@ A brilliant trick from complex analysis involves division. If we divide $P(z)$ b
 $$
 \frac{P(z)}{z^{n+1}} = \frac{c_0}{z^{n+1}} + \frac{c_1}{z^n} + \dots + \frac{c_n}{z} + c_{n+1} + c_{n+2}z + \dots
 $$
-Look at that! The coefficient we want, $c_n$, is now attached to the $\frac{1}{z}$ term. This special term has a name: it's the **[residue](https://en.wikipedia.org/wiki/Residue_(complex_analysis))** of the function at $z=0$.
+Isn't that neat! The coefficient we want, $c_n$, is now attached to the $\frac{1}{z}$ term. This special term has a name: it's the **[residue](https://en.wikipedia.org/wiki/Residue_(complex_analysis))** of the function at $z=0$.
 
-This is where the magic happens. The **[Cauchy's Residue Theorem](https://en.wikipedia.org/wiki/Residue_theorem)** provides our extractor machine. It states that if you integrate a complex function around a closed loop, the result is exactly $2\pi i$ times the sum of the residues of the poles inside that loop. In our case, with the pole at $z=0$, we get:
+Thus the **[Cauchy's Residue Theorem](https://en.wikipedia.org/wiki/Residue_theorem)** provides our extractor machine. It states that if we integrate a complex function around a closed loop, the result is exactly $2\pi i$ times the sum of the residues of the poles inside that loop. In our case, with the pole at $z=0$, we get:
 $$
 \oint_\gamma \frac{P(z)}{z^{n+1}} dz = 2\pi i \cdot (\text{residue at } z=0) = 2\pi i \cdot c_n
 $$
-Rearranging this gives us our formula! This is a specialized version known as **[Cauchy's integral formula](https://en.wikipedia.org/wiki/Cauchy's_integral_formula)** for coefficients:
+Rearranging this gives us our formula. This is a specialized version known as **[Cauchy's integral formula](https://en.wikipedia.org/wiki/Cauchy's_integral_formula)** for coefficients:
 $$
 c_n = [z^n]P(z) = \frac{1}{2\pi i} \oint_\gamma \frac{P(z)}{z^{n+1}} dz
 $$
-This is our perfect machine. It works even if $P(z)$ is a Laurent series with negative powers, allowing us to handle random variables with both positive and negative outcomes. We can now find any coefficient just by performing an integral, completely bypassing the nightmarish polynomial expansion.
+This is a perfect machine for our purpose. It works even if $P(z)$ is a Laurent series with negative powers, allowing us to handle random variables with both positive and negative outcomes. We can now find any coefficient just by performing an integral, completely bypassing the nightmarish polynomial expansion.
 
 ### The Machine in Action (and a Surprising Transformation!)
 
@@ -164,30 +164,28 @@ $$
 $$
 Wait a minute... that's amazing! This is *exactly* the formula for the $n$-th coefficient of a **[Fourier series](https://en.wikipedia.org/wiki/Fourier_series)**!
 
-### The Deep Connection: Power Series and Fourier Series
+### A Deep Connection: Power Series and Fourier Series
 
-Why did this happen? This is not a coincidence, it's one of the most beautiful and profound connections in mathematics. It's about changing your point of view.
+Why did this happen? This is not a coincidence, it's one of the most beautiful connections in mathematics. It's about changing our point of view.
 
 -   A **Power Series** (like our PGF) is built on a basis of monomials: $\{1, z, z^2, z^3, \dots\}$. These are simple algebraic objects.
 -   A **Fourier Series** is built on a basis of complex exponentials: $\{\dots, e^{-2i\theta}, e^{-i\theta}, 1, e^{i\theta}, e^{2i\theta}, \dots\}$. These are functions of pure oscillation.
 
-When we evaluate our PGF on the unit circle by setting $z=e^{i\theta}$, we are literally swapping out the algebraic basis for the oscillation basis. The power $z^k$ becomes the pure frequency $e^{ik\theta}$.
+When we evaluate our PGF on the unit circle by setting $z=e^{i\theta}$, we are swapping out the algebraic basis for the oscillation basis. The power $z^k$ becomes the pure frequency $e^{ik\theta}$.
 
-The integral in Cauchy's formula is a machine for extracting coefficients by averaging over a circular path. The integral in Fourier analysis is a machine for extracting coefficients by correlating with a specific frequency (projecting onto a basis function). **It turns out they are the same machine!** The act of choosing the unit circle as our path in the complex plane forces the coefficient-extractor to behave just like a Fourier component-extractor.
-
-The PGF is the natural tool from the world of combinatorics and algebra. The Fourier series is the natural tool from the world of waves, signals, and harmonic analysis. The Central Limit Theorem lives at the intersection of these two worlds, and the unit circle is the portal between them. This is why the Fourier transform emerging here isn't just natural, it's inevitable.
+The integral in Cauchy's formula is a machine for extracting coefficients by averaging over a circular path. The integral in Fourier analysis is a machine for extracting coefficients by evaluating a dot product with a specific frequency (projecting onto the basis function). **It turns out they are the same machine!** The act of choosing the unit circle as our path in the complex plane forces the coefficient-extractor to behave just like a Fourier component-extractor.
 
 ---
 
 ## **Analyzing the Integral with a Taylor Series**
 
-This integral is exact, but to solve it, we must approximate it for large $m$.
+To analyze the result of the above mentioned integral properly, we must approximate it for large $m$.
 
 ### The "Characteristic Function" Appears Out of Nowhere!
 
 A natural question is: why not expand $h(e^{i\theta})^m$ directly? A function raised to a large power $m$ is mathematically very difficult to handle. The standard and most powerful technique is to first analyze its logarithm. This clever step turns the difficult power $m$ into a simple multiplier.
 
-So let's look closely at the thing we're taking the log of: $h(e^{i\theta})$. What is it, really? Let's write it out from its definition:
+So let's look closely at the thing we're taking the log of: $h(e^{i\theta})$. What is it really? Let's write it out:
 $$
 h(e^{i\theta}) = \sum_k \Pr(X=k) e^{ik\theta}
 $$
@@ -197,16 +195,16 @@ h(e^{i\theta}) = \mathbb{E}[e^{i\theta X}]
 $$
 This object is so important in probability theory that it has its own name: the **[Characteristic Function](https://en.wikipedia.org/wiki/Characteristic_function_(probability_theory))**, denoted $\varphi_X(\theta)$.
 
-This is a key moment. In many academic books, the characteristic function is introduced on page one like a rabbit pulled from a hat, leaving you wondering where it came from. But here, it hasn't been pulled from a hat at all! It has emerged completely naturally. We started with the intuitive idea of a PGF for counting. We then used a powerful complex analysis machine to extract a coefficient. By running that machine on the unit circle, the PGF *automatically transformed itself into the characteristic function*. It's the Fourier transform of the probability distribution, and it appears because we chose a Fourier-like method to solve our problem. Amazing!
+This is crucial. In many academic books, the characteristic function is introduced on page one like a rabbit pulled from a hat, leaving us wondering where it came from. But here, this isn't the case at all! It has emerged completely naturally. We started with the intuitive idea of a PGF for counting. We then used a complex analysis machine to extract a coefficient. By running that machine on the unit circle, the PGF *automatically transformed itself into the characteristic function*. It's the Fourier transform of the probability distribution, and it appears because we chose a Fourier-like method to solve our problem. Isn't this cool?
 
 So, we define $g(\theta) = \log \varphi_X(\theta) = \log h(e^{i\theta})$. Our integrand's exponent is now $m\, g(\theta) - in\theta$.
 
 ### **The Taylor Series and Cumulants**
-The natural next step to approximate the integral is to expand the function $g(\theta)$ as a Taylor series. This immediately raises the crucial question: around which point should we center the expansion? As we will see, the entire success of the approximation hinges on choosing $\theta=0$.
+The natural next step to approximate the integral is to expand the function $g(\theta)$ as a Taylor series. This immediately raises the important question: around which point should we center the expansion? As we will see, the entire success of the approximation hinges on choosing $\theta=0$.
 
 The rigorous answer for this choice lies in analyzing the magnitude of our integrand. The integral we must solve is $\frac{1}{2\pi} \int \varphi_X(\theta)^m e^{-in\theta} d\theta$. The dominant term that dictates the behavior of the integral for large $m$ is $\varphi_X(\theta)^m$. To analyze its magnitude, we use a key property of complex numbers: the magnitude of a number raised to a power is the magnitude of the number raised to that same power, i.e., $|z^n|=|z|^n$. Therefore, the magnitude of our term is simply $|\varphi_X(\theta)|^m$.
 
-Our first step is to prove that the magnitude of the characteristic function, $|\varphi_X(\theta)|$, is at most 1. The intuition for this comes from visualizing the sum of complex numbers as vector addition—since complex numbers add component-wise, just like vectors, the process can be seen as joining vectors tip-to-tail. The **triangle inequality** ($|\sum z_i| \le \sum |z_i|$) simply states that the length of the final resulting vector can never be greater than the sum of the lengths of all the individual vectors.
+Our first step is to prove that the magnitude of the characteristic function, $|\varphi_X(\theta)|$, is at most $1$. The intuition for this comes from visualizing the sum of complex numbers as vector addition—since complex numbers add component-wise, just like vectors, the process can be seen as joining vectors tip-to-tail. The **triangle inequality** ($|\sum z_i| \le \sum |z_i|$) simply states that the length of the final resulting vector can never be greater than the sum of the lengths of all the individual vectors.
 
 By definition, $\varphi_X(\theta) = \sum_k p_k e^{ik\theta}$. Applying the triangle inequality:
 $$
@@ -220,9 +218,9 @@ The equality $|\varphi_X(\theta)|=1$ holds if and only if all the complex number
 
 Now, consider what happens when we raise this to a large power, $m$. The peak at $\theta=0$, where the value is $1^m = 1$, remains. However, for any other value of $\theta$ where $|\varphi_X(\theta)| < 1$, the value of $|\varphi_X(\theta)|^m$ plummets towards zero exponentially fast as $m$ grows. For instance, if at some point the magnitude is 0.99, for $m=1000$ it becomes $0.99^{1000} \approx 4 \times 10^{-5}$.
 
-This creates an extremely sharp "spike" in the integrand's magnitude, centered at $\theta=0$. The result is that the only part of the integral that contributes significantly to the final value comes from an infinitesimally small neighborhood around $\theta=0$. The contributions from all other regions are exponentially suppressed and become negligible. Therefore, to accurately approximate the integral for large $m$, we *must* approximate the function $g(\theta)$ in this tiny, all-important region around the origin. The Taylor series is the fundamental mathematical tool for this. Expanding around $\theta=0$ is not a mere convenience; it is a mathematically necessary step.
+This creates a very sharp "spike" in the integrand's magnitude, centered at $\theta=0$. The result is that the only part of the integral that contributes significantly to the final value comes from an infinitesimally small neighborhood around $\theta=0$. The contributions from all other regions are exponentially suppressed and become negligible. Therefore, to accurately approximate the integral for large $m$, we *must* approximate the function $g(\theta)$ in this tiny but important region around the origin. The Taylor series is the fundamental for this. Expanding around $\theta=0$ is not a mere convenience; it is a necessary step.
 
-Now that we have rigorously established *why* we must expand around $\theta=0$, we can proceed. The Taylor series of $g(\theta) = \log \mathbb{E}[e^{i\theta X}]$ is special because its coefficients define the **[cumulants](https://en.wikipedia.org/wiki/Cumulant)** ($\kappa_j$) of our distribution. The **general formula** for the $j$-th cumulant is given by the $j$-th derivative of the log-generating function evaluated at the origin:
+Now that we have established *why* we must expand around $\theta=0$, we can proceed further. The Taylor series of $g(\theta) = \log \mathbb{E}[e^{i\theta X}]$ is special because its coefficients define the **[cumulants](https://en.wikipedia.org/wiki/Cumulant)** ($\kappa_j$) of our distribution. The **general formula** for the $j$-th cumulant is given by the $j$-th derivative of the log-generating function evaluated at the origin:
 $$
 \kappa_j = \frac{1}{i^j} \left. \frac{d^j}{d\theta^j} \, g(\theta) \right|_{\theta=0}.
 $$
@@ -250,7 +248,7 @@ Now we put our Taylor series approximation back into the integral for $\Pr(S_m=n
 $$
 m\left(i\mu\,\theta - \frac{\sigma^2}{2}\,\theta^2 - i\frac{\kappa_3}{6}\,\theta^3 + \frac{\kappa_4}{24}\,\theta^4 + \dots\right) - in\theta.
 $$
-This still looks like a mess. The key insight is that for large $m$, the sum $S_m$ will almost certainly be very close to its expected value, $m\mu$. We are interested in the shape of the distribution *around this mean*. The question "what does the distribution of the sum look like?" is really "what does the distribution of deviations from the mean look like?"
+This still looks like a complicated mess. The key insight is that for large $m$, the sum $S_m$ will almost certainly be very close to its expected value, $m\mu$. We are interested in the shape of the distribution *around this mean*. The question "what does the distribution of the sum look like?" is really "what does the distribution of deviations from the mean look like?"
 
 To formalize this, we need a new coordinate system that is centered at the mean and scaled appropriately. The mean of the sum $S_m$ is $m\mu$, and its variance is $m\sigma^2$, making its standard deviation $\sigma\sqrt{m}$. It is natural to measure deviations in units of this standard deviation.
 
@@ -268,18 +266,18 @@ Distributing the last term gives:
 $$
 (im\mu\theta - m\frac{\sigma^2}{2}\theta^2 - \dots) - im\mu\theta - ix\sigma\sqrt{m}\theta
 $$
-Look! The main term involving the mean, $im\mu\theta$, cancels out perfectly! This is no accident; this is *why* we centered our coordinate system at the mean. The purpose of this step was to eliminate the distracting shifting effect of the mean so we could focus purely on the shape of the distribution. The exponent becomes:
+Look! The main term involving the mean, $im\mu\theta$, cancels out perfectly! This is no accident; this is *why* we centered our coordinate system at the mean. The purpose of this step was to eliminate the shifting effect of the mean so we could focus purely on the shape of the distribution. The exponent becomes:
 $$
 -m\frac{\sigma^2}{2}\theta^2 - ix\sigma\sqrt{m}\theta - m\left(i\frac{\kappa_3}{6}\theta^3 + \dots\right)
 $$
 
-### The Mathematical Microscope
+### A Mathematical Microscope
 
 Our exponent, $-m\frac{\sigma^2}{2}\theta^2 - ix\sigma\sqrt{m}\theta - m\left(i\frac{\kappa_3}{6}\theta^3 + \dots\right)$, still looks complicated. The key to simplifying it is to understand the behavior for large $m$.
 
-The term $e^{-m\frac{\sigma^2}{2}\theta^2}$ acts as a Gaussian "envelope" that rapidly decays to zero as $\theta$ moves away from the origin. As $m$ gets larger, this envelope shrinks tighter and tighter, meaning the effective region of integration gets narrower. This provides a formal reason for our earlier insight: the integral is dominated by the behavior near $\theta=0$.
+The term $e^{-m\frac{\sigma^2}{2}\theta^2}$ acts as a Gaussian "envelope" that rapidly decays to zero as $\theta$ moves away from the origin. As $m$ gets larger, this envelope shrinks tighter and tighter, meaning the effective region of integration gets narrower. This provides a reason for our earlier insight: the integral is dominated by the behavior near $\theta=0$.
 
-This observation forces a critical question: how do we properly "zoom in" on the origin to see the stable, non-trivial behavior of the integral as $m \to \infty$? We need a change of variables for $\theta$ that depends on $m$. Let's consider the dominant term, $m\theta^2$. For the integral to converge to a meaningful, constant shape, this term must be stable—it cannot vanish or diverge as $m \to \infty$. This implies that $m\theta^2$ must be of order 1. This simple requirement dictates the scaling law:
+This observation forces a critical question: how do we properly "zoom in" on the origin to see the stable, non-trivial behavior of the integral as $m \to \infty$? We need a change of variables for $\theta$ that depends on $m$. Let's consider the dominant term, $m\theta^2$. For the integral to converge to a meaningful, constant shape, this term must be stable — it cannot vanish or diverge as $m \to \infty$. This implies that $m\theta^2$ must be of order $1$. This simple requirement dictates the scaling:
 $$
 m\theta^2 \sim \text{constant} \implies \theta \sim \frac{1}{\sqrt{m}}
 $$
@@ -317,11 +315,11 @@ Here, $u$ is our new coordinate, a "stabilized" variable that lives on a constan
 
 *   **Higher-Order Terms:** All subsequent terms will have even higher powers of $\sqrt{m}$ in the denominator ($m, m^{3/2}, \dots$), so they will disappear even faster.
 
-Our once-horrible exponent simplifies beautifully:
+Our once messy exponent simplifies beautifully:
 $$
  \text{Exponent} = \underbrace{-\frac{\sigma^2}{2}u^2 - ix\sigma u}_{\text{The stable Bell Curve shape}} \; - \; \frac{i\kappa_3 u^3}{6\sqrt{m}} \; + \; \frac{\kappa_4 u^4}{24 m} \; + \; O\!\left(m^{-3/2}\right)
 $$
-As $m \to \infty$, all the terms that depend on the specific, unique features of our original die (skewness, kurtosis, etc.) are washed away. Only the universal terms related to the mean and variance survive. This is the heart of the CLT's universality!
+As $m \to \infty$, all the terms that depend on the specific, unique features of our original die (skewness, kurtosis, etc.) are washed away. Only the terms related to the mean and variance survive.
 
 Our integral for the probability becomes:
 $$
@@ -346,7 +344,7 @@ The integral on the right-hand side is a form of the Gaussian integral. Its eval
 
 If $b$ is a real number, this is easy to see. We can just make a substitution $u = t+b$. Then $du = dt$, and the limits of integration don't change. The integral becomes $\int_{-\infty}^{\infty} e^{-au^2}du$, which is a standard Gaussian integral whose value is $\sqrt{\pi/a}$.
 
-In our case, the shift is a purely imaginary number ($b = ix/\sigma$). This makes the substitution a bit more subtle, as it shifts the path of integration off the real axis and into the complex plane. The full justification comes from a result in complex analysis called Cauchy's Integral Theorem, which states that for a "well-behaved" function (analytic) like our integrand, the integral's value doesn't change when you shift the integration contour, provided you don't cross any singularities (which our function doesn't have).
+In our case, the shift is a purely imaginary number ($b = ix/\sigma$). This makes the substitution a bit more subtle, as it shifts the path of integration off the real axis and into the complex plane. The full justification comes from a result in complex analysis called Cauchy's Integral Theorem, which states that for a "well-behaved" function (analytic) like our integrand, the integral's value doesn't change when we shift the integration contour, provided we don't cross any singularities (which our function doesn't have).
 
 So, whether the shift $b$ is real or complex, the result is the same. For our integral, we have $a=\sigma^2/2$, so the integral evaluates to $\sqrt{\pi/(\sigma^2/2)} = \sqrt{2\pi/\sigma^2}$.
 
@@ -403,5 +401,5 @@ $$
 $$
 We can run this through our whole derivation. The mean and variance of $X_N$ will be approximately the mean and variance of $X$, and as we take the limit $N \to \infty$, they will become exact. The final result for the probability will look just like our Local Limit Theorem, but for the variable $\zeta$.
 
-When we translate back, we find that the probability density function of the sum $S_m$ converges to the same bell curve shape. The key insight is that the underlying logic—convolution becoming multiplication, logarithms linearizing powers, and the dominance of the quadratic term in the Taylor series—is completely independent of whether the original variable was discrete or continuous. By discretizing, we can see that the same universal force is at play. The passage to the continuous case is just a matter of taking the limit as our grid becomes infinitely fine. This confirms that the CLT is a truly universal law of probability.
+When we translate back, we find that the probability density function of the sum $S_m$ converges to the same bell curve shape. The insight is that the underlying logic — convolution becoming multiplication, logarithms linearizing powers, and the dominance of the quadratic term in the Taylor series — is completely independent of whether the original variable was discrete or continuous. By discretizing, we can see that the same universal force is at play. The passage to the continuous case is just a matter of taking the limit as our grid becomes infinitely fine. This confirms that the CLT is a universal law of probability.
 
