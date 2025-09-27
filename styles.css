@@ -426,7 +426,7 @@ main > * {
   border-radius: 50px;
   font-size: 0.95rem;
   font-weight: 600;
-  margin: 0 0.25rem;
+  margin: 0.2rem 0.25rem; /* Added vertical margin for spacing */
   transition: var(--transition-base);
   box-shadow: var(--shadow-sm);
   position: relative;
@@ -463,15 +463,31 @@ main > * {
   height: 100%;
 }
 
-/* Category container in posts */
+/* Category container in posts - mobile-optimized */
 .quarto-title-meta .quarto-categories,
-.quarto-title-meta .categories {
+.quarto-title-meta .categories,
+.quarto-categories,
+.categories {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+  row-gap: 0.75rem; /* More vertical space between rows */
   margin: 1rem 0;
+  width: 100%;
+}
+
+/* Ensure categories wrap properly on all screen sizes */
+@media (max-width: 768px) {
+  .quarto-title-meta .quarto-categories,
+  .quarto-title-meta .categories,
+  .quarto-categories,
+  .categories {
+    gap: 0.4rem;
+    row-gap: 0.6rem; /* Vertical spacing between wrapped rows */
+    margin: 0.75rem 0;
+  }
 }
 
 /* Code Blocks - Beautiful Syntax Highlighting */
@@ -1086,10 +1102,16 @@ img:hover {
     max-height: none;
   }
   
-  /* Category badges */
-  .quarto-category {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.5rem;
+  /* Category badges - larger for better touch targets */
+  .quarto-category,
+  .category {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0.2rem 0.15rem; /* Increased vertical margin for mobile */
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* About page adjustments */
@@ -1296,9 +1318,16 @@ img:hover {
   }
   
   /* Larger category badges for easier tapping */
-  .quarto-category {
-    padding: 0.35rem 0.85rem;
-    margin: 0.25rem;
+  .quarto-category,
+  .category {
+    padding: 0.45rem 0.9rem;
+    margin: 0.25rem 0.25rem; /* Increased vertical margin for touch devices */
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
   }
 }
 
