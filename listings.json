@@ -1,12 +1,12 @@
 [
   {
-    "listing": "/index.html",
+    "listing": "/posts.html",
     "items": [
       "/posts/clt-intuitive-derivation/index.html"
     ]
   },
   {
-    "listing": "/posts.html",
+    "listing": "/index.html",
     "items": [
       "/posts/clt-intuitive-derivation/index.html"
     ]
