@@ -30,9 +30,9 @@
   --bg-tertiary: #f4f5f7;
   
   /* Modern Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-primary: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
   --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-hero: linear-gradient(150deg, #5e72e4 15%, #825ee4 70%, #a084f5 94%);
+  --gradient-hero: linear-gradient(150deg, #000000 0%, #1a1a1a 20%, #404040 50%, #1a1a1a 80%, #000000 100%);
   --gradient-mesh: radial-gradient(at 40% 20%, hsla(28,100%,74%,0.3) 0px, transparent 50%),
                    radial-gradient(at 80% 0%, hsla(189,100%,56%,0.3) 0px, transparent 50%),
                    radial-gradient(at 0% 50%, hsla(355,100%,93%,0.3) 0px, transparent 50%);
@@ -75,7 +75,7 @@
   --bg-primary: #0f172a;
   --bg-secondary: #1e293b;
   --bg-tertiary: #334155;
-  --gradient-hero: linear-gradient(150deg, #312e81 15%, #4c1d95 70%, #6d28d9 94%);
+  --gradient-hero: linear-gradient(150deg, #000000 0%, #1a1a1a 20%, #404040 50%, #1a1a1a 80%, #000000 100%);
   --border-color: #334155;
   --shadow-colored: 0 20px 40px -4px rgba(139, 156, 246, 0.2);
   --shadow-glow: 0 0 40px rgba(139, 156, 246, 0.2);
@@ -148,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -273,7 +273,7 @@ main > * {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 800;
   font-size: 1.6rem;
-  background: linear-gradient(135deg, #4c63d2 0%, #5e72e4 50%, #764ba2 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -286,7 +286,7 @@ main > * {
 
 .navbar-nav .nav-link {
   font-weight: 600;
-  color: #2d3748;
+  color: #1a1a1a;
   padding: 0.5rem 1rem;
   margin: 0 0.25rem;
   border-radius: 8px;
@@ -303,7 +303,7 @@ main > * {
   left: 50%;
   width: 0;
   height: 0;
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.5s ease, height 0.5s ease;
@@ -311,8 +311,8 @@ main > * {
 }
 
 .navbar-nav .nav-link:hover {
-  color: var(--primary-dark);
-  background: rgba(94, 114, 228, 0.15);
+  color: #0a0a0a;
+  background: rgba(26, 26, 26, 0.15);
   transform: translateY(-2px);
   font-weight: 700;
 }
@@ -326,9 +326,9 @@ main > * {
 /* Active navigation state */
 .navbar-nav .nav-link.active,
 .navbar-nav .nav-item.active .nav-link {
-  color: var(--primary-dark);
+  color: #0a0a0a;
   font-weight: 700;
-  background: rgba(94, 114, 228, 0.08);
+  background: rgba(26, 26, 26, 0.08);
 }
 
 /* Blog Post Cards - Modern Glass Morphism */
@@ -1598,11 +1598,13 @@ mjx-container, .MathJax {
 /* Hero Section / Title Banner */
 .quarto-title-banner {
   background: var(--gradient-hero);
+  background-size: 200% 200%;
   position: relative;
   overflow: hidden;
   padding: 5rem 0;
   margin-bottom: 3rem;
   animation: gradientShift 10s ease infinite;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 40px rgba(0,0,0,0.5);
 }
 
 /* Override Quarto's column-page-left positioning for title banner */
@@ -1704,13 +1706,16 @@ mjx-container, .MathJax {
 .quarto-title-banner::before {
   content: '';
   position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-  background-size: 30px 30px;
-  animation: floatPattern 20s linear infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, 
+    rgba(255,255,255,0.15) 0%, 
+    rgba(255,255,255,0.05) 30%, 
+    transparent 50%, 
+    rgba(0,0,0,0.2) 100%);
+  pointer-events: none;
 }
 
 @keyframes floatPattern {
